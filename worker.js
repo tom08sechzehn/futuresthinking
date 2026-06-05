@@ -22,6 +22,7 @@
  */
 
 import { onRequestPost } from "./functions/api/submit.js";
+import { onRequestPost as oraclePost } from "./functions/api/oracle.js"; // Orakel (Turnstile + Anthropic)
 
 export default {
   async fetch(request, env, ctx) {
@@ -33,6 +34,14 @@ export default {
         return onRequestPost({ request, env });
       }
       // Andere HTTP-Methoden auf /api/submit sind nicht erlaubt.
+      return new Response("Method Not Allowed", { status: 405 });
+    }
+
+    // API-Route: POST /api/oracle -> Orakel-Function (Turnstile + Anthropic).
+    if (url.pathname === "/api/oracle") {
+      if (request.method === "POST") {
+        return oraclePost({ request, env });
+      }
       return new Response("Method Not Allowed", { status: 405 });
     }
 

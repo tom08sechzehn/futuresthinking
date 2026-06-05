@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>futuresthinking — Geh auf die Fünde! (v3 · Mikrofon × Sternkarte)</title>
+<!-- Cloudflare Turnstile (Bot-Schutz für die Orakel-Frage) -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
 :root {
   /* Backgrounds / Surfaces (Dark, default) */
@@ -1095,6 +1097,9 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       <div class="sect-intro">
         <p>Kein Vorhersage-Automat, sondern ein Gesprächskreis aus zehn Zukunfts-Perspektiven — die fünf großen Schulen der Zukunftsforschung, mehrstimmig. Jede bringt eine eigene Methode, einen eigenen Blick und eine eigene blinde Stelle mit. Fahr über einen Kopf, um seine Schule und Kernfrage zu sehen. Eine integrale Stimme webt die Beiträge am Ende zusammen — ohne die Widersprüche glattzubügeln.</p>
       </div>
+      <p class="ki-hinweis" role="note" style="max-width:64ch;margin:var(--ft-space-md) auto 0;padding:var(--ft-space-sm) var(--ft-space-md);border:1px solid var(--ft-ultra,#9B7BFF);border-radius:10px;background:color-mix(in srgb, var(--ft-surface) 82%, transparent);color:var(--ft-body);font-size:var(--ft-text-caption,0.85rem);line-height:1.55;">
+        <strong>KI-generiert, keine echten Personen.</strong> Diese zehn Zukünft:innen sind mit künstlicher Intelligenz (Claude) erzeugte Perspektiven — keine realen Menschen und keine Beratung. Sie öffnen ein Spannungsfeld, kein Urteil. Echte Menschen, die mit euch an eurer Zukunft denken? → <a href="https://08sechzehn.de" target="_blank" rel="noopener" style="color:var(--ft-ultra,#9B7BFF);">08sechzehn</a>.
+      </p>
       <div class="heads-field" id="headsField" role="list" aria-label="Die zehn Zukünft:innen"></div>
       <div class="heads-cta">
         <p class="stub-note" style="max-width:60ch;">Stell eine Zukunftsfrage — die Zukünft:innen antworten mehrstimmig: jede Perspektive liefert ihren Beitrag, die integrale Stimme webt sie am Ende zur Synthese.</p>
@@ -1102,6 +1107,9 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
           <label class="eyebrow" for="oracleAsk" style="position:absolute;left:-9999px;">Zukunftsfrage</label>
           <input class="field field--ask" id="oracleAsk" type="text" placeholder="z. B. Wie wohnen wir 2050 in der Stadt?" aria-label="Zukunftsfrage eingeben">
           <button class="btn btn--ultra" id="oracleAskBtn" type="button">zukünft:innen fragen</button>
+        </div>
+        <div class="turnstile-block" style="display:flex;justify-content:center;margin-top:var(--ft-space-sm);">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADfO4U6MFWThyt7u" data-callback="onOracleTurnstileOk" data-error-callback="onOracleTurnstileErr" data-expired-callback="onOracleTurnstileErr" data-theme="dark"></div>
         </div>
         <div class="banner" id="oracleBanner" style="max-width:64ch;"></div>
       </div>
@@ -3092,14 +3100,102 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     slider.addEventListener('input', function () { updateYear(); playClick(); });
     updateYear();
 
+    /* Turnstile-Token für die Orakel-Frage (eigene Callbacks, s. Widget oben). */
+    var oracleTsToken = '';
+    window.onOracleTurnstileOk = function (t) { oracleTsToken = t || ''; };
+    window.onOracleTurnstileErr = function () { oracleTsToken = ''; };
+
     document.getElementById('oracleAskBtn').addEventListener('click', function () {
+      var btn = this;
       var q = (document.getElementById('oracleAsk').value || '').trim();
       var b = document.getElementById('oracleBanner');
+
+      if (!q) {
+        b.className = 'banner banner--info show';
+        b.textContent = 'ℹ gib eine zukunftsfrage ein — die zukünft:innen antworten dann mehrstimmig.';
+        return;
+      }
+      if (q.length > 500) {
+        b.className = 'banner banner--warn show';
+        b.textContent = '⚠ die frage ist zu lang (max. 500 zeichen) — bitte kürzen.';
+        return;
+      }
+
+      btn.disabled = true;
       b.className = 'banner banner--info show';
-      b.textContent = q
-        ? 'ℹ die zukünft:innen würden „' + q + '" jetzt mehrstimmig befragen — zehn perspektiven, eine integrale synthese. (prototyp: stub, noch ohne backend.)'
-        : 'ℹ gib eine zukunftsfrage ein — die zukünft:innen antworten dann mehrstimmig. (prototyp: stub, noch ohne backend.)';
+      b.textContent = '⏳ die zukünft:innen beraten…';
+
+      fetch('/api/oracle', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ frage: q, cf_turnstile_token: oracleTsToken })
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          var d = res.d || {};
+          if (!res.ok || d.fehler || !Array.isArray(d.stimmen)) {
+            b.className = 'banner banner--warn show';
+            b.textContent = '⚠ ' + (d.fehler || 'die zukünft:innen sind gerade im gespräch — versuch es gleich nochmal');
+            return;
+          }
+          renderOracleAnswer(q, d);
+        })
+        .catch(function () {
+          b.className = 'banner banner--warn show';
+          b.textContent = '⚠ die zukünft:innen sind gerade im gespräch — versuch es gleich nochmal';
+        })
+        .finally(function () {
+          btn.disabled = false;
+          if (window.turnstile && typeof window.turnstile.reset === 'function') {
+            try { window.turnstile.reset(); } catch (e) {}
+          }
+          oracleTsToken = '';
+        });
     });
+
+    /* Rendert 10 Stimmen-Karten + herausgehobenen Synthese-Block unter die CTA.
+       Namen kommen positionsweise aus der bestehenden ORACLE-Liste — rein clientseitig,
+       mit dem KI-Hinweis darüber als ehrlichem Rahmen. */
+    function renderOracleAnswer(frage, d) {
+      var b = document.getElementById('oracleBanner');
+      b.className = 'banner show';
+      b.textContent = 'die zukünft:innen zu „' + frage + '" — zehn perspektiven, eine synthese:';
+
+      var out = document.getElementById('oracleResult');
+      if (!out) {
+        out = document.createElement('div');
+        out.id = 'oracleResult';
+        out.style.cssText = 'margin-top:var(--ft-space-md);display:grid;gap:var(--ft-space-sm);max-width:72ch;';
+        b.parentNode.appendChild(out);
+      }
+      out.innerHTML = '';
+
+      var names = (typeof ORACLE !== 'undefined' && ORACLE.length) ? ORACLE : [];
+      d.stimmen.forEach(function (s, i) {
+        var nm = names[i] ? names[i].name : '';
+        var card = document.createElement('article');
+        card.className = 'oracle-voice';
+        card.style.cssText = 'padding:var(--ft-space-sm) var(--ft-space-md);border:1px solid var(--ft-line,#2C3658);border-radius:10px;background:var(--ft-surface,#141A2E);text-align:left;';
+        card.innerHTML =
+          '<p class="ft-head__school" style="margin:0 0 2px;font-weight:700;">' + escapeHTML(s.schule) + (nm ? ' · <span style="opacity:.8;font-weight:400;">' + escapeHTML(nm) + '</span>' : '') + '</p>' +
+          '<p class="eyebrow" style="margin:0 0 6px;opacity:.7;">' + escapeHTML(s.kernfrage) + '</p>' +
+          '<p style="margin:0;color:var(--ft-body,#C3C7DB);">' + escapeHTML(s.beitrag) + '</p>';
+        out.appendChild(card);
+      });
+
+      if (d.synthese) {
+        var syn = document.createElement('article');
+        syn.className = 'oracle-synthese';
+        syn.style.cssText = 'padding:var(--ft-space-md);border:2px solid var(--ft-ultra,#9B7BFF);border-radius:12px;background:var(--ft-surface-2,#1E2742);text-align:left;';
+        syn.innerHTML =
+          '<p class="ft-head__school" style="margin:0 0 6px;font-weight:700;">Integrale Synthese</p>' +
+          '<p style="margin:0 0 10px;color:var(--ft-ink,#F2F0FF);">' + escapeHTML(d.synthese) + '</p>' +
+          '<p style="margin:0;font-size:var(--ft-text-caption,0.85rem);color:var(--ft-muted,#7A82A6);">KI-generiert, keine echten Personen. Echte Menschen für eure Zukunft? → <a href="https://08sechzehn.de" target="_blank" rel="noopener" style="color:var(--ft-ultra,#9B7BFF);">08sechzehn</a>.</p>';
+        out.appendChild(syn);
+      }
+
+      out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 
     document.getElementById('modalCloseBtn').addEventListener('click', closeShareModal);
     document.getElementById('modalCopy').addEventListener('click', function () { copyToClipboard(document.getElementById('modalPermalink').textContent, this); });

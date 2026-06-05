@@ -35,3 +35,12 @@ binding = "ASSETS"
 GITHUB_OWNER = "tom08sechzehn"
 GITHUB_REPO = "futuresthinking"
 GITHUB_BASE_BRANCH = "main"
+
+# KV-Namespace fuer die Orakel-Soft-Limits (Per-IP-Rate-Limit + globaler Tages-Notaus).
+# OPTIONAL, aber empfohlen: Einmalig anlegen (GUI: Workers & Pages > KV > Create namespace
+# "ORACLE_LIMITS"), die erzeugte id unten eintragen und die drei Zeilen ent-kommentieren.
+# OHNE dieses Binding laeuft das Orakel weiter — dann schuetzt NUR Turnstile (kein Tages-Notaus).
+# Siehe oracle-backend/INTEGRATION.md, Schritt 2b.
+[[kv_namespaces]]
+binding = "ORACLE_LIMITS"
+id = "fff4a403476e42718ddc502fdcdc6b4d"

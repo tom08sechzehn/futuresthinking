@@ -21,11 +21,16 @@
     §5 Schriftarten     = System-/lokal ausgelieferte Schriften, KEIN Google Fonts
     §6 Interaktive Visualisierung (Graph) = vollständig lokal, eigener Code,
        KEIN CDN, KEINE Datenübermittlung an Dritte (ersetzt Atropos-Klausel)
-    §7 Kontakt/Einreich-Formular = Prototyp, übermittelt/speichert KEINE Daten
+    §7 Kontakt/Einreich-Formular = LIVE, öffnet einen GitHub-Pull-Request (öffentlich)
 
   Design-Shell: gemeinsames System v3 — gleicher kanonischer Header/Nav,
   dasselbe --ft-* Token-System. Lesetext im .wrap--text-Container,
-  .sec-head/.prose-Stil. Voll selbst-enthalten · CDN-frei · keine Webfonts.
+  .sec-head/.prose-Stil. Voll selbst-enthalten · keine Webfonts.
+
+  AKTUALISIERT 2026-06-05 (Larry): §2 one.com -> Cloudflare + Turnstile (Bot-Schutz);
+  §4 Turnstile-Hinweis; §6 CDN-Aussage praezisiert (einzige externe Einbindung = Turnstile);
+  §7 Einreich-Formular ist LIVE und uebermittelt an GitHub (oeffentlicher PR);
+  §7a NEU: KI-Orakel -> Anthropic (USA). Die Provenance-Zeilen oben beschreiben den Ursprungs-Stand.
   ============================================================
 -->
 
@@ -456,12 +461,13 @@ a { color: var(--ft-signal-ink); }
     <!-- Sprungliste -->
     <ol class="legal-toc" aria-label="Inhalt">
       <li><a href="#s1"><span class="toc-num">1</span>Verantwortlicher</a></li>
-      <li><a href="#s2"><span class="toc-num">2</span>Hosting &amp; Server-Logfiles</a></li>
+      <li><a href="#s2"><span class="toc-num">2</span>Hosting, Logfiles &amp; Bot-Schutz (Cloudflare)</a></li>
       <li><a href="#s3"><span class="toc-num">3</span>SSL-/TLS-Verschlüsselung</a></li>
       <li><a href="#s4"><span class="toc-num">4</span>Cookies &amp; Tracking</a></li>
       <li><a href="#s5"><span class="toc-num">5</span>Schriftarten</a></li>
       <li><a href="#s6"><span class="toc-num">6</span>Interaktive Visualisierung (Graph)</a></li>
-      <li><a href="#s7"><span class="toc-num">7</span>Kontakt &amp; Einreich-Formular</a></li>
+      <li><a href="#s7"><span class="toc-num">7</span>Kontakt &amp; Einreich-Formular (GitHub)</a></li>
+      <li><a href="#s7b"><span class="toc-num">7a</span>KI-Orakel (Anthropic)</a></li>
       <li><a href="#s8"><span class="toc-num">8</span>Externe Links</a></li>
       <li><a href="#s9"><span class="toc-num">9</span>Eure Rechte</a></li>
       <li><a href="#s10"><span class="toc-num">10</span>Beschwerderecht (Aufsichtsbehörde)</a></li>
@@ -479,17 +485,29 @@ a { color: var(--ft-signal-ink); }
       </div>
     </section>
 
-    <!-- 2. Hosting & Server-Logfiles — one.com (wörtlich, Domain neutral) -->
+    <!-- 2. Hosting, Server-Logfiles & Bot-Schutz — Cloudflare (Stand nach Umzug 2026-06) -->
     <section class="legal-block" id="s2">
-      <h2 class="legal-block__title">2. Hosting &amp; Server-Logfiles</h2>
+      <h2 class="legal-block__title">2. Hosting, Server-Logfiles &amp; Bot-Schutz (Cloudflare)</h2>
       <p>
-        Diese Website wird bei der one.com Group AB (one.com) gehostet. Beim Aufruf der Seiten erhebt und
-        speichert der Hoster automatisch Informationen in sogenannten Server-Logfiles, die euer Browser
-        übermittelt: IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Datei, übertragene Datenmenge,
-        Referrer-URL, Browsertyp und Betriebssystem. Diese Daten dienen der technischen Bereitstellung,
-        Sicherheit und Stabilität der Website und werden nicht mit anderen Datenquellen zusammengeführt.
-        Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren, fehlerfreien Betrieb
-        (Art. 6 Abs. 1 lit. f DSGVO). Mit one.com besteht ein Auftragsverarbeitungsvertrag (Art. 28 DSGVO).
+        Diese Website wird über die <strong>Cloudflare, Inc.</strong> (101 Townsend St, San Francisco,
+        CA 94107, USA) gehostet und ausgeliefert (Cloudflare Workers &amp; Static Assets). Beim Aufruf der
+        Seiten verarbeitet Cloudflare als Hoster automatisch Informationen, die euer Browser übermittelt
+        (sog. Server-Logfiles): IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Datei, übertragene
+        Datenmenge, Referrer-URL, Browsertyp und Betriebssystem. Diese Daten dienen der technischen
+        Bereitstellung, der Sicherheit und der Stabilität der Website und werden nicht zu Werbe- oder
+        Profilingzwecken ausgewertet. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren,
+        fehlerfreien Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Mit Cloudflare besteht ein
+        Auftragsverarbeitungsvertrag (Art. 28 DSGVO); soweit dabei Daten in die USA übermittelt werden,
+        stützt sich dies auf die EU-Standardvertragsklauseln.
+      </p>
+      <p>
+        Zum Schutz der Formulare (Einreich-Formular und KI-Orakel) gegen automatisierten Missbrauch setzen wir
+        <strong>Cloudflare Turnstile</strong> ein – eine datensparsame Alternative zu klassischem CAPTCHA.
+        Turnstile prüft anhand technischer Merkmale (u. a. IP-Adresse und Browser-Signale), ob eine Eingabe von
+        einem Menschen stammt; dafür wird das Turnstile-Script von <code>challenges.cloudflare.com</code>
+        geladen. Es werden dabei <strong>keine Werbe- oder Tracking-Cookies</strong> gesetzt und kein
+        seitenübergreifendes Profil gebildet. Rechtsgrundlage ist unser berechtigtes Interesse an der Abwehr
+        von Spam und Missbrauch (Art. 6 Abs. 1 lit. f DSGVO).
       </p>
     </section>
 
@@ -508,8 +526,11 @@ a { color: var(--ft-signal-ink); }
       <h2 class="legal-block__title">4. Cookies &amp; Tracking</h2>
       <p>
         Diese Website setzt <strong>keine</strong> Tracking-, Analyse- oder Marketing-Cookies ein und bindet
-        keine Webanalyse-Dienste (z. B. Google Analytics) ein. Es findet kein Profiling statt. Ein
-        Cookie-Banner ist daher nicht erforderlich.
+        keine Webanalyse-Dienste (z. B. Google Analytics) ein. Es findet kein Profiling und kein
+        seitenübergreifendes Nachverfolgen statt. Lediglich der unter Ziffer 2 beschriebene Bot-Schutz
+        (Cloudflare Turnstile) kann zur Missbrauchsabwehr technisch notwendige Mechanismen verwenden; diese
+        dienen nicht der Wiedererkennung zu Werbezwecken. Ein Einwilligungs-Banner für Marketing-Cookies ist
+        daher nicht erforderlich.
       </p>
     </section>
 
@@ -528,13 +549,14 @@ a { color: var(--ft-signal-ink); }
       <h2 class="legal-block__title">6. Interaktive Visualisierung (Graph)</h2>
       <p>
         Die lebendige Fund-Karte (die interaktive Graph-Visualisierung des Archivs) läuft
-        <strong>vollständig lokal in eurem Browser</strong> über selbst geschriebenen Code. Es wird
-        <strong>kein externes CDN</strong> eingebunden und es findet <strong>keine Übermittlung von
-        IP-Adressen oder sonstigen Daten an Dritte</strong> statt.
+        <strong>vollständig lokal in eurem Browser</strong> über selbst geschriebenen Code. Sie bindet
+        <strong>kein externes CDN</strong> ein und übermittelt von sich aus keine Daten an Dritte. Die einzige
+        externe Einbindung der Website ist das unter Ziffer 2 genannte Cloudflare-Turnstile-Script zum
+        Bot-Schutz der Formulare.
       </p>
     </section>
 
-    <!-- 7. Kontakt & Einreich-Formular — Prototyp, KEINE Datenübermittlung -->
+    <!-- 7. Kontakt & Einreich-Formular — LIVE: oeffnet einen GitHub-Pull-Request (2026-06-05) -->
     <section class="legal-block" id="s7">
       <h2 class="legal-block__title">7. Kontaktaufnahme &amp; Einreich-Formular</h2>
       <p>
@@ -543,9 +565,38 @@ a { color: var(--ft-signal-ink); }
         mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
       </p>
       <p>
-        Das Einreich-Formular auf <a href="einreichen.html">einreichen.html</a> ist derzeit ein
-        <strong>Prototyp</strong> und übermittelt bzw. speichert <strong>keine Daten</strong>. Bei Aktivierung
-        eines echten Versands wird diese Erklärung angepasst.
+        Das Einreich-Formular auf <a href="einreichen.html">einreichen.html</a> ist ein offenes,
+        partizipatives Archiv. Wenn ihr dort einen „Fund" einreicht, werden die von euch eingegebenen Angaben
+        (z. B. Objektname, Fundjahr, Fundort, Beipackzettel-Text, gewählte Lizenz sowie ein – gern
+        <strong>pseudonymes</strong> – Urheberkürzel) über unseren Server an <strong>GitHub, Inc.</strong>
+        (88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA; ein Unternehmen von Microsoft) übermittelt
+        und dort als öffentlicher Beitrag (Pull Request) in einem <strong>öffentlichen Repository</strong>
+        abgelegt. Mit dem Absenden willigt ihr in diese Übermittlung und in die Veröffentlichung unter der von
+        euch gewählten Creative-Commons-Lizenz ein (Art. 6 Abs. 1 lit. a DSGVO); die Übermittlung in die USA
+        stützt sich auf die EU-Standardvertragsklauseln.
+      </p>
+      <p>
+        <strong>Bitte beachtet:</strong> Einmal öffentlich eingestellte Beiträge sind frei zugänglich und
+        können von Dritten kopiert, gespiegelt oder zwischengespeichert werden; eine vollständige Löschung ist
+        danach praktisch nicht mehr sicherzustellen. Gebt deshalb <strong>keine personenbezogenen Daten</strong>
+        (eigene oder fremde) in die Fund-Felder ein und verwendet für die Urheberangabe nach Möglichkeit ein
+        Pseudonym. Auf Wunsch entfernen wir euren Beitrag aus dem öffentlichen Archiv (siehe Ziffer 9).
+      </p>
+    </section>
+
+    <!-- 7a. KI-Orakel „Orakel von Delphi" — Anthropic als Auftragsverarbeiter (USA) -->
+    <section class="legal-block" id="s7b">
+      <h2 class="legal-block__title">7a. KI-Orakel „Orakel von Delphi"</h2>
+      <p>
+        Das mehrstimmige „Orakel von Delphi" auf der Startseite wird von einer
+        <strong>künstlichen Intelligenz</strong> erzeugt. Wenn ihr dort eine Zukunftsfrage stellt, wird der
+        <strong>Text eurer Frage</strong> zur Erzeugung der Antwort an <strong>Anthropic PBC (USA)</strong>
+        übermittelt (Auftragsverarbeiter im Sinne von Art. 28 DSGVO; die Übermittlung in die USA stützt sich
+        auf die EU-Standardvertragsklauseln). Es werden <strong>keine IP-Adressen, keine Cookies und keine
+        Fragen dauerhaft gespeichert</strong>; die Frage wird ausschließlich für diese eine Antwort verarbeitet.
+        Die zehn „Zukünft:innen" sind <strong>KI-generierte Perspektiven, keine realen Personen und keine
+        fachliche Beratung</strong>. Bitte gebt <strong>keine personenbezogenen oder vertraulichen Daten</strong>
+        in das Orakel-Feld ein.
       </p>
     </section>
 
@@ -586,9 +637,9 @@ a { color: var(--ft-signal-ink); }
 
     <hr class="rule-hair">
     <p class="t-caption">
-      Stand: Juni 2026. Diese Datenschutzerklärung ist auf die aktuell auf dieser Website eingesetzten Dienste
-      abgestimmt. Bei Änderungen (z. B. Einbindung eines externen Formular-Dienstes oder Webanalyse) ist sie
-      anzupassen. — <a href="index.html#screen-archiv">← zurück zur startseite</a>
+      Stand: Juni 2026 (aktualisiert nach dem Umzug auf Cloudflare sowie der Aktivierung von Einreich-Formular
+      und KI-Orakel). Diese Datenschutzerklärung ist auf die aktuell eingesetzten Dienste abgestimmt; bei
+      Änderungen wird sie angepasst. — <a href="index.html#screen-archiv">← zurück zur startseite</a>
       &nbsp;·&nbsp; <a href="impressum.html">impressum</a>
     </p>
 
