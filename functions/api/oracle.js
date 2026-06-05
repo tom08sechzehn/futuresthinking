@@ -41,15 +41,16 @@ const ANTHROPIC_VERSION = "2023-06-01";
 
 const MAX_QUESTION_CHARS = 500; // Eingabe-Haertung: lange Prompts abweisen
 const MAX_OUTPUT_TOKENS = 4000; // 10 kurze Stimmen + 1 Synthese passen locker
-// TEMP-DEBUG (2026-06-05) — temporaer auf 75s angehoben: Headroom, damit ein bloss
-// langsamer erster Call (Schema-Kompilierung) durchkommt. Cloudflare-Edge kappt ~100s,
-// also unter 100s bleiben. Vor Produktion zurueck auf 45000.
-const UPSTREAM_TIMEOUT_MS = 75000; // war 45000 — temporaer angehoben (s. Kommentar)
+// Headroom: der ERSTE Orakel-Call pro ~24h ist langsam, weil das JSON-Schema einmalig
+// kompiliert wird (Structured-Output-Cache). 45s war zu knapp (Timeout), 75s laesst ihn
+// durch; Cloudflare-Edge kappt ~100s -> darunter bleiben. Folge-Calls sind schnell.
+const UPSTREAM_TIMEOUT_MS = 75000;
 
-// TEMP-DEBUG (2026-06-05) — wenn true, wird im Fallback eine kompakte Diagnose
-// (stage/status/elapsed/snippet, KEIN Key) ins `fehler`-Feld geschrieben, damit Tom
-// die Ursache direkt im Banner liest. Vor Produktion auf false und Fallback freundlich.
-const DEBUG = true;
+// Diagnose-Schalter: bei true schreibt der Fallback die Ursache (stage/status/elapsed/
+// snippet, NIE der Key) ins `fehler`-Feld (Banner). Diagnose 2026-06-05 abgeschlossen
+// (Ursache war der Timeout) -> false. Bei erneuten Fehlern auf true. Die
+// console.log("oracle FAIL", ...)-Logs laufen ohnehin immer (Cloudflare-Observability).
+const DEBUG = false;
 
 /* Kosten-/Missbrauchsschutz. Greift nur, wenn ein KV-Namespace `ORACLE_LIMITS` gebunden ist;
  * ohne Binding laeuft das Orakel weiter, geschuetzt allein durch Turnstile (s. INTEGRATION.md). */
