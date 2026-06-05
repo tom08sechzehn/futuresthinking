@@ -41,7 +41,15 @@ const ANTHROPIC_VERSION = "2023-06-01";
 
 const MAX_QUESTION_CHARS = 500; // Eingabe-Haertung: lange Prompts abweisen
 const MAX_OUTPUT_TOKENS = 4000; // 10 kurze Stimmen + 1 Synthese passen locker
-const UPSTREAM_TIMEOUT_MS = 45000; // harte Obergrenze fuer den Anthropic-Roundtrip
+// TEMP-DEBUG (2026-06-05) — temporaer auf 75s angehoben: Headroom, damit ein bloss
+// langsamer erster Call (Schema-Kompilierung) durchkommt. Cloudflare-Edge kappt ~100s,
+// also unter 100s bleiben. Vor Produktion zurueck auf 45000.
+const UPSTREAM_TIMEOUT_MS = 75000; // war 45000 — temporaer angehoben (s. Kommentar)
+
+// TEMP-DEBUG (2026-06-05) — wenn true, wird im Fallback eine kompakte Diagnose
+// (stage/status/elapsed/snippet, KEIN Key) ins `fehler`-Feld geschrieben, damit Tom
+// die Ursache direkt im Banner liest. Vor Produktion auf false und Fallback freundlich.
+const DEBUG = true;
 
 /* Kosten-/Missbrauchsschutz. Greift nur, wenn ein KV-Namespace `ORACLE_LIMITS` gebunden ist;
  * ohne Binding laeuft das Orakel weiter, geschuetzt allein durch Turnstile (s. INTEGRATION.md). */
@@ -206,12 +214,16 @@ function json(data, status = 200) {
   });
 }
 
-/** Einheitlicher, freundlicher Fehler-Banner — nie API-Detail, nie Key. */
-function fallback(status = 503) {
-  return json(
-    { fehler: "die zukünft:innen sind gerade im gespräch — versuch es gleich nochmal" },
-    status
-  );
+/** Einheitlicher, freundlicher Fehler-Banner — nie API-Detail, nie Key.
+ *  TEMP-DEBUG (2026-06-05): Optionaler `debug`-String wird bei DEBUG=true statt des
+ *  freundlichen Texts ins `fehler`-Feld geschrieben (enthaelt NIE den Key). Vor
+ *  Produktion: DEBUG=false setzen -> es greift wieder der freundliche Fallback. */
+function fallback(status = 503, debug) {
+  const fehler =
+    DEBUG && debug
+      ? "[debug] " + debug
+      : "die zukünft:innen sind gerade im gespräch — versuch es gleich nochmal";
+  return json({ fehler }, status);
 }
 
 /** Turnstile serverseitig verifizieren (identische Logik wie submit.js). */
@@ -334,6 +346,10 @@ async function askOracle(apiKey, frage) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), UPSTREAM_TIMEOUT_MS);
 
+  // TEMP-DEBUG (2026-06-05) — Zeitmessung: trennt ~75s-Timeout (langsame Generierung)
+  // von einem schnellen HTTP-Fehler (~<5s, z. B. 400 invalid_request). Vor Produktion raus.
+  const t0 = Date.now();
+
   let res;
   try {
     res = await fetch(ANTHROPIC_URL, {
@@ -348,8 +364,13 @@ async function askOracle(apiKey, frage) {
     });
   } catch (e) {
     // Netzwerk-/Timeout-Fehler -> als 503 behandeln (freundlicher Fallback).
+    // TEMP-DEBUG (2026-06-05): err.name (z. B. "AbortError" = Timeout) + elapsed festhalten.
+    const elapsed_ms = Date.now() - t0;
+    const snippet = ((e && e.name) || "Error") + ": " + ((e && e.message) || "").slice(0, 160);
+    console.log("oracle FAIL", JSON.stringify({ stage: "fetch", status: 0, elapsed_ms, snippet }));
     const err = new Error("upstream unreachable");
     err.status = 503;
+    err.debug = "fetch status=0 " + elapsed_ms + "ms — " + snippet; // KEIN Key
     throw err;
   } finally {
     clearTimeout(timer);
@@ -357,8 +378,19 @@ async function askOracle(apiKey, frage) {
 
   if (!res.ok) {
     // 429/5xx etc. — Status durchreichen, aber NIE den Body/Key nach aussen geben.
+    // TEMP-DEBUG (2026-06-05): echten Upstream-Fehler-Body lesen (Anthropic
+    // {type:"error",error:{...}} — enthaelt KEIN Secret) + Zeit. Vor Produktion raus.
+    const elapsed_ms = Date.now() - t0;
+    let snippet = "";
+    try {
+      snippet = (await res.text()).replace(/\s+/g, " ").trim().slice(0, 180);
+    } catch {
+      snippet = "(body unreadable)";
+    }
+    console.log("oracle FAIL", JSON.stringify({ stage: "http", status: res.status, elapsed_ms, snippet }));
     const err = new Error(`anthropic ${res.status}`);
     err.status = res.status === 429 ? 429 : res.status >= 500 ? 503 : 502;
+    err.debug = "http status=" + res.status + " " + elapsed_ms + "ms — " + snippet; // KEIN Key
     throw err;
   }
 
@@ -376,13 +408,18 @@ async function askOracle(apiKey, frage) {
     );
   }
 
+  // TEMP-DEBUG (2026-06-05): Zeit bis zur fertigen (200-)Antwort, fuer die Post-Parse-Faelle.
+  const elapsed_ms = Date.now() - t0;
+
   // Erster Text-Block ist das strukturierte JSON.
   const block = data && Array.isArray(data.content)
     ? data.content.find((c) => c && c.type === "text")
     : null;
   if (!block || typeof block.text !== "string") {
+    console.log("oracle FAIL", JSON.stringify({ stage: "no_text_block", status: 200, elapsed_ms, snippet: "" }));
     const err = new Error("no text block");
     err.status = 502;
+    err.debug = "no_text_block status=200 " + elapsed_ms + "ms — kein text-block in content";
     throw err;
   }
 
@@ -390,14 +427,20 @@ async function askOracle(apiKey, frage) {
   try {
     parsed = JSON.parse(block.text);
   } catch {
+    const snippet = block.text.replace(/\s+/g, " ").trim().slice(0, 180);
+    console.log("oracle FAIL", JSON.stringify({ stage: "not_json", status: 200, elapsed_ms, snippet }));
     const err = new Error("model output not JSON");
     err.status = 502;
+    err.debug = "not_json status=200 " + elapsed_ms + "ms — " + snippet;
     throw err;
   }
 
   if (!isValidOracle(parsed)) {
+    const snippet = ("stimmen=" + (Array.isArray(parsed.stimmen) ? parsed.stimmen.length : "n/a")).slice(0, 180);
+    console.log("oracle FAIL", JSON.stringify({ stage: "schema_mismatch", status: 200, elapsed_ms, snippet }));
     const err = new Error("schema mismatch");
     err.status = 502;
+    err.debug = "schema_mismatch status=200 " + elapsed_ms + "ms — " + snippet;
     throw err;
   }
 
@@ -443,7 +486,9 @@ export async function onRequestPost({ request, env }) {
   } catch (e) {
     // 429/5xx/Timeout/Schema-Bruch -> freundlicher deutscher Fallback.
     // Niemals e.message, API-Body oder Key nach aussen geben.
+    // TEMP-DEBUG (2026-06-05): e.debug (stage/status/elapsed/snippet, KEIN Key) durchreichen,
+    // damit der Banner die Ursache zeigt. Vor Produktion: DEBUG=false -> freundlicher Fallback.
     const status = e && e.status === 429 ? 429 : 503;
-    return fallback(status);
+    return fallback(status, e && e.debug);
   }
 }

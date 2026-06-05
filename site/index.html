@@ -895,6 +895,23 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
 @media (max-width:720px) {
   .kurs-cta__play { width:100%; justify-content:center; }
 }
+  /* ===== ORACLE-LOADER (Charta) — zehn Sterne pulsen zum Sternbild + Scan-Ring; CDN-frei, reduced-motion-safe ===== */
+  .oracle-loader{ display:flex; align-items:center; gap:.85rem; }
+  .oracle-loader__field{ position:relative; width:88px; height:88px; flex:none; }
+  .oracle-loader__svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .ol-scan{ transform-origin:44px 44px; animation:ol-sweep 3.4s linear infinite; }
+  @keyframes ol-sweep{ to{ transform:rotate(360deg); } }
+  .ol-line{ stroke:var(--ft-ultra); stroke-width:1; fill:none; stroke-dasharray:60; stroke-dashoffset:60; opacity:0; animation:ol-draw 4.2s var(--ft-ease-smooth,cubic-bezier(.4,0,.2,1)) infinite; }
+  @keyframes ol-draw{ 0%,8%{ stroke-dashoffset:60; opacity:0; } 26%,72%{ stroke-dashoffset:0; opacity:.55; } 92%,100%{ stroke-dashoffset:0; opacity:0; } }
+  .ol-star{ transform-box:fill-box; transform-origin:center; animation:ol-pulse 4.2s var(--ft-ease-smooth,cubic-bezier(.4,0,.2,1)) infinite; }
+  @keyframes ol-pulse{ 0%,4%{ fill:var(--ft-muted); transform:scale(.55); filter:none; } 18%{ fill:var(--ft-signal); transform:scale(1.35); filter:drop-shadow(0 0 5px rgba(61,242,196,.95)) drop-shadow(0 0 12px rgba(61,242,196,.5)); } 60%{ fill:var(--ft-signal); transform:scale(1); filter:drop-shadow(0 0 4px rgba(61,242,196,.7)); } 100%{ fill:var(--ft-muted); transform:scale(.55); filter:none; } }
+  .ol-star:nth-child(1){ animation-delay:0s } .ol-star:nth-child(2){ animation-delay:.16s } .ol-star:nth-child(3){ animation-delay:.32s } .ol-star:nth-child(4){ animation-delay:.48s } .ol-star:nth-child(5){ animation-delay:.64s } .ol-star:nth-child(6){ animation-delay:.80s } .ol-star:nth-child(7){ animation-delay:.96s } .ol-star:nth-child(8){ animation-delay:1.12s } .ol-star:nth-child(9){ animation-delay:1.28s } .ol-star:nth-child(10){ animation-delay:1.44s }
+  .oracle-loader__text{ display:flex; flex-direction:column; gap:.15rem; line-height:1.3; }
+  .oracle-loader__lede{ color:var(--ft-ink); }
+  .oracle-loader__lede .dots::after{ content:""; animation:ol-dots 1.6s steps(4,end) infinite; }
+  @keyframes ol-dots{ 0%{content:""} 25%{content:"."} 50%{content:".."} 75%,100%{content:"..."} }
+  .oracle-loader__sub{ color:var(--ft-muted); font-size:.78rem; }
+  @media (prefers-reduced-motion:reduce){ .ol-scan{ animation:none; opacity:.35; } .ol-line{ animation:none; stroke-dashoffset:0; opacity:.4; } .ol-star{ animation:none; fill:var(--ft-signal); transform:scale(1); filter:drop-shadow(0 0 4px rgba(61,242,196,.7)); } .oracle-loader__lede .dots::after{ animation:none; content:"…"; } }
 </style>
 </head>
 <body>
@@ -3105,6 +3122,50 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     window.onOracleTurnstileOk = function (t) { oracleTsToken = t || ''; };
     window.onOracleTurnstileErr = function () { oracleTsToken = ''; };
 
+    /* Futures-Loader (Charta): zehn Sterne pulsen zum Sternbild, Scan-Ring — CSS-animiert, reduced-motion-safe. */
+    var ORACLE_LOADER_HTML =
+      '<div class="oracle-loader" role="status" aria-live="polite" aria-label="die zukünft:innen beraten">'
+    +   '<div class="oracle-loader__field" aria-hidden="true">'
+    +     '<svg class="oracle-loader__svg" viewBox="0 0 88 88">'
+    +       '<g class="ol-scan"><line x1="44" y1="44" x2="44" y2="6" stroke="var(--ft-signal)" stroke-width="1" opacity=".35"/><circle cx="44" cy="6" r="1.5" fill="var(--ft-signal)" opacity=".7"/></g>'
+    +       '<g stroke-linecap="round">'
+    +         '<path class="ol-line" d="M16 30 L40 16"/>'
+    +         '<path class="ol-line" d="M40 16 L68 26" style="animation-delay:.3s"/>'
+    +         '<path class="ol-line" d="M68 26 L74 52" style="animation-delay:.6s"/>'
+    +         '<path class="ol-line" d="M74 52 L58 72" style="animation-delay:.9s"/>'
+    +         '<path class="ol-line" d="M58 72 L30 70" style="animation-delay:1.2s"/>'
+    +         '<path class="ol-line" d="M30 70 L14 50" style="animation-delay:1.5s"/>'
+    +         '<path class="ol-line" d="M14 50 L16 30" style="animation-delay:.45s"/>'
+    +         '<path class="ol-line" d="M40 16 L44 44" style="animation-delay:.75s"/>'
+    +         '<path class="ol-line" d="M44 44 L30 70" style="animation-delay:1.05s"/>'
+    +         '<path class="ol-line" d="M44 44 L74 52" style="animation-delay:1.35s"/>'
+    +       '</g>'
+    +       '<g>'
+    +         '<circle class="ol-star" cx="16" cy="30" r="2.4"/><circle class="ol-star" cx="40" cy="16" r="2.4"/>'
+    +         '<circle class="ol-star" cx="68" cy="26" r="2.4"/><circle class="ol-star" cx="74" cy="52" r="2.4"/>'
+    +         '<circle class="ol-star" cx="58" cy="72" r="2.4"/><circle class="ol-star" cx="30" cy="70" r="2.4"/>'
+    +         '<circle class="ol-star" cx="14" cy="50" r="2.4"/><circle class="ol-star" cx="44" cy="44" r="2.8"/>'
+    +         '<circle class="ol-star" cx="52" cy="34" r="2.4"/><circle class="ol-star" cx="26" cy="48" r="2.4"/>'
+    +       '</g>'
+    +     '</svg>'
+    +   '</div>'
+    +   '<div class="oracle-loader__text">'
+    +     '<span class="oracle-loader__lede">die zukünft:innen beraten<span class="dots"></span></span>'
+    +     '<span class="oracle-loader__sub" id="oracleLoaderSub">zehn perspektiven finden zueinander</span>'
+    +   '</div>'
+    + '</div>';
+    var oracleSubTimer = null;
+    function startOracleLoader(b) {
+      b.className = 'banner banner--info show';
+      b.innerHTML = ORACLE_LOADER_HTML;
+      if (oracleSubTimer) { clearInterval(oracleSubTimer); oracleSubTimer = null; }
+      var phrases = ['zehn perspektiven finden zueinander', 'stimmen sortieren die signale', 'eine synthese formt sich', 'das orakel ordnet die punkte'];
+      var sub = document.getElementById('oracleLoaderSub'), i = 0;
+      if (sub && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches))
+        oracleSubTimer = setInterval(function () { i = (i + 1) % phrases.length; sub.textContent = phrases[i]; }, 2600);
+    }
+    function stopOracleLoader() { if (oracleSubTimer) { clearInterval(oracleSubTimer); oracleSubTimer = null; } }
+
     document.getElementById('oracleAskBtn').addEventListener('click', function () {
       var btn = this;
       var q = (document.getElementById('oracleAsk').value || '').trim();
@@ -3122,8 +3183,7 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       }
 
       btn.disabled = true;
-      b.className = 'banner banner--info show';
-      b.textContent = '⏳ die zukünft:innen beraten…';
+      startOracleLoader(b);
 
       fetch('/api/oracle', {
         method: 'POST',
@@ -3145,6 +3205,7 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
           b.textContent = '⚠ die zukünft:innen sind gerade im gespräch — versuch es gleich nochmal';
         })
         .finally(function () {
+          stopOracleLoader();
           btn.disabled = false;
           if (window.turnstile && typeof window.turnstile.reset === 'function') {
             try { window.turnstile.reset(); } catch (e) {}
