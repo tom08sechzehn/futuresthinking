@@ -25,6 +25,12 @@
  * Empfaenger ist HART verdrahtet (Besucher:innen waehlen NIE den Empfaenger).
  */
 
+import { EmailMessage } from "cloudflare:email";
+
+// TEMP-DEBUG (2026-06-05): bei true wird der echte Send-Fehler (code/message, KEIN Secret)
+// ins `fehler`-Feld geschrieben, damit die Ursache im Banner sichtbar ist. Vor Produktion: false.
+const DEBUG = true;
+
 /* Absender (MUSS auf der onboardeten Domain liegen) + fester Empfaenger. */
 const MAIL_FROM = { email: "kontakt@futuresthinking.eu", name: "futuresthinking" };
 const MAIL_TO = "tom.thi.2022@gmail.com"; // hart verdrahtet — VERIFIZIERTE Email-Routing-Zieladresse (Gratis-Versand); nie aus dem Body
@@ -74,6 +80,33 @@ function escapeHtml(str) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+/** UTF-8 -> Base64 (Worker-safe; btoa ist latin1-only, daher ueber die Bytes). */
+function b64utf8(str) {
+  const bytes = new TextEncoder().encode(String(str));
+  let bin = "";
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
+/** Baut eine rohe RFC-5322-MIME-Mail (Plain-Text, UTF-8) fuer cloudflare:email EmailMessage.
+ *  Betreff RFC-2047-kodiert, Body Base64 (sicher fuer UTF-8 + Zeilenlaengen), CRLF-Enden. */
+function buildRawEmail({ fromName, fromAddr, to, replyTo, subject, text }) {
+  const encWord = (s) => `=?UTF-8?B?${b64utf8(s)}?=`;
+  const bodyB64 = b64utf8(text).replace(/(.{76})/g, "$1\r\n");
+  const lines = [`From: ${fromName} <${fromAddr}>`, `To: ${to}`];
+  if (replyTo) lines.push(`Reply-To: ${replyTo}`);
+  lines.push(
+    `Subject: ${encWord(subject)}`,
+    `Message-ID: <${crypto.randomUUID()}@futuresthinking.eu>`,
+    `MIME-Version: 1.0`,
+    `Content-Type: text/plain; charset="utf-8"`,
+    `Content-Transfer-Encoding: base64`,
+    ``,
+    bodyB64
+  );
+  return lines.join("\r\n");
 }
 
 /** Turnstile serverseitig verifizieren (identische Logik wie submit.js / oracle.js). */
@@ -151,46 +184,44 @@ export async function onRequestPost({ request, env }) {
     emailValid = cpLen(email) <= MAX_EMAIL && EMAIL_RE.test(email);
   }
 
-  // 3) Mail bauen (plain-text + minimal-HTML; User-Inhalt im HTML escaped).
+  // 3) Mail als rohe MIME-Nachricht (Plain-Text, UTF-8) bauen. Der GRATIS-Weg ueber
+  //    Email Routing erwartet ein cloudflare:email EmailMessage-Objekt — NICHT das
+  //    Objekt-Format ({to,from,...}) des kostenpflichtigen Email Sending.
   const subject = `futuresthinking · Methoden-Vorschlag: ${methode}`;
 
   const absenderZeileText = email
-    ? `Absender-Mail: ${email}${emailValid ? "" : "  (Format auffällig — Rückfrage prüfen)"}`
+    ? `Absender-Mail: ${email}${emailValid ? "" : "  (Format auffaellig — Rueckfrage pruefen)"}`
     : "Absender-Mail: (keine angegeben)";
 
   const text =
-    `Neuer Methoden-Vorschlag über futuresthinking.eu\n` +
-    `\n` +
-    `Methode:\n${methode}\n` +
-    `\n` +
-    `Beschreibung:\n${beschreibung}\n` +
-    `\n` +
+    `Neuer Methoden-Vorschlag ueber futuresthinking.eu\n\n` +
+    `Methode:\n${methode}\n\n` +
+    `Beschreibung:\n${beschreibung}\n\n` +
     `${absenderZeileText}\n`;
 
-  const absenderZeileHtml = email
-    ? `<p><strong>Absender-Mail:</strong> ${escapeHtml(email)}${
-        emailValid ? "" : " <em>(Format auffällig — Rückfrage prüfen)</em>"
-      }</p>`
-    : `<p><strong>Absender-Mail:</strong> (keine angegeben)</p>`;
+  const raw = buildRawEmail({
+    fromName: MAIL_FROM.name,
+    fromAddr: MAIL_FROM.email,
+    to: MAIL_TO,
+    replyTo: emailValid ? email : null,
+    subject,
+    text,
+  });
 
-  const html =
-    `<h2>Neuer Methoden-Vorschlag</h2>` +
-    `<p>über futuresthinking.eu</p>` +
-    `<p><strong>Methode:</strong><br>${escapeHtml(methode)}</p>` +
-    `<p><strong>Beschreibung:</strong><br>${escapeHtml(beschreibung).replace(/\n/g, "<br>")}</p>` +
-    absenderZeileHtml;
-
-  const mail = { to: MAIL_TO, from: MAIL_FROM, subject, html, text };
-  // replyTo nur, wenn die Besucher-Mail plausibel aussieht.
-  if (emailValid) mail.replyTo = email;
-
-  // 4) Versenden via send_email-Binding (kein API-Key). Fehler -> freundlich + no-leak.
+  // 4) Versenden via send_email-Binding (cloudflare:email EmailMessage, kein API-Key).
   try {
-    await env.EMAIL.send(mail);
+    await env.EMAIL.send(new EmailMessage(MAIL_FROM.email, MAIL_TO, raw));
     return json({ ok: true });
   } catch (e) {
-    // NIE err.message/Body nach aussen geben — nur err.code in die Worker-Logs.
-    console.log("vorschlag SEND FAIL", JSON.stringify({ code: (e && e.code) || "unknown" }));
-    return fehler("konnte gerade nicht gesendet werden — versuch es gleich nochmal", 503);
+    const code = (e && (e.code || e.name)) || "unknown";
+    const emsg = (e && e.message ? String(e.message) : "").replace(/\s+/g, " ").slice(0, 180);
+    console.log("vorschlag SEND FAIL", JSON.stringify({ code, emsg }));
+    // TEMP-DEBUG (2026-06-05): Ursache im Banner sichtbar machen (kein Secret). Vor Produktion DEBUG=false.
+    return fehler(
+      DEBUG
+        ? `[debug] send ${code} — ${emsg}`
+        : "konnte gerade nicht gesendet werden — versuch es gleich nochmal",
+      503
+    );
   }
 }
