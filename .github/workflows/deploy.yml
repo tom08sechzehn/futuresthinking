@@ -44,12 +44,13 @@ jobs:
           export SOURCE_DATE_EPOCH="$(git log -1 --pretty=%ct)"
           npm run build
 
-      - name: 3) Deploy nach Cloudflare Pages
+      - name: 3) Deploy (Worker + Static Assets)
         uses: cloudflare/wrangler-action@v3
         with:
           # Beide Secrets im GitHub-Repo unter Settings > Secrets and variables > Actions setzen.
           # KEINE echten Werte hier committen.
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # Projektname muss zum Cloudflare-Pages-Projekt passen (siehe wrangler.toml: name).
-          command: pages deploy public-build --project-name=futuresthinking --branch=main
+          # 'deploy' liest wrangler.toml: main=worker.js + [assets] directory=public-build.
+          # Worker serviert die statische Site und routet /api/submit.
+          command: deploy

@@ -1,19 +1,26 @@
-# wrangler.toml — Cloudflare Pages + Pages Functions Konfiguration.
+# wrangler.toml — Cloudflare Worker + Static Assets Konfiguration.
 #
-# Statisches Hosting (public-build/) + die Submit-Function (functions/api/submit.js)
-# laufen im SELBEN Pages-Projekt. Deploy erfolgt aus dem CI (.github/workflows/deploy.yml)
-# via `wrangler pages deploy public-build --project-name=futuresthinking`.
+# Modell: Workers-Static-Assets (NICHT klassisches Pages).
+#   - /api/submit            -> Worker (worker.js -> functions/api/submit.js)
+#   - alles andere           -> statische Assets aus public-build/ (ASSETS-Binding)
+#
+# Deploy erfolgt via `wrangler deploy` (NICHT mehr `wrangler pages deploy`).
+# Build erzeugt vorher public-build/ (tools/build.mjs, npm run build).
 #
 # Secrets/Env werden NICHT hier gesetzt, sondern im Cloudflare-Dashboard
-# (Pages > Settings > Environment variables) bzw. als GitHub-Actions-Secrets:
-#   TURNSTILE_SECRET, GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO  (Function-Runtime)
+# (Workers & Pages > Settings > Variables and Secrets) bzw. als GitHub-Actions-Secrets:
+#   TURNSTILE_SECRET, GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO  (Worker-Runtime)
 #   CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID               (CI-Deploy)
 
 name = "futuresthinking"
 compatibility_date = "2025-01-01"
 
-# Verzeichnis mit dem fertigen Build, das deployt wird (erzeugt von tools/build.mjs).
-pages_build_output_dir = "public-build"
+# ESM Worker-Entry: routet /api/submit, faellt sonst auf ASSETS zurueck.
+main = "worker.js"
 
-# functions/ wird von Cloudflare Pages automatisch als Functions-Verzeichnis erkannt.
-# /api/submit -> functions/api/submit.js (onRequestPost).
+# Statische Assets (fertiger Build aus tools/build.mjs).
+# Default-Verhalten: vorhandene Assets werden ZUERST serviert; der Worker laeuft
+# nur fuer Nicht-Asset-Pfade wie /api/submit. Genau das wollen wir.
+[assets]
+directory = "./public-build"
+binding = "ASSETS"

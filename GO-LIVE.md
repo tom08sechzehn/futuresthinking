@@ -80,13 +80,17 @@ git commit -am "Turnstile Site-Key gesetzt"; git push
 
 ---
 
-## Phase 5 — Cloudflare Pages-Projekt verbinden
-Cloudflare → **Workers & Pages → Create → Pages → Connect to Git** → Repo `futuresthinking` wählen.
-- **Build command:** `npm run build`
-- **Build output directory:** `public-build`
-- **Production branch:** `main`
+## Phase 5 — Cloudflare-Projekt verbinden (Workers + Static Assets)
+> Cloudflare legt neue statische Projekte als **Worker mit Static Assets** an (nicht als klassisches Pages). Das Repo ist darauf eingestellt: `wrangler.toml` (`main = "worker.js"` + `[assets] directory = "./public-build"`) und `worker.js` routet `/api/submit`, alles andere sind statische Assets aus `public-build/`.
 
-(Der CI-Workflow `deploy.yml` kann alternativ via Wrangler deployen — **einen** der beiden Wege wählen, nicht beide doppelt. Empfehlung für den Start: Pages-Git-Integration wie oben, dann brauchst du `deploy.yml`/die CF-CI-Secrets erst, wenn du auf CI-Deploy umstellst.)
+Cloudflare → **Workers & Pages** → Projekt `futuresthinking` → **Settings → Build** (bzw. „Build configuration"):
+- **Build command:** `npm ci && npm run build`
+- **Deploy command:** `npx wrangler deploy`
+- **Production branch / Branch:** `main`
+
+`wrangler deploy` liest `wrangler.toml`, lädt `public-build/` als Assets hoch und deployt den Worker inklusive `/api/submit`. **NICHT** `wrangler pages deploy` verwenden (das ist der alte Pages-Weg und schlägt hier fehl).
+
+(Der CI-Workflow `deploy.yml` ist der alternative manuelle Weg — er nutzt jetzt ebenfalls `wrangler deploy`. Für den Start reicht die Git-Build-Integration oben.)
 
 ---
 

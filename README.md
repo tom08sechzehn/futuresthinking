@@ -114,11 +114,19 @@ Merge-Person ist noch offen, siehe CONTRIBUTING).
 
 ---
 
-## Deploy (Cloudflare Pages + DNS-Migration)
+## Deploy (Cloudflare Worker + Static Assets + DNS-Migration)
 
-Hosting = **Cloudflare Pages** (Static + Function + Turnstile + CDN in einem Projekt).
+Hosting = **Cloudflare Worker im Static-Assets-Modell** (Static + API + Turnstile + CDN
+in einem Projekt). Ein ESM-Worker (`worker.js`) routet `/api/submit` an die Submit-Logik
+(`functions/api/submit.js`); alles andere wird als statisches Asset aus `public-build/`
+ausgeliefert (`[assets]`-Block in `wrangler.toml`, Binding `ASSETS`).
+
+- **Build:** `npm run build` → erzeugt `public-build/` (statische Site + Daten + Feed).
+- **Deploy:** `npx wrangler deploy` → lädt `worker.js` hoch und serviert `public-build/`
+  über die `ASSETS`-Binding; `/api/submit` läuft im Worker.
+
 Deploy läuft automatisch aus `.github/workflows/deploy.yml` bei jedem Push auf `main`:
-`npm ci → npm run validate → npm run build → wrangler pages deploy public-build`.
+`npm ci → npm run validate → npm run build → wrangler deploy`.
 
 **DNS:** Volle Nameserver-Migration der Domain `futuresthinking.eu` von one.com zu
 Cloudflare. **Vor** der Umstellung die alte Seite sichern:
