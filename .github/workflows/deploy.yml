@@ -1,10 +1,14 @@
 name: deploy
 
-# Build + Deploy nach Cloudflare Pages. Läuft nur auf main (= nach dem Merge).
-# Re-validiert (Gürtel + Hosenträger), baut public-build/, deployt es.
+# Build + Deploy nach Cloudflare Pages (ALTERNATIVER CI-Deploy-Weg).
+#
+# DEPLOY-PFAD-WAHL (GO-LIVE.md Phase 5): Standard ist die Cloudflare-Pages-Git-Integration —
+# Cloudflare baut + deployt selbst bei jedem Push, dann ist DIESER Workflow überflüssig.
+# Damit er nicht bei jedem Push ohne gesetzte Cloudflare-Secrets rot fällt, läuft er nur MANUELL.
+# CI-Deploy aktivieren: unten 'push: { branches: [main] }' wieder ergänzen UND
+# CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID als Actions-Secrets setzen.
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 # cancel-in-progress: ein laufender Deploy wird vom nächsten Push abgelöst.
 concurrency:

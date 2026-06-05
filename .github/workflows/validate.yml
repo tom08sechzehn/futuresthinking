@@ -4,14 +4,11 @@ name: validate
 # die das Datenmodell oder den Validator selbst berühren. tools/** ist bewusst
 # dabei — sonst könnte eine PR den Validator schwächen, ohne das Gate auszulösen.
 on:
+  # Läuft auf JEDEM Pull Request — wichtig, damit der als "required" gesetzte Check
+  # (Branch-Protection, GO-LIVE Phase 3) immer ausgeführt wird und keine PR blockiert,
+  # die zufällig keinen der Pfade berührt (bekannte GitHub-Falle bei path-gefilterten
+  # required checks). Der Lauf ist billig (npm ci + validate), das ist es wert.
   pull_request:
-    paths:
-      - "funde/**"
-      - "schema/**"
-      - "tools/**"
-      - "tests/**"
-      - "package.json"
-      - "package-lock.json"
   push:
     paths:
       - "funde/**"
