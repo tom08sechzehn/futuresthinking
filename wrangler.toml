@@ -7,10 +7,12 @@
 # Deploy erfolgt via `wrangler deploy` (NICHT mehr `wrangler pages deploy`).
 # Build erzeugt vorher public-build/ (tools/build.mjs, npm run build).
 #
-# Secrets/Env werden NICHT hier gesetzt, sondern im Cloudflare-Dashboard
-# (Workers & Pages > Settings > Variables and Secrets) bzw. als GitHub-Actions-Secrets:
-#   TURNSTILE_SECRET, GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO  (Worker-Runtime)
-#   CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID               (CI-Deploy)
+# NICHT-geheime Runtime-Config steht unten in [vars] (versioniert, ueberlebt jeden Deploy).
+# Nur die ECHTEN Secrets gehoeren ins Dashboard (Workers & Pages > Settings >
+# Variables and Secrets) als Typ "Secret":
+#   TURNSTILE_SECRET, GITHUB_TOKEN            (Worker-Runtime, geheim)
+# CI-Deploy-Secrets (nur falls deploy.yml genutzt wird) als GitHub-Actions-Secrets:
+#   CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
 
 name = "futuresthinking"
 compatibility_date = "2025-01-01"
@@ -24,3 +26,12 @@ main = "worker.js"
 [assets]
 directory = "./public-build"
 binding = "ASSETS"
+
+# Nicht-geheime Runtime-Config (das Repo ist public -> kein Geheimnis).
+# WICHTIG: Plaintext-Variablen im Dashboard werden bei jedem `wrangler deploy` entfernt;
+# deshalb gehoeren GITHUB_OWNER/REPO/BASE_BRANCH HIER hin, damit sie jeden Deploy ueberleben.
+# (Die echten Secrets TURNSTILE_SECRET + GITHUB_TOKEN bleiben im Dashboard.)
+[vars]
+GITHUB_OWNER = "tom08sechzehn"
+GITHUB_REPO = "futuresthinking"
+GITHUB_BASE_BRANCH = "main"
