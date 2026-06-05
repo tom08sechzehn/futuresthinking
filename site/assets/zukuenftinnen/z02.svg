@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600" role="img" aria-label="Zukuenft:in — Technologisch-Disruptiv (Kai). Stilisiertes Portraet-Platzhalter (Prototyp).">
+  <defs>
+    <radialGradient id="halo1" cx="0.7" cy="0.32" r="0.9">
+      <stop offset="0" stop-color="#5BA8FF" stop-opacity="0.26"/>
+      <stop offset="0.55" stop-color="#5BA8FF" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#141A2E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141A2E"/><stop offset="1" stop-color="#0B0E1A"/>
+    </linearGradient>
+    <filter id="grain2" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="17" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.09"/></feComponentTransfer>
+    </filter>
+    <clipPath id="card1"><rect x="0" y="0" width="480" height="600" rx="18"/></clipPath>
+    <clipPath id="head1"><path d="M 180.0 229.0 C 180.0 177.0, 207.0 171.0, 240.0 171.0 C 273.0 171.0, 300.0 177.0, 300.0 229.0 C 300.0 265.4, 288.0 294.0, 240.0 307.0 C 192.0 294.0, 180.0 265.4, 180.0 229.0 Z"/></clipPath>
+    
+  </defs>
+
+  <g clip-path="url(#card1)">
+    <rect x="0" y="0" width="480" height="600" fill="url(#floor1)"/>
+    <rect x="0" y="0" width="480" height="600" fill="url(#halo1)"/>
+
+    <g transform="rotate(3 240.0 242)">
+      <!-- shoulders / clothing -->
+      <path d="M 214.8 301.0 L 212.8 327.0 C 60.0 371.0, 60.0 399.0, 60.0 600.0 L 420.0 600.0 C 420.0 399.0, 420.0 371.0, 267.2 327.0 L 265.2 301.0 Z" fill="#203656"/>
+      <!-- hair behind head (locs, afro mass, bun) -->
+      
+      <!-- HEAD: lit base, then shadow half clipped to head = duotone terminator -->
+      <g clip-path="url(#head1)">
+        <rect x="0" y="0" width="480" height="600" fill="#62abff"/>
+        <rect x="0" y="0" width="244.0" height="600" fill="#253f63"/>
+      </g>
+      <!-- headwear / hair on top -->
+      
+      
+      
+      <g fill="#2f5381"><circle cx="179.9" cy="188.0" r="13"/><circle cx="184.6" cy="184.2" r="15"/><circle cx="192.8" cy="180.8" r="17"/><circle cx="204.0" cy="178.1" r="13"/><circle cx="217.5" cy="176.1" r="15"/><circle cx="232.3" cy="175.1" r="17"/><circle cx="247.7" cy="175.1" r="13"/><circle cx="262.5" cy="176.1" r="15"/><circle cx="276.0" cy="178.1" r="17"/><circle cx="287.2" cy="180.8" r="13"/><circle cx="295.4" cy="184.2" r="15"/><circle cx="300.1" cy="188.0" r="17"/><path d="M 178.0 234.2 C 178.0 173.0, 302.0 173.0, 302.0 234.2 C 264.0 189.0, 216.0 189.0, 178.0 234.2 Z"/></g>
+      <!-- rim light on the lit edge of the head -->
+      <path d="M 180.0 229.0 C 180.0 177.0, 207.0 171.0, 240.0 171.0 C 273.0 171.0, 300.0 177.0, 300.0 229.0 C 300.0 265.4, 288.0 294.0, 240.0 307.0 C 192.0 294.0, 180.0 265.4, 180.0 229.0 Z" fill="none" stroke="#5BA8FF" stroke-opacity="0.85" stroke-width="2"/>
+    </g>
+
+    <rect x="0" y="0" width="480" height="600" filter="url(#grain2)" opacity="0.5"/>
+    <rect x="0.75" y="0.75" width="478.5" height="598.5" rx="17" fill="none" stroke="#2C3658" stroke-width="1.5"/>
+
+    <g font-family="'IBM Plex Mono','SFMono-Regular',monospace">
+      <rect x="14" y="14" width="160" height="22" rx="4" fill="#1E2742" stroke="#2C3658" stroke-width="1"/>
+      <text x="22" y="29" font-size="11" letter-spacing="1.2" fill="#7A82A6">PROTOTYP · PLATZHALTER</text>
+      <text x="20" y="554" font-size="11" letter-spacing="1.4" fill="#5BA8FF" opacity="0.92">Z02 · KAI</text>
+      <text x="20" y="574" font-size="13" fill="#F2F0FF" font-weight="500">Technologisch-Disruptiv</text>
+    </g>
+  </g>
+</svg>

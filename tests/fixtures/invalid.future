@@ -1,0 +1,18 @@
+# Self-Test-Fixture: MUSS ungültig sein (rot).
+# Verletzt absichtlich MEHRERE Pflicht-Regeln, damit der Self-Test beweist,
+# dass das Gate kaputte Daten zuverlässig stoppt:
+#   1) wuenschbarkeit fehlt   -> Pflichtfeld (Zwei-Achsen-Modell) verletzt
+#   2) wahrscheinlichkeit hat unzulässigen enum-Wert
+#   3) beipackzettel viel zu kurz (< 280 Code-Points)
+#   4) Slug-Jahr (2099) != fundjahr (2045) UND Jahr außerhalb 2030–2070
+#   5) verweist_auf zeigt auf eine nicht existierende objekt_id (dangling)
+schema_version:     "1.0"
+objekt_id:          "2099-self-test-kaputter-fund"
+objektname:         "Self-Test-Fund, kaputt"
+fundjahr:           2045
+fundort:            "Testarchiv ohne Komma sieht falsch aus"
+wahrscheinlichkeit: "vielleicht"
+beipackzettel:      "Viel zu kurz."
+lizenz:             "CC-BY-NC-4.0"
+urheber:            "self-test"
+verweist_auf:       "2030-gibt-es-nicht"

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600" role="img" aria-label="Zukuenft:in — Empirisch-Quantitativ (Esra). Stilisiertes Portraet-Platzhalter (Prototyp).">
+  <defs>
+    <radialGradient id="halo0" cx="0.3" cy="0.32" r="0.9">
+      <stop offset="0" stop-color="#3DF2C4" stop-opacity="0.26"/>
+      <stop offset="0.55" stop-color="#3DF2C4" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#141A2E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor0" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141A2E"/><stop offset="1" stop-color="#0B0E1A"/>
+    </linearGradient>
+    <filter id="grain1" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.66" numOctaves="2" seed="10" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.09"/></feComponentTransfer>
+    </filter>
+    <clipPath id="card0"><rect x="0" y="0" width="480" height="600" rx="18"/></clipPath>
+    <clipPath id="head0"><path d="M 185.0 222.0 C 185.0 166.0, 209.8 160.0, 240.0 160.0 C 270.2 160.0, 295.0 166.0, 295.0 222.0 C 295.0 261.2, 286.2 292.0, 240.0 306.0 C 193.8 292.0, 185.0 261.2, 185.0 222.0 Z"/></clipPath>
+    
+  </defs>
+
+  <g clip-path="url(#card0)">
+    <rect x="0" y="0" width="480" height="600" fill="url(#floor0)"/>
+    <rect x="0" y="0" width="480" height="600" fill="url(#halo0)"/>
+
+    <g transform="rotate(-4 240.0 236)">
+      <!-- shoulders / clothing -->
+      <path d="M 216.9 300.0 L 215.1 326.0 C 75.0 370.0, 75.0 398.0, 75.0 600.0 L 405.0 600.0 C 405.0 398.0, 405.0 370.0, 264.9 326.0 L 263.1 300.0 Z" fill="#184946"/>
+      <!-- hair behind head (locs, afro mass, bun) -->
+      
+      <!-- HEAD: lit base, then shadow half clipped to head = duotone terminator -->
+      <g clip-path="url(#head0)">
+        <rect x="0" y="0" width="480" height="600" fill="#45f3c6"/>
+        <rect x="236.0" y="0" width="480" height="600" fill="#1b5750"/>
+      </g>
+      <!-- headwear / hair on top -->
+      
+      
+      <path d="M 182.0 213.6 C 185.0 154.0, 295.0 154.0, 298.0 213.6 C 264.8 172.0, 215.2 172.0, 182.0 213.6 Z" fill="#227566" stroke="#50f3ca" stroke-opacity="0.5" stroke-width="1.5"/>
+      
+      <!-- rim light on the lit edge of the head -->
+      <path d="M 185.0 222.0 C 185.0 166.0, 209.8 160.0, 240.0 160.0 C 270.2 160.0, 295.0 166.0, 295.0 222.0 C 295.0 261.2, 286.2 292.0, 240.0 306.0 C 193.8 292.0, 185.0 261.2, 185.0 222.0 Z" fill="none" stroke="#3DF2C4" stroke-opacity="0.85" stroke-width="2"/>
+    </g>
+
+    <rect x="0" y="0" width="480" height="600" filter="url(#grain1)" opacity="0.5"/>
+    <rect x="0.75" y="0.75" width="478.5" height="598.5" rx="17" fill="none" stroke="#2C3658" stroke-width="1.5"/>
+
+    <g font-family="'IBM Plex Mono','SFMono-Regular',monospace">
+      <rect x="14" y="14" width="160" height="22" rx="4" fill="#1E2742" stroke="#2C3658" stroke-width="1"/>
+      <text x="22" y="29" font-size="11" letter-spacing="1.2" fill="#7A82A6">PROTOTYP · PLATZHALTER</text>
+      <text x="20" y="554" font-size="11" letter-spacing="1.4" fill="#3DF2C4" opacity="0.92">Z01 · ESRA</text>
+      <text x="20" y="574" font-size="13" fill="#F2F0FF" font-weight="500">Empirisch-Quantitativ</text>
+    </g>
+  </g>
+</svg>

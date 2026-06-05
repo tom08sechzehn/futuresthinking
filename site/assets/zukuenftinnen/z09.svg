@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600" role="img" aria-label="Zukuenft:in — Ökologisch-Planetar (Solveig). Stilisiertes Portraet-Platzhalter (Prototyp).">
+  <defs>
+    <radialGradient id="halo8" cx="0.3" cy="0.32" r="0.9">
+      <stop offset="0" stop-color="#7FC96A" stop-opacity="0.26"/>
+      <stop offset="0.55" stop-color="#7FC96A" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#141A2E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor8" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141A2E"/><stop offset="1" stop-color="#0B0E1A"/>
+    </linearGradient>
+    <filter id="grain9" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.78" numOctaves="2" seed="66" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.09"/></feComponentTransfer>
+    </filter>
+    <clipPath id="card8"><rect x="0" y="0" width="480" height="600" rx="18"/></clipPath>
+    <clipPath id="head8"><path d="M 181.0 228.8 C 181.0 176.0, 207.6 170.0, 240.0 170.0 C 272.4 170.0, 299.0 176.0, 299.0 228.8 C 299.0 265.8, 286.0 294.8, 240.0 308.0 C 194.0 294.8, 181.0 265.8, 181.0 228.8 Z"/></clipPath>
+    
+  </defs>
+
+  <g clip-path="url(#card8)">
+    <rect x="0" y="0" width="480" height="600" fill="url(#floor8)"/>
+    <rect x="0" y="0" width="480" height="600" fill="url(#halo8)"/>
+
+    <g transform="rotate(2 240.0 242)">
+      <!-- shoulders / clothing -->
+      <path d="M 215.2 302.0 L 213.2 328.0 C 57.0 372.0, 57.0 400.0, 57.0 600.0 L 423.0 600.0 C 423.0 400.0, 423.0 372.0, 266.8 328.0 L 264.8 302.0 Z" fill="#293f2f"/>
+      <!-- hair behind head (locs, afro mass, bun) -->
+      <rect x="234.0" y="160.0" width="12" height="22" fill="#3f623e"/><circle cx="240.0" cy="162.0" r="21" fill="#3f623e" stroke="#8cce79" stroke-opacity="0.5" stroke-width="1.5"/>
+      <!-- HEAD: lit base, then shadow half clipped to head = duotone terminator -->
+      <g clip-path="url(#head8)">
+        <rect x="0" y="0" width="480" height="600" fill="#84cb70"/>
+        <rect x="236.0" y="0" width="480" height="600" fill="#304a34"/>
+      </g>
+      <!-- headwear / hair on top -->
+      
+      
+      <path d="M 180.0 236.7 C 180.0 172.0, 300.0 172.0, 300.0 236.7 C 264.8 186.0, 215.2 186.0, 180.0 236.7 Z" fill="#3f623e" stroke="#8cce79" stroke-opacity="0.5" stroke-width="1.5"/>
+      
+      <!-- rim light on the lit edge of the head -->
+      <path d="M 181.0 228.8 C 181.0 176.0, 207.6 170.0, 240.0 170.0 C 272.4 170.0, 299.0 176.0, 299.0 228.8 C 299.0 265.8, 286.0 294.8, 240.0 308.0 C 194.0 294.8, 181.0 265.8, 181.0 228.8 Z" fill="none" stroke="#7FC96A" stroke-opacity="0.85" stroke-width="2"/>
+    </g>
+
+    <rect x="0" y="0" width="480" height="600" filter="url(#grain9)" opacity="0.5"/>
+    <rect x="0.75" y="0.75" width="478.5" height="598.5" rx="17" fill="none" stroke="#2C3658" stroke-width="1.5"/>
+
+    <g font-family="'IBM Plex Mono','SFMono-Regular',monospace">
+      <rect x="14" y="14" width="160" height="22" rx="4" fill="#1E2742" stroke="#2C3658" stroke-width="1"/>
+      <text x="22" y="29" font-size="11" letter-spacing="1.2" fill="#7A82A6">PROTOTYP · PLATZHALTER</text>
+      <text x="20" y="554" font-size="11" letter-spacing="1.4" fill="#7FC96A" opacity="0.92">Z09 · SOLVEIG</text>
+      <text x="20" y="574" font-size="13" fill="#F2F0FF" font-weight="500">Ökologisch-Planetar</text>
+    </g>
+  </g>
+</svg>

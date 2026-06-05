@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600" role="img" aria-label="Zukuenft:in — Kulturell-Narrativ (Tomek). Stilisiertes Portraet-Platzhalter (Prototyp).">
+  <defs>
+    <radialGradient id="halo5" cx="0.7" cy="0.32" r="0.9">
+      <stop offset="0" stop-color="#B57BFF" stop-opacity="0.26"/>
+      <stop offset="0.55" stop-color="#B57BFF" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#141A2E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141A2E"/><stop offset="1" stop-color="#0B0E1A"/>
+    </linearGradient>
+    <filter id="grain6" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.66" numOctaves="2" seed="45" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.09"/></feComponentTransfer>
+    </filter>
+    <clipPath id="card5"><rect x="0" y="0" width="480" height="600" rx="18"/></clipPath>
+    <clipPath id="head5"><path d="M 191.0 208.2 C 191.0 145.0, 213.1 139.0, 240.0 139.0 C 266.9 139.0, 289.0 145.0, 289.0 208.2 C 289.0 252.4, 287.0 287.2, 240.0 303.0 C 193.0 287.2, 191.0 252.4, 191.0 208.2 Z"/></clipPath>
+    
+  </defs>
+
+  <g clip-path="url(#card5)">
+    <rect x="0" y="0" width="480" height="600" fill="url(#floor5)"/>
+    <rect x="0" y="0" width="480" height="600" fill="url(#halo5)"/>
+
+    <g transform="rotate(-6 240.0 224)">
+      <!-- shoulders / clothing -->
+      <path d="M 219.4 297.0 L 217.8 323.0 C 96.0 367.0, 96.0 395.0, 96.0 600.0 L 384.0 600.0 C 384.0 395.0, 384.0 367.0, 262.2 323.0 L 260.6 297.0 Z" fill="#372a56"/>
+      <!-- hair behind head (locs, afro mass, bun) -->
+      
+      <!-- HEAD: lit base, then shadow half clipped to head = duotone terminator -->
+      <g clip-path="url(#head5)">
+        <rect x="0" y="0" width="480" height="600" fill="#b880ff"/>
+        <rect x="0" y="0" width="244.0" height="600" fill="#413163"/>
+      </g>
+      <!-- headwear / hair on top -->
+      
+      
+      
+      <path d="M 193.0 233.5 C 191.1 299.0, 218.8 325.0, 240.0 327.0 C 261.2 325.0, 288.9 299.0, 287.0 233.5 C 265.9 265.1, 214.1 265.1, 193.0 233.5 Z" fill="#573f81"/>
+      <!-- rim light on the lit edge of the head -->
+      <path d="M 191.0 208.2 C 191.0 145.0, 213.1 139.0, 240.0 139.0 C 266.9 139.0, 289.0 145.0, 289.0 208.2 C 289.0 252.4, 287.0 287.2, 240.0 303.0 C 193.0 287.2, 191.0 252.4, 191.0 208.2 Z" fill="none" stroke="#B57BFF" stroke-opacity="0.85" stroke-width="2"/>
+    </g>
+
+    <rect x="0" y="0" width="480" height="600" filter="url(#grain6)" opacity="0.5"/>
+    <rect x="0.75" y="0.75" width="478.5" height="598.5" rx="17" fill="none" stroke="#2C3658" stroke-width="1.5"/>
+
+    <g font-family="'IBM Plex Mono','SFMono-Regular',monospace">
+      <rect x="14" y="14" width="160" height="22" rx="4" fill="#1E2742" stroke="#2C3658" stroke-width="1"/>
+      <text x="22" y="29" font-size="11" letter-spacing="1.2" fill="#7A82A6">PROTOTYP · PLATZHALTER</text>
+      <text x="20" y="554" font-size="11" letter-spacing="1.4" fill="#B57BFF" opacity="0.92">Z06 · TOMEK</text>
+      <text x="20" y="574" font-size="13" fill="#F2F0FF" font-weight="500">Kulturell-Narrativ</text>
+    </g>
+  </g>
+</svg>

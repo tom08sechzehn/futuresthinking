@@ -1,0 +1,51 @@
+name: deploy
+
+# Build + Deploy nach Cloudflare Pages. Läuft nur auf main (= nach dem Merge).
+# Re-validiert (Gürtel + Hosenträger), baut public-build/, deployt es.
+on:
+  push:
+    branches: [main]
+
+# cancel-in-progress: ein laufender Deploy wird vom nächsten Push abgelöst.
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://futuresthinking.eu
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Dependencies installieren (Lockfile-genau)
+        run: npm ci
+
+      - name: 1) Re-Validieren (CI-Gate-Logik erneut, vor dem Publish)
+        run: npm run validate
+
+      - name: 2) Bauen (funds.json + Feed + public-build/)
+        # Reproduzierbare Build-Zeit aus dem Commit-Zeitstempel.
+        run: |
+          export SOURCE_DATE_EPOCH="$(git log -1 --pretty=%ct)"
+          npm run build
+
+      - name: 3) Deploy nach Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          # Beide Secrets im GitHub-Repo unter Settings > Secrets and variables > Actions setzen.
+          # KEINE echten Werte hier committen.
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Projektname muss zum Cloudflare-Pages-Projekt passen (siehe wrangler.toml: name).
+          command: pages deploy public-build --project-name=futuresthinking --branch=main

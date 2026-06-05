@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://futuresthinking.eu/schema/1.0/future.schema.json",
+  "title": "futuresthinking.eu .future-Fund (Schema v1.0)",
+  "description": "Kanonisches Schema fuer einen Fund (.future YAML-Frontmatter). Zwei-Achsen-Modell ist verbindlich (Tom 2026-06-05): wahrscheinlichkeit + wuenschbarkeit sind Pflicht. cone_position ist DEPRECATED (nur Legacy-Import, NICHT Pflicht). Drei feldartige Regeln kann reines JSON-Schema NICHT pruefen und sind im Validator (tools/validate.mjs) implementiert: (a) Beipackzettel-Laenge in Unicode-Code-Points statt UTF-16-Units, (b) FK-Aufloesung (verweist_auf/remix_von zeigen auf eine im Repo existierende objekt_id), (c) Slug<->Jahr-Quervalidierung (objekt_id beginnt mit fundjahr) und objekt_id == Dateiname. minLength/maxLength am beipackzettel sind hier nur grober Vorfilter.",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "slug": {
+      "description": "Ein Fund-Slug: Jahr-Praefix (2030-2070) + kebab-case ASCII. Genutzt fuer objekt_id und alle Fremdschluessel (verweist_auf, remix_von). Die Quervalidierung objekt_id-Praefix == fundjahr macht der Validator, nicht das Schema.",
+      "type": "string",
+      "pattern": "^(203[0-9]|20[4-6][0-9]|2070)-[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 80
+    }
+  },
+  "required": [
+    "objekt_id",
+    "objektname",
+    "fundjahr",
+    "fundort",
+    "wahrscheinlichkeit",
+    "wuenschbarkeit",
+    "beipackzettel",
+    "lizenz"
+  ],
+  "properties": {
+    "schema_version": {
+      "description": "Optional. Schema-Generation (minor-tolerant). Additive Felder = minor bump.",
+      "type": "string",
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "objekt_id": {
+      "description": "Pflicht. Eindeutiger Slug = Dateiname (ohne .future) = Bild-Slug. FK-Ziel.",
+      "$ref": "#/$defs/slug"
+    },
+    "objektname": {
+      "description": "Pflicht. Anzeigename des Fundes.",
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 80
+    },
+    "fundjahr": {
+      "description": "Pflicht. Fiktives Fundjahr. Muss mit dem Jahr-Praefix der objekt_id uebereinstimmen (Validator).",
+      "type": "integer",
+      "minimum": 2030,
+      "maximum": 2070
+    },
+    "fundort": {
+      "description": "Pflicht. Ort des Fundes, Form 'Etwas, Ort'.",
+      "type": "string",
+      "pattern": "^[^,]{2,},\\s*\\S.*$"
+    },
+    "wahrscheinlichkeit": {
+      "description": "Pflicht. Deskriptive Achse (Zwei-Achsen-Modell, kanonisch).",
+      "enum": ["moeglich", "plausibel", "wahrscheinlich"]
+    },
+    "wuenschbarkeit": {
+      "description": "Pflicht. Wertungsachse (Zwei-Achsen-Modell, kanonisch).",
+      "enum": ["wuenschenswert", "neutral", "nicht"]
+    },
+    "cone_position": {
+      "description": "DEPRECATED v1.0. Nur Legacy-Import/Altbestand. KEIN Auto-Mapping fuer Neueinreichungen, NICHT Pflicht, NICHT in Seeds. Generator fragt beide Achsen direkt. Ab v2.0 entfernen.",
+      "enum": ["moeglich", "plausibel", "wahrscheinlich", "wuenschenswert", "nicht"]
+    },
+    "beipackzettel": {
+      "description": "Pflicht. 280-600 Zeichen. minLength/maxLength hier sind grober Vorfilter (UTF-16-Units); die scharfe Pruefung in Code-Points macht der Validator.",
+      "type": "string",
+      "minLength": 280,
+      "maxLength": 600
+    },
+    "lizenz": {
+      "description": "Pflicht. Default CC-BY-NC-4.0 (Tom-Entscheidung).",
+      "enum": ["CC-BY-NC-4.0", "CC-BY-SA-4.0", "CC-BY-4.0", "CC0-1.0"],
+      "default": "CC-BY-NC-4.0"
+    },
+    "urheber": {
+      "description": "Optional. Selbstgewaehltes Pseudonym oder Kollektiv-Name.",
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 60,
+      "pattern": "^\\S(.*\\S)?$"
+    },
+    "material": {
+      "description": "Optional. Materialbeschreibung des Objekts.",
+      "type": ["string", "null"],
+      "maxLength": 200
+    },
+    "tonalitaet": {
+      "description": "Optional. ASCII-safe enum (Umlaut-Anzeige lebt im Frontend-Label-Mapping, nie hier).",
+      "enum": [
+        "solarpunk",
+        "cyberpunk",
+        "degrowth",
+        "hightech-optimistisch",
+        "klima-realistisch",
+        "retro-futur",
+        "buerokratisch-mundan",
+        "unbestimmt"
+      ]
+    },
+    "verweist_auf": {
+      "description": "Optional. FK auf eine andere objekt_id (Lineage) oder null. Validator prueft Existenz.",
+      "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/slug" }]
+    },
+    "remix_von": {
+      "description": "Optional. FK auf eine andere objekt_id (Remix-Quelle) oder null. Validator prueft Existenz.",
+      "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/slug" }]
+    },
+    "bild": {
+      "description": "Optional. Bild-Metadaten. src teilt den Slug mit objekt_id; CI prueft Existenz und 1:1.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["src", "alt", "credit"],
+      "properties": {
+        "src": { "type": "string", "pattern": "^bilder/.+\\.(png|webp|svg)$" },
+        "alt": { "type": "string", "minLength": 8, "maxLength": 300 },
+        "credit": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "svg": { "type": ["string", "null"] },
+        "width": { "type": "integer", "minimum": 256, "maximum": 4096 },
+        "height": { "type": "integer", "minimum": 256, "maximum": 4096 }
+      }
+    },
+    "audio_fundnotiz": {
+      "description": "Optional. Pfad zu optionaler 15s-Fundnotiz oder null.",
+      "type": ["string", "null"],
+      "pattern": "^audio/.+\\.(mp3|ogg|m4a)$"
+    }
+  }
+}

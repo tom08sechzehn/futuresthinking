@@ -1,0 +1,22 @@
+{
+  "name": "futuresthinking",
+  "version": "1.0.0",
+  "private": true,
+  "description": "futuresthinking.eu — ein offenes Fundbüro der Zukunft. Statisches Repo-als-Datenbank: ein Fund = eine .future-Datei. No-Server, CI-validiert, Cloudflare Pages.",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://futuresthinking.eu",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "validate": "node tools/validate.mjs",
+    "selftest": "node tools/validate.mjs --selftest",
+    "build": "node tools/build.mjs"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "yaml": "^2.5.1"
+  }
+}

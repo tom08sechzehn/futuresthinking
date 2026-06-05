@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600" role="img" aria-label="Zukuenft:in — Transformativ-Partizipativ (Gabriel). Stilisiertes Portraet-Platzhalter (Prototyp).">
+  <defs>
+    <radialGradient id="halo6" cx="0.3" cy="0.32" r="0.9">
+      <stop offset="0" stop-color="#FF6B4A" stop-opacity="0.26"/>
+      <stop offset="0.55" stop-color="#FF6B4A" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#141A2E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor6" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141A2E"/><stop offset="1" stop-color="#0B0E1A"/>
+    </linearGradient>
+    <filter id="grain7" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="52" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.09"/></feComponentTransfer>
+    </filter>
+    <clipPath id="card6"><rect x="0" y="0" width="480" height="600" rx="18"/></clipPath>
+    <clipPath id="head6"><path d="M 176.0 237.8 C 176.0 189.0, 204.8 183.0, 240.0 183.0 C 275.2 183.0, 304.0 189.0, 304.0 237.8 C 304.0 272.0, 284.8 298.8, 240.0 311.0 C 195.2 298.8, 176.0 272.0, 176.0 237.8 Z"/></clipPath>
+    
+  </defs>
+
+  <g clip-path="url(#card6)">
+    <rect x="0" y="0" width="480" height="600" fill="url(#floor6)"/>
+    <rect x="0" y="0" width="480" height="600" fill="url(#halo6)"/>
+
+    <g transform="rotate(4 240.0 250)">
+      <!-- shoulders / clothing -->
+      <path d="M 213.1 305.0 L 211.0 331.0 C 38.0 375.0, 38.0 403.0, 38.0 600.0 L 442.0 600.0 C 442.0 403.0, 442.0 375.0, 269.0 331.0 L 266.9 305.0 Z" fill="#4a2626"/>
+      <!-- hair behind head (locs, afro mass, bun) -->
+      <g><rect x="179.1" y="183.0" width="12" height="122.0" rx="6" fill="#793830" stroke="#ff7a5c" stroke-opacity="0.35" stroke-width="1"/><rect x="197.4" y="183.0" width="12" height="156.0" rx="6" fill="#793830" stroke="#ff7a5c" stroke-opacity="0.35" stroke-width="1"/><rect x="215.7" y="183.0" width="12" height="122.0" rx="6" fill="#793830" stroke="#ff7a5c" stroke-opacity="0.35" stroke-width="1"/><rect x="234.0" y="183.0" width="12" height="156.0" rx="6" fill="#793830" stroke="#ff7a5c" stroke-opacity="0.35" stroke-width="1"/><rect x="252.3" y="183.0" width="12" height="122.0" rx="6" fill="#793830" stroke="#ff7a5c" stroke-opacity="0.35" stroke-width="1"/><rect x="270.6" y="183.0" width="12" height="156.0" rx="6" fill="#793830" stroke="#ff7a5c" stroke-opacity="0.35" stroke-width="1"/><rect x="288.9" y="183.0" width="12" height="122.0" rx="6" fill="#793830" stroke="#ff7a5c" stroke-opacity="0.35" stroke-width="1"/></g>
+      <!-- HEAD: lit base, then shadow half clipped to head = duotone terminator -->
+      <g clip-path="url(#head6)">
+        <rect x="0" y="0" width="480" height="600" fill="#ff7151"/>
+        <rect x="236.0" y="0" width="480" height="600" fill="#592c29"/>
+      </g>
+      <!-- headwear / hair on top -->
+      
+      
+      
+      <path d="M 174.0 240.2 C 176.0 181.0, 304.0 181.0, 306.0 240.2 C 265.6 195.0, 214.4 195.0, 174.0 240.2 Z" fill="#793830"/>
+      <!-- rim light on the lit edge of the head -->
+      <path d="M 176.0 237.8 C 176.0 189.0, 204.8 183.0, 240.0 183.0 C 275.2 183.0, 304.0 189.0, 304.0 237.8 C 304.0 272.0, 284.8 298.8, 240.0 311.0 C 195.2 298.8, 176.0 272.0, 176.0 237.8 Z" fill="none" stroke="#FF6B4A" stroke-opacity="0.85" stroke-width="2"/>
+    </g>
+
+    <rect x="0" y="0" width="480" height="600" filter="url(#grain7)" opacity="0.5"/>
+    <rect x="0.75" y="0.75" width="478.5" height="598.5" rx="17" fill="none" stroke="#2C3658" stroke-width="1.5"/>
+
+    <g font-family="'IBM Plex Mono','SFMono-Regular',monospace">
+      <rect x="14" y="14" width="160" height="22" rx="4" fill="#1E2742" stroke="#2C3658" stroke-width="1"/>
+      <text x="22" y="29" font-size="11" letter-spacing="1.2" fill="#7A82A6">PROTOTYP · PLATZHALTER</text>
+      <text x="20" y="554" font-size="11" letter-spacing="1.4" fill="#FF6B4A" opacity="0.92">Z07 · GABRIEL</text>
+      <text x="20" y="574" font-size="13" fill="#F2F0FF" font-weight="500">Transformativ-Partizipativ</text>
+    </g>
+  </g>
+</svg>

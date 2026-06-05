@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>futuresthinking — Methoden-Wiki</title>
+
+<!--
+  ============================================================
+  futuresthinking.eu — Unterseite "Methoden-Wiki"
+  Voll selbst-enthalten · CDN-frei · inline CSS+JS · kein Backend.
+
+  ZWECK: Kompakte Landkarte der wichtigsten Futures-Thinking-Methoden.
+  17 Karten (Inhalt 1:1 aus methoden-wiki-und-orakel.md, Block 1).
+  Jede Karte: Name · 3–4 Sätze · Mini-Beispiel · Beipackzettel-Zeile ·
+  wo sinnvoll ein einfaches Inline-SVG/CSS-Mini-Diagramm.
+
+  AUFBAU:
+    - KANONISCHER Header (1:1 aus _spec-v3/_shared-header.html): Wortmarke
+      + Nav (karte · zukünft:innen · methoden · einreichen) + CTA "fund bergen"
+      + Modus-Toggle + Mobil-Sheet. Aktiver Punkt = "methoden".
+    - Intro-Zeile + Sprung-/Filter-Navigation (Anker auf jede Methode).
+    - Responsive Karten-Raster, Dark-First, tastaturbedienbar.
+    - prefers-reduced-motion -> Tilt/Animation aus.
+
+  DESIGN-GRUNDLAGE: Iris' --ft-* Token-Set (futuresthinking-design-tokens.md
+    §5 + tokens-v2 + farb-system §3.3 Cone-Tokens) als :root, davor geladen.
+    Darüber die EINE Anwendungs-Schicht _spec-v3/_shared-system.css (1:1 inline):
+    .wrap / .section / .sec-head / .panel / .card-interactive / .btn / .field /
+    Typo-Rollen / Header-Nav / Footer. Seitenspezifisch bleiben nur Intro,
+    Sprung-/Filter-Leiste, Karten-Raster + Mini-Diagramm-Bühne.
+    Fonts CDN-frei: Familien benannt, System-Fallbacks. Self-contained, kein Backend.
+
+  HINWEIS (Quellen-Diskrepanz): Der Auftrag nennt "18 Methoden",
+    Block 1 der Quelle enthält 17 Methoden-Karten. Es sind alle 17 verbaut,
+    Inhalt unverändert. Wenn 18 gewünscht sind, fehlt 1 Karte in der Quelle.
+  ============================================================
+-->
+
+<style>
+/* ============================================================
+   :root — Iris' Token-Set (futuresthinking-design-tokens.md §5), 1:1
+   wie index.html. Dark-First; Light via [data-theme="light"] /
+   prefers-color-scheme.
+   ============================================================ */
+
+/* --- Self-hosted Fonts (woff2 lokal ausliefern, kein Google-CDN) ---
+   Aktivieren, sobald die woff2 unter /assets/fonts/ liegen.
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal; font-weight: 500; font-display: swap;
+  src: url('assets/fonts/spacegrotesk-500-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal; font-weight: 700; font-display: swap;
+  src: url('assets/fonts/spacegrotesk-700-latin.woff2') format('woff2');
+}
+*/
+
+:root {
+  /* ---- Backgrounds / Surfaces (Dark, default) ---- */
+  --ft-bg:          #0B0E1A;
+  --ft-surface:     #141A2E;
+  --ft-surface-2:   #1E2742;
+  --ft-line:        #2C3658;
+
+  /* ---- Ink / Text (Dark) ---- */
+  --ft-ink:         #F2F0FF;
+  --ft-body:        #C3C7DB;
+  --ft-muted:       #7A82A6;
+
+  /* ---- Accents (3) ---- */
+  --ft-signal:      #3DF2C4;   /* primär — CTA, aktiv, Vitrinenlicht */
+  --ft-flare:       #FF6B4A;   /* sekundär — Resonanz, menschlich-warm */
+  --ft-ultra:       #B57BFF;   /* punktuation — Remix/Lineage, selten */
+  --ft-signal-ink:  #3DF2C4;
+  --ft-on-signal:   #06231C;
+  --ft-on-flare:    #2A0A03;
+  --ft-on-ultra:    #1A0B33;
+
+  /* ---- Semantic / Status ---- */
+  --ft-success:     #4ADE80;
+  --ft-warning:     #FBBF3C;
+  --ft-error:       #F2555A;
+  --ft-info:        #5BA8FF;
+
+  /* ---- Typography (Stacks mit robusten System-Fallbacks) ---- */
+  --ft-font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --ft-font-body:    'Inter', 'Segoe UI', system-ui, sans-serif;
+  --ft-font-mono:    'IBM Plex Mono', ui-monospace, 'SFMono-Regular', 'Consolas', monospace;
+
+  --ft-text-display: 3.5rem;     --ft-lh-display: 1.0;
+  --ft-text-h1:      2.25rem;    --ft-lh-h1:      1.05;
+  --ft-text-h2:      1.625rem;   --ft-lh-h2:      1.15;
+  --ft-text-h3:      1.25rem;    --ft-lh-h3:      1.3;
+  --ft-text-body:    1rem;       --ft-lh-body:    1.6;
+  --ft-text-mono:    0.9375rem;  --ft-lh-mono:    1.55;
+  --ft-text-caption: 0.8125rem;  --ft-lh-caption: 1.4;
+  --ft-tracking-eyebrow: 0.08em;
+
+  /* ---- Spacing (base 4px) ---- */
+  --ft-space-2xs: 4px;
+  --ft-space-xs:  8px;
+  --ft-space-sm:  12px;
+  --ft-space-md:  20px;
+  --ft-space-lg:  32px;
+  --ft-space-xl:  56px;
+  --ft-space-2xl: 88px;
+
+  /* ---- Radius (asymmetrisch = Signatur) ---- */
+  --ft-radius-sm:        4px;
+  --ft-radius-md:        10px;
+  --ft-radius-card:      18px 4px 18px 4px;
+  --ft-radius-card-alt:  4px 18px 4px 18px;
+  --ft-radius-pill:      999px;
+
+  /* ---- Depth / Shadow / Glow ---- */
+  --ft-shadow-card:  0 8px 28px -8px rgba(0,0,0,0.55);
+  --ft-shadow-lift:  0 16px 48px -12px rgba(0,0,0,0.65);
+  --ft-glow-signal:  0 0 0 1px rgba(61,242,196,0.40), 0 8px 32px -6px rgba(61,242,196,0.35);
+  --ft-glow-ultra:   0 0 24px -4px rgba(181,123,255,0.45);
+
+  /* ---- Border ---- */
+  --ft-border:        1px solid var(--ft-line);
+  --ft-border-active: 1.5px solid var(--ft-signal);
+  --ft-border-lineage:1px dashed var(--ft-ultra);
+
+  /* ---- Focus (laut) ---- */
+  --ft-focus-ring: 0 0 0 3px var(--ft-bg), 0 0 0 5px var(--ft-signal);
+
+  /* ---- Motion ---- */
+  --ft-ease-pop:    cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ft-ease-smooth: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ft-dur-fast:    140ms;
+  --ft-dur-base:    260ms;
+  --ft-tilt-rest:   -0.6deg;
+
+  /* ---- Layout-Tokens (Shared-System-Voraussetzung) ---- */
+  --ft-header-h:    60px;
+  --ft-drawer-w:    480px;
+
+  /* ============================================================
+     Cone-Farbsystem v3 (_spec-v3/farb-system.md §3.3) — DIE EINE
+     Cone-Quelle. Voraussetzung für _shared-system.css §9 (Chips)
+     und §10 (Legende). Achse 1 Wünschbarkeit (Affekt): Grün ↔ Rot.
+     Achse 2 Wahrscheinlichkeit (deskriptiv): kühle Helligkeitsrampe.
+     ============================================================ */
+  --ft-cone-wuenschenswert-core: #37D67A;
+  --ft-cone-wuenschenswert-text: #7DE9A8;
+  --ft-cone-wuenschenswert-bg:   rgba(55,214,122,0.14);
+
+  --ft-cone-nicht-core: #FF5470;
+  --ft-cone-nicht-text: #FF8A9C;
+  --ft-cone-nicht-bg:   rgba(255,84,112,0.16);
+
+  --ft-cone-moeglich-core: #5C6B8A;
+  --ft-cone-moeglich-text: #9AA7C4;
+  --ft-cone-moeglich-bg:   rgba(92,107,138,0.16);
+
+  --ft-cone-plausibel-core: #6FA8C7;
+  --ft-cone-plausibel-text: #A6CCE0;
+  --ft-cone-plausibel-bg:   rgba(111,168,199,0.15);
+
+  --ft-cone-wahrscheinlich-core: #8FD4E8;
+  --ft-cone-wahrscheinlich-text: #BFE6F1;
+  --ft-cone-wahrscheinlich-bg:   rgba(143,212,232,0.15);
+}
+
+/* ============================================================
+   Light-Mode (gleichwertige Alternative) — wie index.html
+   ============================================================ */
+[data-theme="light"] {
+  --ft-bg:        #F4F2FB;
+  --ft-surface:   #FFFFFF;
+  --ft-surface-2: #ECE9F7;
+  --ft-line:      #D8D3EC;
+  --ft-ink:       #11132A;
+  --ft-body:      #34384F;
+  --ft-muted:     #6E7392;
+  --ft-signal-ink: #0E8C6E;
+  --ft-flare-ink:  #C73D1E;
+  --ft-ultra-ink:  #6B2FCF;
+  --ft-shadow-card: 0 8px 24px -10px rgba(17,19,42,0.18);
+  --ft-shadow-lift: 0 16px 40px -14px rgba(17,19,42,0.22);
+  --ft-glow-signal: 0 0 0 1px rgba(14,140,110,0.45), 0 8px 28px -8px rgba(14,140,110,0.25);
+  --ft-focus-ring:  0 0 0 3px var(--ft-bg), 0 0 0 5px var(--ft-signal-ink);
+  /* Cone-Light (farb-system.md §3.3) */
+  --ft-cone-wuenschenswert-core: #1F9D56; --ft-cone-wuenschenswert-text: #147A40; --ft-cone-wuenschenswert-bg: rgba(31,157,86,0.12);
+  --ft-cone-nicht-core: #D6203C; --ft-cone-nicht-text: #B01228; --ft-cone-nicht-bg: rgba(214,32,60,0.10);
+  --ft-cone-moeglich-core: #5A6685; --ft-cone-moeglich-text: #48526E; --ft-cone-moeglich-bg: rgba(90,102,133,0.10);
+  --ft-cone-plausibel-core: #3E7E9E; --ft-cone-plausibel-text: #2E6480; --ft-cone-plausibel-bg: rgba(62,126,158,0.10);
+  --ft-cone-wahrscheinlich-core: #2D93B0; --ft-cone-wahrscheinlich-text: #206F88; --ft-cone-wahrscheinlich-bg: rgba(45,147,176,0.10);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --ft-bg:        #F4F2FB;
+    --ft-surface:   #FFFFFF;
+    --ft-surface-2: #ECE9F7;
+    --ft-line:      #D8D3EC;
+    --ft-ink:       #11132A;
+    --ft-body:      #34384F;
+    --ft-muted:     #6E7392;
+    --ft-signal-ink:#0E8C6E;
+    --ft-flare-ink: #C73D1E;
+    --ft-ultra-ink: #6B2FCF;
+    --ft-shadow-card: 0 8px 24px -10px rgba(17,19,42,0.18);
+    --ft-shadow-lift: 0 16px 40px -14px rgba(17,19,42,0.22);
+    --ft-focus-ring:  0 0 0 3px var(--ft-bg), 0 0 0 5px var(--ft-signal-ink);
+    /* Cone-Light (farb-system.md §3.3) */
+    --ft-cone-wuenschenswert-core: #1F9D56; --ft-cone-wuenschenswert-text: #147A40; --ft-cone-wuenschenswert-bg: rgba(31,157,86,0.12);
+    --ft-cone-nicht-core: #D6203C; --ft-cone-nicht-text: #B01228; --ft-cone-nicht-bg: rgba(214,32,60,0.10);
+    --ft-cone-moeglich-core: #5A6685; --ft-cone-moeglich-text: #48526E; --ft-cone-moeglich-bg: rgba(90,102,133,0.10);
+    --ft-cone-plausibel-core: #3E7E9E; --ft-cone-plausibel-text: #2E6480; --ft-cone-plausibel-bg: rgba(62,126,158,0.10);
+    --ft-cone-wahrscheinlich-core: #2D93B0; --ft-cone-wahrscheinlich-text: #206F88; --ft-cone-wahrscheinlich-bg: rgba(45,147,176,0.10);
+  }
+}
+
+/* ============================================================
+   ░░ SHARED SYSTEM — _spec-v3/_shared-system.css (1:1 inline) ░░
+   EINE konsolidierte Anwendungs-Schicht. Byte-gleich auf jeder Seite.
+   Voraussetzung (oben erfüllt): der :root-Token-Block (Basis + v2 +
+   cone) ist VOR diesem Block geladen.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--ft-header-h) + var(--ft-space-md));  /* Anker landen unter dem Header */
+}
+html.nav-locked { overflow: hidden; }   /* Scroll-Lock, wenn das Mobil-Sheet offen ist */
+
+body {
+  margin: 0;
+  background: var(--ft-bg);
+  color: var(--ft-body);
+  font-family: var(--ft-font-body);
+  font-size: var(--ft-text-body);
+  line-height: var(--ft-lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--ft-signal-ink); }
+:focus-visible { outline: none; box-shadow: var(--ft-focus-ring); border-radius: var(--ft-radius-sm); }
+
+/* 1 · Typo-Rollen — sieben feste Stufen */
+.t-display { font-family:var(--ft-font-display); font-weight:700; font-size:var(--ft-text-display); line-height:var(--ft-lh-display); letter-spacing:-0.01em; color:var(--ft-ink); margin:0; }
+.t-h1      { font-family:var(--ft-font-display); font-weight:700; font-size:var(--ft-text-h1);      line-height:var(--ft-lh-h1);      letter-spacing:-0.01em; color:var(--ft-ink); margin:0; }
+.t-h3      { font-family:var(--ft-font-display); font-weight:500; font-size:var(--ft-text-h3);      line-height:var(--ft-lh-h3);      color:var(--ft-ink); margin:0; }
+.t-body    { font-family:var(--ft-font-body);    font-size:var(--ft-text-body);                    line-height:var(--ft-lh-body);    color:var(--ft-body); }
+.t-caption { font-family:var(--ft-font-mono);    font-size:var(--ft-text-caption);                 line-height:var(--ft-lh-caption); color:var(--ft-muted); }
+
+.eyebrow       { font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); text-transform:uppercase; letter-spacing:var(--ft-tracking-eyebrow); color:var(--ft-muted); }
+.beipackzettel { font-family:var(--ft-font-mono); font-size:var(--ft-text-mono);    line-height:var(--ft-lh-mono); color:var(--ft-body); }
+
+/* 2 · Container + Sektions-Rhythmus */
+.wrap, .wrap--text, .wrap--narrow { width:100%; margin-inline:auto; padding-inline:var(--ft-space-lg); }
+.wrap        { max-width:1180px; }
+.wrap--text  { max-width:720px; }
+.wrap--narrow{ max-width:560px; }
+@media (max-width:640px) { .wrap, .wrap--text, .wrap--narrow { padding-inline:var(--ft-space-md); } }
+
+.section          { padding-block:var(--ft-space-xl); }
+.section--hero,
+.section--lead    { padding-block:var(--ft-space-2xl); }
+.section + .section { padding-top:0; }
+@media (max-width:760px) {
+  .section--hero, .section--lead { padding-block:var(--ft-space-xl); }
+}
+
+.prose { max-width:70ch; }
+.prose > * + * { margin-top:var(--ft-space-md); }
+
+.rule-hair { width:40%; max-width:240px; height:1px; margin:var(--ft-space-xl) auto; background:var(--ft-line); border:none; opacity:0.7; }
+
+/* 3 · Sektions-Header — genau EINS */
+.sec-head {
+  display:flex; align-items:flex-end; justify-content:space-between;
+  gap:var(--ft-space-md); flex-wrap:wrap;
+  margin-bottom:var(--ft-space-lg);
+  padding-bottom:var(--ft-space-sm);
+  border-bottom:var(--ft-border);
+}
+.sec-head__titles  { display:flex; flex-direction:column; gap:var(--ft-space-xs); min-width:0; }
+.sec-head__eyebrow { font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); text-transform:uppercase; letter-spacing:var(--ft-tracking-eyebrow); color:var(--ft-muted); margin:0; }
+.sec-head__title   { font-family:var(--ft-font-display); font-weight:500; font-size:var(--ft-text-h2); line-height:var(--ft-lh-h2); color:var(--ft-ink); margin:0; }
+.sec-head__meta    { font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-muted); text-align:right; white-space:nowrap; }
+@media (max-width:560px) { .sec-head__meta { text-align:left; width:100%; } }
+
+/* 4 · Erhöhungs-Leiter + Panel/Card */
+.panel {
+  background:var(--ft-surface);
+  border:var(--ft-border);
+  border-radius:var(--ft-radius-card);
+  box-shadow:var(--ft-shadow-card);
+  padding:var(--ft-space-md);
+}
+.panel:nth-child(even) { border-radius:var(--ft-radius-card-alt); }
+.panel--flush  { box-shadow:none; }
+.panel--raised { background:var(--ft-surface-2); }
+.panel__head   { display:flex; align-items:baseline; justify-content:space-between; gap:var(--ft-space-sm); margin-bottom:var(--ft-space-sm); }
+.panel__title  { font-family:var(--ft-font-display); font-weight:500; font-size:var(--ft-text-h3); color:var(--ft-ink); margin:0; }
+
+.card-interactive {
+  transition:border-color var(--ft-dur-fast) var(--ft-ease-smooth),
+             box-shadow   var(--ft-dur-base) var(--ft-ease-smooth),
+             transform    var(--ft-dur-base) var(--ft-ease-pop);
+}
+.card-interactive:hover,
+.card-interactive:focus-visible {
+  border-color:var(--ft-signal);
+  box-shadow:var(--ft-glow-signal), var(--ft-shadow-lift);
+  transform:translateY(-2px);
+}
+
+/* 5 · Buttons — EINE Hierarchie */
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:var(--ft-space-xs);
+  border:none; border-radius:var(--ft-radius-md);
+  font-family:var(--ft-font-display); font-weight:700; font-size:0.95rem;
+  padding:var(--ft-space-sm) var(--ft-space-md);
+  text-decoration:none; cursor:pointer; white-space:nowrap;
+  transition:transform    var(--ft-dur-fast) var(--ft-ease-pop),
+             background    var(--ft-dur-fast) var(--ft-ease-smooth),
+             border-color  var(--ft-dur-fast) var(--ft-ease-smooth),
+             color         var(--ft-dur-fast) var(--ft-ease-smooth);
+}
+.btn:hover:not(:disabled)  { transform:translateY(-2px); }
+.btn:active:not(:disabled) { transform:translateY(0); }
+.btn:disabled              { opacity:0.5; cursor:not-allowed; transform:none; }
+
+.btn--primary   { background:var(--ft-signal); color:var(--ft-on-signal); }
+.btn--secondary { background:transparent; color:var(--ft-ink); border:var(--ft-border); }
+.btn--secondary:hover { border-color:var(--ft-signal); }
+.btn--ghost     { background:transparent; color:var(--ft-body); }
+.btn--ghost:hover { color:var(--ft-ink); }
+
+.btn--flare { background:var(--ft-flare); color:var(--ft-on-flare); }
+.btn--ultra { background:var(--ft-ultra); color:var(--ft-on-ultra); }
+.btn--lg    { font-size:1.05rem; padding:var(--ft-space-md) var(--ft-space-lg); }
+.btn--block { width:100%; }
+
+/* 6 · Felder — EIN Skin */
+.field {
+  width:100%;
+  background:var(--ft-surface);
+  color:var(--ft-ink);
+  border:var(--ft-border);
+  border-radius:var(--ft-radius-md);
+  padding:var(--ft-space-sm) var(--ft-space-md);
+  font-family:var(--ft-font-mono);
+  font-size:0.9rem; line-height:1.5;
+  transition:border-color var(--ft-dur-fast) var(--ft-ease-smooth),
+             box-shadow   var(--ft-dur-fast) var(--ft-ease-smooth);
+}
+.field::placeholder   { color:var(--ft-mic-placeholder, var(--ft-muted)); opacity:1; }
+.field:focus          { outline:none; border-color:var(--ft-signal); box-shadow:var(--ft-glow-signal); }
+.field:focus-visible  { box-shadow:var(--ft-focus-ring); }
+select.field          { appearance:none; cursor:pointer; }
+textarea.field        { resize:vertical; min-height:6rem; font-size:var(--ft-text-mono); line-height:var(--ft-lh-mono); }
+
+.field-label { display:block; margin-bottom:var(--ft-space-xs); font-family:var(--ft-font-display); font-weight:500; color:var(--ft-ink); font-size:0.95rem; }
+
+input[type="range"].field-range { -webkit-appearance:none; appearance:none; width:100%; height:6px; background:var(--ft-line); border-radius:var(--ft-radius-pill); outline:none; }
+input[type="range"].field-range::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:24px; height:24px; border-radius:50%; background:var(--ft-signal); border:2px solid var(--ft-bg); box-shadow:var(--ft-glow-signal); cursor:pointer; }
+input[type="range"].field-range::-moz-range-thumb       { width:24px; height:24px; border-radius:50%; background:var(--ft-signal); border:2px solid var(--ft-bg); box-shadow:var(--ft-glow-signal); cursor:pointer; }
+
+/* 7 · Header / Nav (kanonisch, byte-gleich) */
+.site-header {
+  position:sticky; top:0; z-index:40;
+  background:color-mix(in srgb, var(--ft-bg) 86%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:var(--ft-border);
+}
+.site-header__inner {
+  display:flex; align-items:center; justify-content:space-between; gap:var(--ft-space-md);
+  min-height:var(--ft-header-h); padding-block:var(--ft-space-sm);
+}
+
+.brand { display:flex; flex-direction:column; gap:2px; text-decoration:none; line-height:1; }
+.brand__word  { font-family:var(--ft-font-display); font-weight:700; font-size:1.05rem; color:var(--ft-ink); letter-spacing:-0.01em; }
+.brand__dot   { color:var(--ft-signal); }
+.brand__claim { font-family:var(--ft-font-mono); font-size:0.66rem; text-transform:lowercase; letter-spacing:0.04em; color:var(--ft-muted); }
+
+.topnav { display:flex; align-items:center; gap:var(--ft-space-2xs); }
+.topnav a {
+  position:relative; font-family:var(--ft-font-mono); font-size:var(--ft-text-caption);
+  text-transform:lowercase; letter-spacing:0.03em; color:var(--ft-body);
+  text-decoration:none; padding:var(--ft-space-2xs) var(--ft-space-xs);
+  border-radius:var(--ft-radius-sm);
+  transition:color var(--ft-dur-fast) var(--ft-ease-smooth);
+}
+.topnav a:hover { color:var(--ft-signal-ink); }
+.topnav a[aria-current] { color:var(--ft-ink); }
+.topnav a[aria-current]::after {
+  content:""; position:absolute; left:var(--ft-space-xs); right:var(--ft-space-xs); bottom:-3px;
+  height:2px; border-radius:var(--ft-radius-pill); background:var(--ft-signal);
+}
+.nav-sep { color:var(--ft-line); user-select:none; font-size:var(--ft-text-caption); }
+
+.header-actions { display:flex; align-items:center; gap:var(--ft-space-sm); }
+.nav-cta { font-size:0.85rem; padding:var(--ft-space-xs) var(--ft-space-md); }
+
+.mode-toggle {
+  display:inline-flex; align-items:center; gap:var(--ft-space-2xs);
+  background:transparent; border:var(--ft-border); border-radius:var(--ft-radius-pill);
+  color:var(--ft-body); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption);
+  text-transform:lowercase; letter-spacing:0.03em;
+  padding:var(--ft-space-2xs) var(--ft-space-sm); cursor:pointer;
+  transition:border-color var(--ft-dur-fast) var(--ft-ease-smooth), color var(--ft-dur-fast) var(--ft-ease-smooth);
+}
+.mode-toggle:hover { border-color:var(--ft-signal); color:var(--ft-ink); }
+.mode-toggle__glyph { font-size:0.95rem; line-height:1; }
+
+.nav-toggle {
+  display:none; width:38px; height:38px; align-items:center; justify-content:center;
+  background:transparent; border:var(--ft-border); border-radius:var(--ft-radius-md);
+  color:var(--ft-ink); cursor:pointer;
+}
+.nav-toggle:hover { border-color:var(--ft-signal); }
+.nav-toggle__bars { display:flex; flex-direction:column; gap:4px; width:18px; }
+.nav-toggle__bars span { display:block; height:2px; background:currentColor; border-radius:2px; }
+
+@media (max-width:760px) {
+  .topnav        { display:none; }
+  .nav-toggle    { display:inline-flex; }
+  .mode-toggle__label { display:none; }
+  .nav-cta       { padding:var(--ft-space-2xs) var(--ft-space-sm); font-size:0.8rem; }
+}
+
+/* 8 · Mobil-Sheet */
+.nav-sheet { position:fixed; inset:0; z-index:60; }
+.nav-sheet[hidden] { display:none; }
+.nav-sheet__scrim {
+  position:absolute; inset:0; background:rgba(6,8,16,0.6); backdrop-filter:blur(2px);
+  opacity:0; transition:opacity var(--ft-dur-base) var(--ft-ease-smooth);
+}
+.nav-sheet__panel {
+  position:absolute; top:0; left:0; right:0;
+  background:var(--ft-surface); border-bottom:var(--ft-border);
+  box-shadow:var(--ft-shadow-lift);
+  padding:var(--ft-space-md) var(--ft-space-lg) var(--ft-space-lg);
+  transform:translateY(-100%); transition:transform var(--ft-dur-base) var(--ft-ease-pop);
+}
+.nav-sheet.is-open .nav-sheet__scrim { opacity:1; }
+.nav-sheet.is-open .nav-sheet__panel { transform:translateY(0); }
+.nav-sheet__bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--ft-space-md); }
+.brand__word--sheet { font-size:1rem; }
+.nav-sheet__close { background:transparent; border:var(--ft-border); border-radius:var(--ft-radius-md); width:34px; height:34px; color:var(--ft-body); cursor:pointer; }
+.nav-sheet__close:hover { border-color:var(--ft-signal); color:var(--ft-ink); }
+.nav-sheet__nav { display:flex; flex-direction:column; }
+.nav-sheet__nav a {
+  font-family:var(--ft-font-display); font-weight:500; font-size:1.25rem;
+  color:var(--ft-ink); text-decoration:none; text-transform:lowercase;
+  padding:var(--ft-space-sm) 0; border-bottom:var(--ft-border);
+}
+.nav-sheet__nav a:hover, .nav-sheet__nav a[aria-current] { color:var(--ft-signal-ink); }
+.nav-sheet__cta { margin-top:var(--ft-space-lg); }
+
+/* 9 · Chips (Cone-Position) */
+.chip {
+  display:inline-flex; align-items:center; gap:var(--ft-space-2xs);
+  font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); letter-spacing:0.02em;
+  padding:3px var(--ft-space-xs); border-radius:var(--ft-radius-sm);
+  border:1px solid transparent; white-space:nowrap;
+}
+.chip::before { font-family:var(--ft-font-mono); font-size:0.85em; line-height:1; }
+.chip--wuenschenswert { color:var(--ft-cone-wuenschenswert-text); border-color:color-mix(in srgb,var(--ft-cone-wuenschenswert-core) 45%,transparent); background:var(--ft-cone-wuenschenswert-bg); }
+.chip--wuenschenswert::before { content:"\25B2"; }
+.chip--nicht          { color:var(--ft-cone-nicht-text);          border-color:color-mix(in srgb,var(--ft-cone-nicht-core) 45%,transparent);          background:var(--ft-cone-nicht-bg); }
+.chip--nicht::before          { content:"\2715"; }
+.chip--moeglich       { color:var(--ft-cone-moeglich-text);       border-color:color-mix(in srgb,var(--ft-cone-moeglich-core) 40%,transparent);       background:var(--ft-cone-moeglich-bg); }
+.chip--moeglich::before       { content:"\25C7"; }
+.chip--plausibel      { color:var(--ft-cone-plausibel-text);      border-color:color-mix(in srgb,var(--ft-cone-plausibel-core) 40%,transparent);      background:var(--ft-cone-plausibel-bg); }
+.chip--plausibel::before      { content:"\25C8"; }
+.chip--wahrscheinlich { color:var(--ft-cone-wahrscheinlich-text); border-color:color-mix(in srgb,var(--ft-cone-wahrscheinlich-core) 40%,transparent); background:var(--ft-cone-wahrscheinlich-bg); }
+.chip--wahrscheinlich::before { content:"\25C6"; }
+
+/* 11 · Footer */
+.site-footer { border-top:var(--ft-border); margin-top:var(--ft-space-2xl); padding-block:var(--ft-space-xl); color:var(--ft-muted); }
+.site-footer__inner { display:flex; flex-wrap:wrap; gap:var(--ft-space-lg) var(--ft-space-2xl); justify-content:space-between; }
+.site-footer__col { display:flex; flex-direction:column; gap:var(--ft-space-xs); }
+.site-footer__col .eyebrow { margin-bottom:var(--ft-space-sm); }
+.site-footer__brand .brand__word { font-size:1rem; }
+.site-footer a { color:var(--ft-body); text-decoration:none; }
+.site-footer a:hover { color:var(--ft-signal-ink); }
+@media (max-width:640px) { .site-footer__inner { flex-direction:column; gap:var(--ft-space-lg); } }
+
+/* 12 · reduzierte Bewegung */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+
+/* ============================================================
+   ░░ SEITEN-SPEZIFISCH — Methoden-Wiki ░░
+   Nur was das Shared-System nicht abdeckt: Skip-Link, Sprung-/
+   Filter-Leiste, Karten-Raster + Mini-Diagramm-Bühne. Header,
+   Nav, Buttons, Felder, Typo, Footer, Reset kommen aus oben.
+   ============================================================ */
+
+a:hover { text-decoration: underline; }
+
+/* Skip-Link */
+.skip-link {
+  position: absolute; left: -999px; top: 8px; z-index: 100;
+  background: var(--ft-signal); color: var(--ft-on-signal);
+  padding: var(--ft-space-sm) var(--ft-space-md);
+  border-radius: var(--ft-radius-md); font-weight: 700;
+}
+.skip-link:focus { left: 8px; }
+
+/* ============================================================
+   Hero / Intro — Vertikal-Rhythmus kommt aus .section--lead (Shared §2).
+   Die Sektion ist die Lead-Sektion; der Titel nutzt die Display-Stufe.
+   ============================================================ */
+.intro .sec-head { align-items: flex-start; }
+.intro__title {
+  font-family: var(--ft-font-display); font-weight: 700;
+  font-size: clamp(2.25rem, 6vw, var(--ft-text-display));
+  line-height: var(--ft-lh-h1); color: var(--ft-ink);
+  letter-spacing: -0.02em; margin: var(--ft-space-xs) 0 var(--ft-space-md);
+  max-width: 18ch;
+}
+.intro__title .accent { color: var(--ft-signal); }
+.intro__lead {
+  font-size: 1.1rem; line-height: 1.6; color: var(--ft-body);
+  max-width: 64ch; margin: 0;
+}
+.intro__lead strong { color: var(--ft-ink); font-weight: 600; }
+.intro__hint {
+  margin-top: var(--ft-space-md);
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-muted);
+}
+
+/* ============================================================
+   Filter / Sprung-Navigation
+   ============================================================ */
+.jumpbar {
+  position: sticky; top: var(--ft-header-h); z-index: 30;
+  background: color-mix(in srgb, var(--ft-bg) 90%, transparent);
+  backdrop-filter: blur(10px);
+  border-top: var(--ft-border); border-bottom: var(--ft-border);
+  padding: var(--ft-space-sm) 0;
+  margin-bottom: var(--ft-space-lg);
+}
+.jumpbar__row {
+  display: flex; align-items: center; gap: var(--ft-space-sm);
+  flex-wrap: wrap;
+}
+.jumpbar__label {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  text-transform: uppercase; letter-spacing: var(--ft-tracking-eyebrow);
+  color: var(--ft-muted); margin-right: var(--ft-space-2xs);
+}
+/* Filterfeld = .field (Shared §6) + nur Layout-Modifier */
+.field--filter { flex: 1 1 220px; min-width: 180px; font-size: var(--ft-text-caption); padding: var(--ft-space-xs) var(--ft-space-sm); }
+.jumpchips {
+  display: flex; gap: var(--ft-space-2xs); flex-wrap: wrap;
+}
+.jumpchip {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-body); background: var(--ft-surface);
+  border: var(--ft-border); border-radius: var(--ft-radius-pill);
+  padding: 3px var(--ft-space-sm); text-decoration: none; cursor: pointer;
+  transition: border-color var(--ft-dur-fast) var(--ft-ease-smooth),
+              color var(--ft-dur-fast) var(--ft-ease-smooth),
+              background var(--ft-dur-fast) var(--ft-ease-smooth);
+}
+.jumpchip:hover { border-color: var(--ft-signal); color: var(--ft-ink); text-decoration: none; }
+.jumpchip__num {
+  color: var(--ft-muted); margin-right: var(--ft-space-2xs);
+}
+.filter-empty {
+  display: none;
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-warning); padding: var(--ft-space-lg) 0;
+}
+.filter-empty.is-shown { display: block; }
+
+/* ============================================================
+   Karten-Raster
+   ============================================================ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--ft-space-lg);
+  padding-bottom: var(--ft-space-2xl);
+}
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; gap: var(--ft-space-md); }
+}
+
+.card {
+  position: relative;
+  display: flex; flex-direction: column;
+  background: var(--ft-surface);
+  border: var(--ft-border);
+  border-radius: var(--ft-radius-card);
+  box-shadow: var(--ft-shadow-card);
+  padding: var(--ft-space-md);
+  transform: rotate(var(--ft-tilt-rest));
+  transition: transform var(--ft-dur-base) var(--ft-ease-pop),
+              box-shadow var(--ft-dur-base) var(--ft-ease-smooth),
+              border-color var(--ft-dur-fast) var(--ft-ease-smooth);
+  scroll-margin-top: 120px;
+}
+.card:nth-child(even) {
+  border-radius: var(--ft-radius-card-alt);
+  transform: rotate(calc(var(--ft-tilt-rest) * -1));
+}
+.card:hover, .card:focus-within {
+  border-color: var(--ft-signal);
+  box-shadow: var(--ft-glow-signal), var(--ft-shadow-lift);
+  transform: rotate(0deg);
+}
+.card:target {
+  border-color: var(--ft-ultra);
+  box-shadow: var(--ft-glow-ultra), var(--ft-shadow-lift);
+}
+.card.is-hidden { display: none; }
+
+.card__head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--ft-space-sm); margin-bottom: var(--ft-space-sm);
+}
+.card__num {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-muted); letter-spacing: 0.06em;
+  flex-shrink: 0; padding-top: 2px;
+}
+.card__title {
+  font-family: var(--ft-font-display); font-weight: 700;
+  font-size: var(--ft-text-h3); line-height: var(--ft-lh-h3);
+  color: var(--ft-ink); margin: 0;
+}
+.card__title .alt {
+  display: block; font-family: var(--ft-font-mono); font-weight: 400;
+  font-size: var(--ft-text-caption); color: var(--ft-muted);
+  text-transform: none; letter-spacing: 0; margin-top: 2px;
+}
+
+/* Mini-Diagramm-Bühne */
+.diagram {
+  background: color-mix(in srgb, var(--ft-bg) 60%, var(--ft-surface));
+  border: var(--ft-border);
+  border-radius: var(--ft-radius-sm);
+  padding: var(--ft-space-sm);
+  margin-bottom: var(--ft-space-sm);
+  display: flex; align-items: center; justify-content: center;
+}
+.diagram svg { display: block; width: 100%; height: auto; max-height: 120px; }
+.dg-line   { stroke: var(--ft-line); stroke-width: 1; fill: none; }
+.dg-signal { stroke: var(--ft-signal); }
+.dg-flare  { stroke: var(--ft-flare); }
+.dg-ultra  { stroke: var(--ft-ultra); }
+.dg-fill-s { fill: var(--ft-signal); }
+.dg-fill-f { fill: var(--ft-flare); }
+.dg-fill-u { fill: var(--ft-ultra); }
+.dg-fill-m { fill: var(--ft-muted); }
+.dg-fill-surf { fill: var(--ft-surface-2); }
+.dg-label  { font-family: var(--ft-font-mono); font-size: 7px; fill: var(--ft-muted); }
+.dg-label-ink { fill: var(--ft-body); }
+
+.card__body {
+  font-size: 0.95rem; line-height: 1.6; color: var(--ft-body);
+  margin: 0 0 var(--ft-space-sm);
+}
+.card__body em { color: var(--ft-ink); font-style: italic; }
+
+.card__example {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-mono);
+  line-height: var(--ft-lh-mono); color: var(--ft-body);
+  background: color-mix(in srgb, var(--ft-bg) 50%, var(--ft-surface));
+  border-left: 2px solid var(--ft-flare);
+  border-radius: 0 var(--ft-radius-sm) var(--ft-radius-sm) 0;
+  padding: var(--ft-space-sm); margin-top: auto;
+}
+.card__example .lbl {
+  display: block; color: var(--ft-flare); font-size: var(--ft-text-caption);
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px;
+}
+[data-theme="light"] .card__example .lbl { color: var(--ft-flare-ink, var(--ft-flare)); }
+
+/* ============================================================
+   Footer — Grundgerüst aus Shared-System (§11). Hier nur die
+   seitenspezifischen Inhalts-Elemente.
+   ============================================================ */
+.site-footer p { margin: 0 0 var(--ft-space-xs); font-size: 0.9rem; }
+.site-footer .foot-note { font-family: var(--ft-font-mono); font-size: var(--ft-text-caption); color: var(--ft-muted); max-width: 60ch; }
+.footnav { display: flex; gap: var(--ft-space-md); flex-wrap: wrap; }
+.footnav a { font-family: var(--ft-font-mono); font-size: var(--ft-text-caption); color: var(--ft-body); }
+
+.totop {
+  display: inline-block; margin-top: var(--ft-space-md);
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-signal-ink);
+}
+
+/* ============================================================
+   prefers-reduced-motion — Tilt + Animation aus
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  html { scroll-behavior: auto; }
+  .card, .card:nth-child(even) { transform: none !important; }
+  .card:hover, .card:focus-within { transform: none !important; }
+}
+
+/* ============================================================
+   ░░ MOBILE-SCHICHT v9 — ADDITIV, nur ≤720px / ≤480px ░░
+   Quelle: Dieter (v9-mobile-ux.md, Fix 1+4) + Iris (v9-mobile-css.md).
+   Hängt NACH allem oben → gewinnt nur innerhalb der Media-Queries.
+   Desktop (>720px) bleibt unverändert: kein Selektor greift dort.
+   Nur vorhandene --ft-* Tokens, keine neue Palette.
+   ============================================================ */
+
+/* Overflow-Hardening — gilt immer (kein horizontaler Scroll an der Wurzel). */
+html, body { max-width: 100%; overflow-x: hidden; }
+img, svg, video, canvas, iframe { max-width: 100%; }
+
+/* Jump-Toggle: global aus → nur in der ≤720px-Query sichtbar (Desktop = Chips offen). */
+.jump-toggle { display: none; }
+
+/* ------------------------------------------------------------
+   A · ≤720px — Haupt-Umbruch (Reflow auf 1 Spalte)
+   ------------------------------------------------------------ */
+@media (max-width: 720px) {
+
+  /* 1 · Typo-/Spacing-Takt straffen (re-belegt nur vorhandene Tokens, lokal) */
+  :root {
+    --ft-text-display: clamp(2rem, 9vw, 3rem);
+    --ft-space-xl:     40px;   /* Section-Rhythmus straffen */
+  }
+
+  /* 2 · Karten-Raster → 1 Spalte (war auto-fill minmax(340px,…)) */
+  .grid { grid-template-columns: 1fr; gap: var(--ft-space-md); }
+
+  /* 3 · Felder full-width & ≥16px (sperrt iOS-Auto-Zoom), Touch-Höhe */
+  .field, select.field, textarea.field {
+    width: 100%; font-size: 16px; min-height: 48px;
+    padding: var(--ft-space-sm) var(--ft-space-md);
+  }
+  textarea.field { min-height: 8rem; line-height: 1.55; }
+  .field-label   { font-size: 1rem; }
+  .btn, .nav-cta { min-height: 44px; }
+
+  /* 4 · Filter-/Sprung-Leiste mobil ----------------------------------- */
+  .jumpbar__row { align-items: stretch; }
+  .jumpbar__label { width: 100%; }
+  /* Filterfeld immer sichtbar, full-width, lesbar (16px-Floor schlägt §6) */
+  .field--filter {
+    flex: 1 1 100%; min-width: 0; width: 100%; font-size: 16px;
+    padding: var(--ft-space-sm) var(--ft-space-md);
+  }
+
+  /* Toggle einblenden — Touch-Target ≥44px, full-width, klares Auf/Zu */
+  .jump-toggle {
+    display: inline-flex; align-items: center; justify-content: space-between;
+    gap: var(--ft-space-xs);
+    width: 100%; min-height: 44px;
+    background: var(--ft-surface); border: var(--ft-border);
+    border-radius: var(--ft-radius-md); color: var(--ft-ink);
+    font-family: var(--ft-font-mono); font-size: 0.9rem;
+    text-transform: lowercase; letter-spacing: 0.02em;
+    padding: var(--ft-space-xs) var(--ft-space-md); cursor: pointer;
+    transition: border-color var(--ft-dur-fast) var(--ft-ease-smooth),
+                color var(--ft-dur-fast) var(--ft-ease-smooth);
+  }
+  .jump-toggle:hover { border-color: var(--ft-signal); }
+  .jump-toggle__caret { transition: transform var(--ft-dur-fast) var(--ft-ease-smooth); }
+  .jump-toggle[aria-expanded="true"] .jump-toggle__caret { transform: rotate(180deg); }
+
+  /* Chips: Default ZU. Offen = aufgeklappt, gedeckelt + intern scrollbar,
+     verdeckt NIE den halben Screen. */
+  .jumpchips { display: none; }
+  .jumpchips.is-open {
+    display: flex; flex-wrap: wrap; width: 100%;
+    margin-top: var(--ft-space-sm);
+    max-height: 42vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    padding: var(--ft-space-xs); gap: var(--ft-space-xs);
+    background: var(--ft-surface); border: var(--ft-border);
+    border-radius: var(--ft-radius-md);
+  }
+  /* Chips auf Touch-Höhe, dürfen umbrechen statt horizontal zu scrollen */
+  .jumpchip {
+    min-height: 40px; display: inline-flex; align-items: center;
+    white-space: normal;
+    padding: var(--ft-space-xs) var(--ft-space-sm);
+  }
+
+  /* 5 · Touch-Targets durchgängig ≥44px */
+  .nav-toggle      { width: 44px; height: 44px; }
+  .nav-sheet__close{ width: 44px; height: 44px; }
+  .mode-toggle     { min-height: 44px; }
+  input[type="range"].field-range {
+    height: 44px; background-clip: content-box; padding-block: 19px;
+  }
+
+  /* 6 · Drawer → Bottom-Sheet (harmlos: methoden.html hat aktuell keinen
+        .drawer, greift nur falls je einer ergänzt wird) */
+  .drawer {
+    top: auto; left: 0; right: 0; bottom: 0;
+    width: 100vw; max-width: 100vw; height: 90vh; max-height: 90vh;
+    border-left: none; border-top: var(--ft-border);
+    border-radius: var(--ft-radius-card) var(--ft-radius-card) 0 0;
+    transform: translateY(100%);
+  }
+  .drawer.show, .drawer.is-open { transform: translateY(0); }
+  .drawer__bar { position: sticky; top: 0; }
+
+  /* 7 · Keine horizontalen Overflows — gezielte Umbrüche */
+  .sec-head        { flex-wrap: wrap; }
+  .sec-head__meta  { white-space: normal; }
+  .chip            { white-space: normal; }
+  .diagram svg     { max-width: 100%; }
+}
+
+/* ------------------------------------------------------------
+   B · ≤480px — kleines Phone, weitere Verdichtung
+   ------------------------------------------------------------ */
+@media (max-width: 480px) {
+  :root { --ft-space-xl: 32px; }   /* Section-Takt = Desktop-lg */
+  /* .grid ist hier bereits via bestehender 480px-Regel 1-spaltig — bestätigt. */
+}
+
+/* ============================================================
+   ░░ MOBILE-SCHICHT v10 — ADDITIV, nur ≤760px / ≤720px ░░
+   Quelle: Dieter (v10-ia-mobile.md, Teil 2 + Teil 3.2) +
+   Iris (v10-visual.md, §2 + §3b). Hängt NACH allem oben.
+   Zwei Themen auf dieser Seite:
+     (2) MENÜ VON ÜBERALL — identische Lösung wie index.html:
+         Header-Portrait-Fix + Floating-Menü-Button (öffnet DASSELBE
+         Nav-Sheet via data-nav-toggle), Portrait-tauglich.
+     (3.2) MINI-BEISPIELE mobil default ausblenden, per Toggle
+         „Mini-Beispiel zeigen" einblendbar. Desktop unverändert.
+   Nur vorhandene --ft-* Tokens, keine neue Palette.
+   ============================================================ */
+
+/* --- 2 · Menü von überall (gleiche Lösung wie index.html) ------------ */
+/* 2B · Sticky-Header gegen iOS-URL-Bar härten (safe-area). */
+.site-header { top: 0; padding-top: env(safe-area-inset-top, 0); }
+
+/* 2C · Floating-Menü-Button (Default verborgen; mobil nach 1 Viewport sichtbar). */
+.floating-menu { display: none; }
+
+@media (max-width: 760px) {
+  /* 2A · Header-Portrait-Fix (die Ursache): CTA aus der Header-Zeile nehmen,
+     Hamburger als ≥44px-Solitär ganz rechts garantieren. */
+  .header-actions { gap: var(--ft-space-xs); flex: none; }
+  .nav-cta { display: none; }              /* CTA lebt im Sheet weiter (dort Block-Primär) */
+  .nav-toggle { display: inline-flex; width: 44px; height: 44px; flex: none; order: 99; }
+  .mode-toggle { min-height: 44px; }
+  .site-header__inner { gap: var(--ft-space-sm); }
+
+  .floating-menu {
+    position: fixed; right: var(--ft-space-md);
+    bottom: calc(var(--ft-space-md) + env(safe-area-inset-bottom, 0));
+    z-index: 50; display: none; align-items: center; gap: var(--ft-space-xs);
+    min-height: 48px; padding: 0 var(--ft-space-md);
+    background: var(--ft-surface); color: var(--ft-ink);
+    border: var(--ft-border); border-left: 3px solid var(--ft-signal);
+    border-radius: var(--ft-radius-pill); box-shadow: var(--ft-shadow-lift);
+    font-family: var(--ft-font-mono); font-size: 0.8rem; cursor: pointer;
+  }
+  .floating-menu.is-visible { display: inline-flex; }
+  .floating-menu .nav-toggle__bars { width: 16px; }
+  .floating-menu .nav-toggle__bars span { display: block; height: 2px; background: currentColor; border-radius: 2px; }
+}
+
+/* --- 3.2 · Mini-Beispiele mobil ausblenden (per Toggle einblendbar) -- */
+/* Desktop: Toggle nie sichtbar, Beispiel immer offen (unverändert). */
+.example-toggle { display: none; }
+
+@media (max-width: 720px) {
+  /* Beispiel default ZU; nur mit .is-shown sichtbar. */
+  .card__example { display: none; }
+  .card__example.is-shown { display: block; }
+
+  /* Injizierter Toggle vor jedem .card__example. */
+  .example-toggle {
+    display: inline-flex; align-items: center; gap: var(--ft-space-xs);
+    min-height: 40px; margin-top: auto;
+    background: transparent; border: none; padding: 0;
+    color: var(--ft-flare); font-family: var(--ft-font-mono);
+    font-size: var(--ft-text-caption); text-transform: uppercase;
+    letter-spacing: 0.06em; cursor: pointer;
+  }
+  [data-theme="light"] .example-toggle { color: var(--ft-flare-ink, var(--ft-flare)); }
+  .example-toggle__caret { transition: transform var(--ft-dur-fast) var(--ft-ease-smooth); }
+  .example-toggle[aria-expanded="true"] .example-toggle__caret { transform: rotate(180deg); }
+  /* wenn Beispiel offen ist, verliert es das margin-top:auto des Toggles nicht — bleibt unten angedockt */
+  .card__example.is-shown { margin-top: var(--ft-space-sm); }
+}
+
+/* --- 4 · Overflow-Riegel für die neue Komponente -------------------- */
+.floating-menu { max-width: 100vw; }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+<!-- ============================================================
+     KANONISCHER HEADER — 1:1 aus _spec-v3/_shared-header.html.
+     Aktiver Menüpunkt dieser Seite: "methoden" (aria-current="page")
+     in Header UND Sheet. Sonst byte-gleich auf jeder Seite.
+     ============================================================ -->
+<header class="site-header">
+  <div class="wrap site-header__inner">
+
+    <!-- Marke: Heimweg-Geste (R4). Punkt in --ft-signal. -->
+    <a class="brand" href="index.html#screen-archiv" aria-label="futures·thinking — zur Startseite">
+      <span class="brand__word">futures<span class="brand__dot">·</span>thinking</span>
+      <span class="brand__claim">wir denken zukünfte</span>
+    </a>
+
+    <!-- Primär-Nav: EXAKTE Reihenfolge/Benennung, byte-gleich überall.
+         karte · zukünft:innen · methoden · einreichen -->
+    <nav class="topnav" aria-label="Hauptnavigation">
+      <a href="index.html#screen-archiv">karte</a>
+      <span class="nav-sep" aria-hidden="true">·</span>
+      <a href="index.html#oracle">zukünft:innen</a>
+      <span class="nav-sep" aria-hidden="true">·</span>
+      <a href="methoden.html" aria-current="page">methoden</a>
+      <span class="nav-sep" aria-hidden="true">·</span>
+      <a href="einreichen.html">einreichen</a>
+    </nav>
+
+    <!-- Rechte Aktionszone: CTA + Modus-Toggle (abgesetzt von der Nav, R/L7) -->
+    <div class="header-actions">
+      <a class="btn btn--primary nav-cta" href="einreichen.html">fund bergen</a>
+      <button type="button" class="mode-toggle" data-mode-toggle
+              aria-label="Hell-/Dunkelmodus umschalten" title="modus umschalten">
+        <span class="mode-toggle__glyph" aria-hidden="true">◐</span>
+        <span class="mode-toggle__label">modus</span>
+      </button>
+
+      <!-- Mobil-Hamburger: öffnet das Nav-Sheet. Nav verschwindet nie ersatzlos (L8). -->
+      <button type="button" class="nav-toggle" data-nav-toggle
+              aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-sheet">
+        <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobil-Sheet: dieselben vier Punkte, groß tippbar, + CTA. Fährt von oben ein. -->
+<div class="nav-sheet" id="nav-sheet" data-nav-sheet hidden>
+  <div class="nav-sheet__scrim" data-nav-close></div>
+  <div class="nav-sheet__panel" role="dialog" aria-modal="true" aria-label="Navigation">
+    <div class="nav-sheet__bar">
+      <span class="brand__word brand__word--sheet">futures<span class="brand__dot">·</span>thinking</span>
+      <button type="button" class="nav-sheet__close" data-nav-close aria-label="Menü schließen">✕</button>
+    </div>
+    <nav class="nav-sheet__nav" aria-label="Hauptnavigation (mobil)">
+      <a href="index.html#screen-archiv">karte</a>
+      <a href="index.html#oracle">zukünft:innen</a>
+      <a href="methoden.html" aria-current="page">methoden</a>
+      <a href="einreichen.html">einreichen</a>
+    </nav>
+    <a class="btn btn--primary btn--block nav-sheet__cta" href="einreichen.html">fund bergen</a>
+  </div>
+</div>
+
+<!-- Header-Verhalten (Sheet öffnen/schließen + Modus-Toggle), idempotent, reines Verhalten.
+     v10: in DOM-ready gewickelt, damit AUCH der nach </main> platzierte
+     Floating-Menü-Button (data-nav-toggle / #floatingMenu) beim Binden schon
+     existiert — sonst griffe sein Klick + sein Scroll-Listener nicht. -->
+<script>
+(function () {
+  function initHeader() {
+  var sheet   = document.querySelector('[data-nav-sheet]');
+  /* v10: ALLE Toggler (Header-Hamburger + Floating-Menü-Button) öffnen DAS EINE Sheet.
+     querySelectorAll statt querySelector — sonst greift der Floating-Button nicht. */
+  var toggles = [].slice.call(document.querySelectorAll('[data-nav-toggle]'));
+  if (sheet && toggles.length) {
+    var setExpanded = function (v) {
+      toggles.forEach(function (t) { t.setAttribute('aria-expanded', v ? 'true' : 'false'); });
+    };
+    var open = function () {
+      sheet.hidden = false;
+      requestAnimationFrame(function () { sheet.classList.add('is-open'); });
+      setExpanded(true);
+      document.documentElement.classList.add('nav-locked');
+    };
+    var close = function () {
+      sheet.classList.remove('is-open');
+      setExpanded(false);
+      document.documentElement.classList.remove('nav-locked');
+      window.setTimeout(function () { sheet.hidden = true; }, 260);
+    };
+    toggles.forEach(function (t) { t.addEventListener('click', open); });
+    [].forEach.call(sheet.querySelectorAll('[data-nav-close]'), function (el) {
+      el.addEventListener('click', close);
+    });
+    [].forEach.call(sheet.querySelectorAll('.nav-sheet__nav a'), function (a) {
+      a.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !sheet.hidden) close();
+    });
+
+    /* v10: Floating-Menü-Button erst nach ~1 Viewport Scroll einblenden (mobil).
+       Nutzt CSS @media(max-width:760px) für die tatsächliche Sichtbarkeit. */
+    var fab = document.getElementById('floatingMenu');
+    if (fab) {
+      var onScroll = function () {
+        if (window.scrollY > window.innerHeight * 0.9) fab.classList.add('is-visible');
+        else fab.classList.remove('is-visible');
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+  }
+  // Modus-Toggle: schaltet [data-theme] hart um (überschreibt prefers-color-scheme).
+  var modeBtn = document.querySelector('[data-mode-toggle]');
+  if (modeBtn) {
+    modeBtn.addEventListener('click', function () {
+      var root = document.documentElement;
+      var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+    });
+  }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeader);
+  } else {
+    initHeader();
+  }
+})();
+</script>
+
+<main id="main">
+
+  <!-- ============================ INTRO (Lead-Sektion) ============================ -->
+  <section class="section section--lead intro" aria-labelledby="introTitle">
+    <div class="wrap">
+      <header class="sec-head">
+        <div class="sec-head__titles">
+          <p class="sec-head__eyebrow">methoden-wiki · futures thinking</p>
+          <h1 class="intro__title" id="introTitle">Die Werkzeuge,<br>mit denen man <span class="accent">Zukünfte denkt</span>.</h1>
+        </div>
+        <p class="sec-head__meta">17 methoden</p>
+      </header>
+      <p class="intro__lead">
+        Eine kompakte Landkarte der wichtigsten Methoden der Zukunftsforschung und des Futures Thinking.
+        Jede Karte steht für sich: ein Name, drei bis vier Sätze, ein Mini-Beispiel, wo es hilft eine kleine Grafik.
+        <strong>Gedacht zum Stöbern, nicht zum Durchlesen.</strong>
+      </p>
+      <p class="intro__hint">17 Methoden · filtern oder direkt anspringen ↓</p>
+    </div>
+  </section>
+
+  <!-- ====================== FILTER / SPRUNGNAV ====================== -->
+  <nav class="jumpbar" aria-label="Methoden filtern und anspringen">
+    <div class="wrap">
+      <div class="jumpbar__row">
+        <span class="jumpbar__label">finden</span>
+        <input class="field field--filter" id="filter" type="search" placeholder="Methode tippen … (z. B. szenario, eisberg, kegel)" aria-label="Methoden nach Name oder Stichwort filtern" autocomplete="off">
+      </div>
+      <div class="jumpbar__row jumpbar__row--jump" style="margin-top:var(--ft-space-sm)">
+        <span class="jumpbar__label">springen</span>
+        <!-- NEU: kollabierbares Sprung-Menü, nur ≤720px sichtbar; Default ZU. -->
+        <button type="button" class="jump-toggle" id="jumpToggle"
+                aria-expanded="false" aria-controls="jumpchips">
+          <span class="jump-toggle__text">methoden</span>
+          <span class="jump-toggle__caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="jumpchips" id="jumpchips" role="list"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <p class="filter-empty" id="filterEmpty" role="status">Keine Methode passt zu diesem Suchbegriff. Anders schreiben oder Filter leeren.</p>
+
+    <!-- ============================ GRID ============================ -->
+    <section class="grid" id="grid" aria-label="Methoden-Karten">
+
+      <!-- 01 — Futures Literacy -->
+      <article class="card" id="futures-literacy" data-name="Futures Literacy erwartung hoffnung wahrnehmen unesco riel miller annahmen lab">
+        <div class="card__head">
+          <h2 class="card__title">Futures Literacy</h2>
+          <span class="card__num">01 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Drei Brillen: dasselbe Heute, drei Blicke -->
+          <svg viewBox="0 0 200 90" role="img">
+            <circle cx="100" cy="78" r="5" class="dg-fill-m"/>
+            <text x="100" y="88" text-anchor="middle" class="dg-label">heute</text>
+            <g class="dg-line dg-signal"><circle cx="40" cy="34" r="13" fill="none" stroke-width="2"/></g>
+            <g class="dg-line dg-flare"><circle cx="100" cy="28" r="13" fill="none" stroke-width="2"/></g>
+            <g class="dg-line dg-ultra"><circle cx="160" cy="34" r="13" fill="none" stroke-width="2"/></g>
+            <line x1="49" y1="42" x2="95" y2="73" class="dg-line dg-signal" stroke-dasharray="3,3"/>
+            <line x1="100" y1="41" x2="100" y2="73" class="dg-line dg-flare" stroke-dasharray="3,3"/>
+            <line x1="151" y1="42" x2="105" y2="73" class="dg-line dg-ultra" stroke-dasharray="3,3"/>
+            <text x="40" y="14" text-anchor="middle" class="dg-label">erwartet</text>
+            <text x="100" y="8" text-anchor="middle" class="dg-label">gewünscht</text>
+            <text x="160" y="14" text-anchor="middle" class="dg-label">alternativ</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Die von der UNESCO und Riel Miller geprägte Fähigkeit, Zukunft bewusst und auf verschiedene Weisen zu <em>nutzen</em> — als Erwartung, als Hoffnung, als Werkzeug zum Wahrnehmen der Gegenwart. Es geht nicht darum, <em>die</em> Zukunft vorherzusagen, sondern darum, die eigenen Annahmen über Zukunft sichtbar und veränderbar zu machen. Wer „futures literate" ist, erkennt, dass jedes Bild der Zukunft eine Wahl ist.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          In einem „Futures Literacy Lab" sammelt eine Gruppe zuerst ihre wahrscheinliche, dann ihre wünschenswerte und schließlich eine völlig fremde Zukunft — und entdeckt, wie sehr Gegenwartsentscheidungen von der ersten geprägt sind.
+        </p>
+      </article>
+
+      <!-- 02 — Futures Cone -->
+      <article class="card" id="futures-cone" data-name="Futures Cone Zukunftskegel joseph voros possible plausible probable preferable trichter mobilität">
+        <div class="card__head">
+          <h2 class="card__title">Futures Cone<span class="alt">Zukunftskegel</span></h2>
+          <span class="card__num">02 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Trichter mit gestaffelten Schalen -->
+          <svg viewBox="0 0 200 90" role="img">
+            <circle cx="14" cy="45" r="4" class="dg-fill-m"/>
+            <path d="M14 45 L186 8 L186 82 Z" class="dg-line" fill="none" stroke-width="1.5"/>
+            <path d="M14 45 L186 24 L186 66 Z" class="dg-line dg-signal" fill="none" stroke-width="1.5"/>
+            <path d="M14 45 L186 38 L186 52 Z" class="dg-line dg-flare" fill="none" stroke-width="1.5"/>
+            <text x="180" y="14" text-anchor="end" class="dg-label">possible</text>
+            <text x="180" y="30" text-anchor="end" class="dg-label">plausible</text>
+            <text x="180" y="48" text-anchor="end" class="dg-label dg-label-ink">probable</text>
+            <text x="180" y="78" text-anchor="end" class="dg-label">preferable</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Joseph Voros' Diagramm, das von der Gegenwart aus wie ein Trichter in die Zukunft öffnet und mögliche Zukünfte nach ihrer Plausibilität staffelt: <em>possible</em> (alles Denkbare), <em>plausible</em> (was sein könnte), <em>probable</em> (was vermutlich kommt) und <em>preferable</em> (was wir wollen). Es macht anschaulich, dass die wahrscheinliche Zukunft nur ein schmaler Ausschnitt aller möglichen ist. So entzieht der Kegel der „Es kommt sowieso, wie es kommt"-Haltung den Boden.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Ein Team zeichnet zur Mobilität 2040 den Kegel und merkt, dass es bisher nur über die „probable"-Zone diskutiert hat — der wünschenswerte Korridor lag außerhalb des eigenen Denkens.
+        </p>
+      </article>
+
+      <!-- 03 — Szenariotechnik -->
+      <article class="card" id="szenariotechnik" data-name="Szenariotechnik Scenario Planning shell vier felder kreuz unsicher achsenkreuz stadt klima">
+        <div class="card__head">
+          <h2 class="card__title">Szenariotechnik<span class="alt">Scenario Planning</span></h2>
+          <span class="card__num">03 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- 2x2 Achsenkreuz -->
+          <svg viewBox="0 0 200 90" role="img">
+            <line x1="100" y1="6" x2="100" y2="84" class="dg-line" stroke-width="1.5"/>
+            <line x1="16" y1="45" x2="184" y2="45" class="dg-line" stroke-width="1.5"/>
+            <rect x="22" y="12" width="70" height="26" rx="3" class="dg-fill-surf"/>
+            <rect x="108" y="12" width="70" height="26" rx="3" class="dg-fill-surf"/>
+            <rect x="22" y="52" width="70" height="26" rx="3" class="dg-fill-surf"/>
+            <rect x="108" y="52" width="70" height="26" rx="3" class="dg-fill-surf"/>
+            <text x="57" y="28" text-anchor="middle" class="dg-label dg-label-ink">Welt A</text>
+            <text x="143" y="28" text-anchor="middle" class="dg-label dg-label-ink">Welt B</text>
+            <text x="57" y="68" text-anchor="middle" class="dg-label dg-label-ink">Welt C</text>
+            <text x="143" y="68" text-anchor="middle" class="dg-label dg-label-ink">Welt D</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Die bei Shell groß gewordene Methode, mehrere in sich stimmige, kontrastierende Zukunftsbilder zu entwickeln, statt eine einzelne Prognose zu wagen. Meist spannt man aus zwei besonders unsicheren, besonders wirkmächtigen Faktoren ein Vier-Felder-Kreuz auf und beschreibt für jedes Feld eine eigene Welt. Szenarien sind keine Vorhersagen, sondern Denkwerkzeuge: Sie machen Strategien robuster, indem sie an mehreren möglichen Zukünften getestet werden.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Eine Stadt kreuzt „Energie zentral vs. dezentral" mit „Vertrauen in Institutionen hoch vs. niedrig" und erhält vier Stadt-Welten 2040, gegen die sie ihren Klimaplan prüft.
+        </p>
+      </article>
+
+      <!-- 04 — Causal Layered Analysis -->
+      <article class="card" id="cla" data-name="Causal Layered Analysis CLA sohail inayatullah litanei systemisch weltbild mythos metapher eisberg stau">
+        <div class="card__head">
+          <h2 class="card__title">Causal Layered Analysis<span class="alt">CLA</span></h2>
+          <span class="card__num">04 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Eisberg in vier Schichten -->
+          <svg viewBox="0 0 200 90" role="img">
+            <line x1="10" y1="24" x2="190" y2="24" class="dg-line dg-info" stroke-dasharray="4,3"/>
+            <polygon points="100,6 122,24 78,24" class="dg-fill-s"/>
+            <polygon points="78,24 122,24 134,46 66,46" class="dg-fill-surf"/>
+            <polygon points="66,46 134,46 148,68 52,68" class="dg-fill-surf" opacity="0.8"/>
+            <polygon points="52,68 148,68 162,86 38,86" class="dg-fill-u" opacity="0.85"/>
+            <text x="140" y="16" class="dg-label">Litanei</text>
+            <text x="148" y="38" class="dg-label">System</text>
+            <text x="156" y="60" class="dg-label">Weltbild</text>
+            <text x="166" y="80" class="dg-label">Mythos</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Sohail Inayatullahs Methode, eine Zukunftsfrage in vier Tiefenschichten zu zerlegen: die <em>Litanei</em> (offizielle Schlagzeilen, Zahlen), die <em>systemischen Ursachen</em> (Strukturen, Politik, Ökonomie), die <em>Weltbilder</em> (Annahmen, Ideologien) und die <em>Mythen/Metaphern</em> (tiefe Bilder und Geschichten). Lösungen, die nur an der Litanei ansetzen, bleiben oberflächlich; echte Transformation berührt auch Weltbild und Mythos.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Zum Thema „Stau" zeigt CLA, dass unter der Litanei „zu wenig Straßen" das Weltbild „Mobilität = Auto" und der Mythos „Freiheit auf vier Rädern" liegen — und genau dort muss man ansetzen.
+        </p>
+      </article>
+
+      <!-- 05 — Three Horizons -->
+      <article class="card" id="three-horizons" data-name="Three Horizons Drei Horizonte bill sharpe H1 H2 H3 s-kurve übergang schule frontalunterricht">
+        <div class="card__head">
+          <h2 class="card__title">Three Horizons<span class="alt">Drei Horizonte</span></h2>
+          <span class="card__num">05 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Drei S-Kurven -->
+          <svg viewBox="0 0 200 90" role="img">
+            <line x1="10" y1="80" x2="190" y2="80" class="dg-line" stroke-width="1"/>
+            <path d="M10 18 C 60 22, 90 60, 188 80" class="dg-line dg-flare" fill="none" stroke-width="2"/>
+            <path d="M10 78 C 70 70, 110 30, 188 22" class="dg-line dg-signal" fill="none" stroke-width="2"/>
+            <path d="M10 80 C 70 78, 100 30, 130 32 C 160 34, 175 70, 188 78" class="dg-line dg-ultra" fill="none" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <text x="30" y="14" class="dg-label">H1</text>
+            <text x="170" y="16" class="dg-label">H3</text>
+            <text x="118" y="26" class="dg-label">H2</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Ein von Bill Sharpe popularisiertes Modell, das Wandel über drei sich überlappende Kurven denkt: H1 (das auslaufende heutige System), H3 (das aufkommende, gewünschte Zukunftssystem) und H2 (die turbulente Übergangszone der Innovationen und Konflikte dazwischen). Es hilft, Gegenwart und Zukunft <em>gleichzeitig</em> im Blick zu halten und einzuordnen, welche Aktivität welchem Horizont dient.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Eine Schule erkennt, dass ihr Frontalunterricht zu H1 gehört, projektbasiertes Lernen die H3-Vision ist — und Pilotklassen die H2-Brücke bilden.
+        </p>
+      </article>
+
+      <!-- 06 — Backcasting -->
+      <article class="card" id="backcasting" data-name="Backcasting rückwärts zielzustand meilenstein weichen klimaneutral region zeitstrahl">
+        <div class="card__head">
+          <h2 class="card__title">Backcasting</h2>
+          <span class="card__num">06 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Zeitstrahl, Pfeile von rechts nach links -->
+          <svg viewBox="0 0 200 90" role="img">
+            <line x1="14" y1="50" x2="186" y2="50" class="dg-line" stroke-width="1.5"/>
+            <circle cx="30" cy="50" r="4" class="dg-fill-m"/>
+            <circle cx="80" cy="50" r="4" class="dg-fill-s"/>
+            <circle cx="130" cy="50" r="4" class="dg-fill-s"/>
+            <circle cx="178" cy="50" r="6" class="dg-fill-f"/>
+            <path d="M150 30 L120 30" class="dg-line dg-signal" stroke-width="2" marker-end="url(#bk-arrow)"/>
+            <path d="M100 30 L70 30" class="dg-line dg-signal" stroke-width="2" marker-end="url(#bk-arrow)"/>
+            <path d="M55 30 L35 30" class="dg-line dg-signal" stroke-width="2" marker-end="url(#bk-arrow)"/>
+            <defs>
+              <marker id="bk-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <polygon points="0 0, 7 3, 0 6" class="dg-fill-s"/>
+              </marker>
+            </defs>
+            <text x="30" y="68" text-anchor="middle" class="dg-label">heute</text>
+            <text x="178" y="68" text-anchor="middle" class="dg-label">ziel</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Statt von heute nach vorn zu rechnen, beginnt man bei einem erwünschten Zukunftszustand und arbeitet sich rückwärts zur Gegenwart: Welche Schritte, Weichen und Voraussetzungen mussten erfüllt sein, damit dieses Ziel Wirklichkeit wurde? Besonders nützlich, wenn die wünschenswerte Zukunft sich aus Trends allein nicht ergibt und bewusst herbeigeführt werden muss.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          „2045 ist unsere Region klimaneutral" — von dort aus markiert das Team rückwärts die nötigen Meilensteine für 2040, 2035 und 2030.
+        </p>
+      </article>
+
+      <!-- 07 — STEEP -->
+      <article class="card" id="steep" data-name="STEEP STEEPV scanning social technological economic ecological political values raster werte umfeld">
+        <div class="card__head">
+          <h2 class="card__title">STEEP / STEEPV-Scanning</h2>
+          <span class="card__num">07 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Fünf Segmente eines Rads -->
+          <svg viewBox="0 0 200 90" role="img">
+            <g transform="translate(45,45)">
+              <circle r="34" class="dg-line" fill="none" stroke-width="1"/>
+              <path d="M0 0 L0 -34 A34 34 0 0 1 32.3 -10.5 Z" class="dg-fill-surf"/>
+              <path d="M0 0 L32.3 -10.5 A34 34 0 0 1 20 27.5 Z" class="dg-fill-surf" opacity="0.85"/>
+              <path d="M0 0 L20 27.5 A34 34 0 0 1 -20 27.5 Z" class="dg-fill-surf" opacity="0.7"/>
+              <path d="M0 0 L-20 27.5 A34 34 0 0 1 -32.3 -10.5 Z" class="dg-fill-surf" opacity="0.55"/>
+              <path d="M0 0 L-32.3 -10.5 A34 34 0 0 1 0 -34 Z" class="dg-fill-surf" opacity="0.4"/>
+              <circle r="5" class="dg-fill-s"/>
+            </g>
+            <text x="100" y="26" class="dg-label dg-label-ink">S — sozial</text>
+            <text x="100" y="38" class="dg-label dg-label-ink">T — technologisch</text>
+            <text x="100" y="50" class="dg-label dg-label-ink">E — ökonomisch</text>
+            <text x="100" y="62" class="dg-label dg-label-ink">E — ökologisch</text>
+            <text x="100" y="74" class="dg-label dg-label-ink">P — politisch (+V werte)</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Ein Raster, um das Umfeld systematisch nach Veränderungen abzusuchen: <em>S</em>ocial, <em>T</em>echnological, <em>E</em>conomic, <em>E</em>cological, <em>P</em>olitical — bei STEEPV zusätzlich <em>V</em>alues (Werte). Es sorgt dafür, dass man nicht nur die eine vertraute Dimension (oft Technologie) betrachtet, sondern das ganze Spielfeld abdeckt. Das Raster strukturiert das Sammeln von Trends, Signalen und Treibern.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Vor einem Strategieworkshop trägt ein Team pro STEEP-Feld drei Veränderungen zusammen und entdeckt, dass die größten Risiken im oft vernachlässigten „Ecological"-Feld liegen.
+        </p>
+      </article>
+
+      <!-- 08 — Delphi -->
+      <article class="card" id="delphi" data-name="Delphi-Methode expert:innen anonym runden befragung rückspiegelung konvergenz autonomes fahren">
+        <div class="card__head">
+          <h2 class="card__title">Delphi-Methode</h2>
+          <span class="card__num">08 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Kreislauf mit sich verengender Streuung -->
+          <svg viewBox="0 0 200 90" role="img">
+            <circle cx="100" cy="45" r="30" class="dg-line dg-signal" fill="none" stroke-width="1.5" stroke-dasharray="3,4"/>
+            <path d="M100 15 A30 30 0 0 1 130 45" class="dg-line dg-signal" stroke-width="2" marker-end="url(#dl-arrow)"/>
+            <defs>
+              <marker id="dl-arrow" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <polygon points="0 0, 7 3, 0 6" class="dg-fill-s"/>
+              </marker>
+            </defs>
+            <circle cx="100" cy="15" r="3" class="dg-fill-s"/>
+            <circle cx="130" cy="45" r="3" class="dg-fill-s"/>
+            <circle cx="100" cy="75" r="3" class="dg-fill-s"/>
+            <circle cx="70" cy="45" r="3" class="dg-fill-s"/>
+            <text x="100" y="48" text-anchor="middle" class="dg-label dg-label-ink">runde n+1</text>
+            <text x="100" y="10" text-anchor="middle" class="dg-label">befragen</text>
+            <text x="158" y="48" text-anchor="middle" class="dg-label">auswerten</text>
+            <text x="100" y="86" text-anchor="middle" class="dg-label">rückspiegeln</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Ein strukturiertes, mehrrundiges Befragungsverfahren, bei dem Expert:innen anonym und unabhängig Einschätzungen zur Zukunft abgeben. Nach jeder Runde werden die Ergebnisse zusammengefasst und zurückgespiegelt; die Teilnehmenden können ihre Antworten daraufhin revidieren. So nähert man sich einem fundierten Gruppenurteil, ohne dass laute Stimmen oder Hierarchien dominieren.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Zur Frage „Wann ist autonomes Fahren in Städten Alltag?" konvergieren die anfangs weit gestreuten Expertenschätzungen über drei Runden auf einen begründeten Korridor.
+        </p>
+      </article>
+
+      <!-- 09 — Cross-Impact -->
+      <article class="card" id="cross-impact" data-name="Cross-Impact-Analyse matrix wechselwirkung verstärkend hemmend domino kopplung strompreis homeoffice">
+        <div class="card__head">
+          <h2 class="card__title">Cross-Impact-Analyse</h2>
+          <span class="card__num">09 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Quadratische Matrix -->
+          <svg viewBox="0 0 200 90" role="img">
+            <g transform="translate(70,8)">
+              <rect x="0" y="0" width="72" height="72" class="dg-line" fill="none" stroke-width="1"/>
+              <line x1="24" y1="0" x2="24" y2="72" class="dg-line"/>
+              <line x1="48" y1="0" x2="48" y2="72" class="dg-line"/>
+              <line x1="0" y1="24" x2="72" y2="24" class="dg-line"/>
+              <line x1="0" y1="48" x2="72" y2="48" class="dg-line"/>
+              <rect x="0" y="0" width="24" height="24" class="dg-fill-m" opacity="0.5"/>
+              <rect x="24" y="24" width="24" height="24" class="dg-fill-m" opacity="0.5"/>
+              <rect x="48" y="48" width="24" height="24" class="dg-fill-m" opacity="0.5"/>
+              <text x="36" y="14" text-anchor="middle" class="dg-label dg-fill-s" style="fill:var(--ft-signal)">+</text>
+              <text x="60" y="14" text-anchor="middle" class="dg-label" style="fill:var(--ft-flare)">−</text>
+              <text x="12" y="38" text-anchor="middle" class="dg-label" style="fill:var(--ft-flare)">−</text>
+              <text x="60" y="38" text-anchor="middle" class="dg-label dg-fill-s" style="fill:var(--ft-signal)">+</text>
+              <text x="12" y="62" text-anchor="middle" class="dg-label dg-fill-s" style="fill:var(--ft-signal)">+</text>
+              <text x="36" y="62" text-anchor="middle" class="dg-label" style="fill:var(--ft-flare)">−</text>
+            </g>
+            <text x="34" y="46" text-anchor="middle" class="dg-label">Faktor i</text>
+            <text x="106" y="88" text-anchor="middle" class="dg-label">Faktor j</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Eine Methode, die fragt, wie sich einzelne Zukunftsfaktoren oder Ereignisse <em>gegenseitig</em> beeinflussen — verstärkend, hemmend oder auslösend. In einer Matrix wird jedes Element gegen jedes andere bewertet; so treten Schlüsselfaktoren, Dominoketten und unerwartete Kopplungen hervor. Sie ergänzt Szenarien und Delphi, weil sie isolierte Einzeltrends in ein Wirkungsgefüge übersetzt.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Eine Matrix zeigt, dass „Strompreis" und „Homeoffice-Quote" sich stark wechselseitig treiben — ein blinder Fleck, den die Einzelbetrachtung übersehen hatte.
+        </p>
+      </article>
+
+      <!-- 10 — Wild Cards & Weak Signals -->
+      <article class="card" id="wildcards" data-name="Wild Cards Weak Signals wildcards schwache signale eintrittswahrscheinlichkeit wirkung streukarte material industriestandard">
+        <div class="card__head">
+          <h2 class="card__title">Wild Cards &amp; Weak Signals<span class="alt">Wildcards und schwache Signale</span></h2>
+          <span class="card__num">10 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Streukarte: Wirkung (y) x Wahrscheinlichkeit (x) -->
+          <svg viewBox="0 0 200 90" role="img">
+            <line x1="24" y1="8" x2="24" y2="80" class="dg-line" stroke-width="1.5"/>
+            <line x1="24" y1="80" x2="190" y2="80" class="dg-line" stroke-width="1.5"/>
+            <circle cx="42" cy="20" r="5" class="dg-fill-u"/>
+            <circle cx="36" cy="28" r="4" class="dg-fill-u" opacity="0.8"/>
+            <circle cx="55" cy="68" r="3" class="dg-fill-s"/>
+            <circle cx="90" cy="72" r="3" class="dg-fill-s"/>
+            <circle cx="130" cy="66" r="3" class="dg-fill-s"/>
+            <text x="50" y="14" class="dg-label" style="fill:var(--ft-ultra)">wild cards</text>
+            <text x="150" y="72" text-anchor="end" class="dg-label" style="fill:var(--ft-signal)">schwache signale</text>
+            <text x="20" y="14" text-anchor="end" class="dg-label" transform="rotate(-90,12,44)">wirkung</text>
+            <text x="180" y="88" text-anchor="end" class="dg-label">wahrscheinlichkeit</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          <em>Schwache Signale</em> sind frühe, leicht zu übersehende Hinweise auf möglichen Wandel; <em>Wild Cards</em> sind Ereignisse mit geringer Wahrscheinlichkeit, aber großer Wirkung (Pandemie, Durchbruch, Crash). Beide schärfen den Blick für das, was außerhalb der Trendverlängerung liegt. Wer schwache Signale sammelt und ernst nimmt, erkennt Umbrüche früher; wer Wild Cards durchspielt, wird gegen Überraschungen widerstandsfähiger.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Ein Nischen-Forum, in dem Bastler:innen ein neues Material teilen, ist heute ein schwaches Signal — und vielleicht morgen ein Industriestandard.
+        </p>
+      </article>
+
+      <!-- 11 — Visioning -->
+      <article class="card" id="visioning" data-name="Visioning Preferred Futures wünschenswert vision pull leuchtturm zielstern quartier dienstagmorgen">
+        <div class="card__head">
+          <h2 class="card__title">Visioning<span class="alt">Preferred Futures</span></h2>
+          <span class="card__num">11 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Zielstern am Horizont, Wege laufen zu -->
+          <svg viewBox="0 0 200 90" role="img">
+            <polygon points="150,18 154,30 167,30 156,38 160,50 150,42 140,50 144,38 133,30 146,30" class="dg-fill-s"/>
+            <line x1="20" y1="80" x2="150" y2="40" class="dg-line dg-signal"/>
+            <line x1="70" y1="82" x2="150" y2="40" class="dg-line dg-signal" opacity="0.7"/>
+            <line x1="120" y1="82" x2="150" y2="40" class="dg-line dg-signal" opacity="0.5"/>
+            <circle cx="20" cy="80" r="3" class="dg-fill-m"/>
+            <circle cx="70" cy="82" r="3" class="dg-fill-m"/>
+            <circle cx="120" cy="82" r="3" class="dg-fill-m"/>
+            <text x="150" y="64" text-anchor="middle" class="dg-label">vision (pull)</text>
+            <text x="20" y="70" text-anchor="middle" class="dg-label">heute</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Methoden, die nicht das Wahrscheinliche, sondern das <em>Wünschenswerte</em> in den Mittelpunkt stellen: Wie sieht die Zukunft aus, die wir wirklich wollen? Durch das gemeinsame, lebendige Ausmalen einer bevorzugten Zukunft entsteht Orientierung, Energie und ein Bezugspunkt, an dem heutige Entscheidungen gemessen werden können. Eine geteilte Vision wirkt als „Pull" — sie zieht Handeln in eine Richtung.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Ein Quartier beschreibt detailliert seinen „perfekten Dienstagmorgen im Jahr 2035" und leitet daraus konkrete erste Projekte ab.
+        </p>
+      </article>
+
+      <!-- 12 — Zukunftswerkstatt -->
+      <article class="card" id="zukunftswerkstatt" data-name="Zukunftswerkstatt jungk müllert kritikphase fantasiephase realisierungsphase partizipativ nachbarschaft öffentlicher raum">
+        <div class="card__head">
+          <h2 class="card__title">Zukunftswerkstatt<span class="alt">nach Jungk</span></h2>
+          <span class="card__num">12 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Drei aufeinanderfolgende Felder mit Pfeil -->
+          <svg viewBox="0 0 200 90" role="img">
+            <rect x="10" y="30" width="48" height="30" rx="4" class="dg-fill-surf"/>
+            <rect x="76" y="30" width="48" height="30" rx="4" class="dg-fill-surf"/>
+            <rect x="142" y="30" width="48" height="30" rx="4" class="dg-fill-s" opacity="0.85"/>
+            <path d="M58 45 L74 45" class="dg-line dg-signal" stroke-width="2" marker-end="url(#zw-arrow)"/>
+            <path d="M124 45 L140 45" class="dg-line dg-signal" stroke-width="2" marker-end="url(#zw-arrow)"/>
+            <defs>
+              <marker id="zw-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <polygon points="0 0, 7 3, 0 6" class="dg-fill-s"/>
+              </marker>
+            </defs>
+            <text x="34" y="48" text-anchor="middle" class="dg-label dg-label-ink">Kritik</text>
+            <text x="100" y="48" text-anchor="middle" class="dg-label dg-label-ink">Fantasie</text>
+            <text x="166" y="48" text-anchor="middle" class="dg-label" style="fill:var(--ft-on-signal)">Realis.</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Ein von Robert Jungk und Norbert Müllert entwickeltes partizipatives Format in drei Phasen: <em>Kritikphase</em> (was stört uns an der Gegenwart?), <em>Fantasiephase</em> (was wäre, wenn keine Grenzen gälten?) und <em>Realisierungsphase</em> (was davon setzen wir konkret um?). Die Methode demokratisiert Zukunftsgestaltung, indem sie Betroffene zu Beteiligten macht.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Eine Nachbarschaft durchläuft die drei Phasen zum Thema „öffentlicher Raum" und verlässt den Workshop mit drei umsetzbaren, selbst getragenen Ideen.
+        </p>
+      </article>
+
+      <!-- 13 — Dator's Four Futures -->
+      <article class="card" id="four-futures" data-name="Dator Four Futures vier generische zukünfte manoa continued growth collapse discipline transformation">
+        <div class="card__head">
+          <h2 class="card__title">Dator's Four Futures<span class="alt">Vier generische Zukünfte</span></h2>
+          <span class="card__num">13 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Vier Symbolkarten -->
+          <svg viewBox="0 0 200 90" role="img">
+            <g>
+              <rect x="12" y="14" width="40" height="28" rx="4" class="dg-fill-surf"/>
+              <path d="M22 36 L32 22 L42 30" class="dg-line dg-signal" stroke-width="2" fill="none"/>
+              <text x="32" y="52" text-anchor="middle" class="dg-label">Growth</text>
+            </g>
+            <g>
+              <rect x="62" y="14" width="40" height="28" rx="4" class="dg-fill-surf"/>
+              <path d="M72 36 L82 26 L78 22 L92 30" class="dg-line dg-flare" stroke-width="2" fill="none"/>
+              <text x="82" y="52" text-anchor="middle" class="dg-label">Collapse</text>
+            </g>
+            <g>
+              <rect x="112" y="14" width="40" height="28" rx="4" class="dg-fill-surf"/>
+              <line x1="132" y1="20" x2="132" y2="34" class="dg-line" stroke-width="2"/>
+              <line x1="124" y1="28" x2="140" y2="28" class="dg-line" stroke-width="2"/>
+              <text x="132" y="52" text-anchor="middle" class="dg-label">Discipline</text>
+            </g>
+            <g>
+              <rect x="162" y="14" width="32" height="28" rx="4" class="dg-fill-surf"/>
+              <path d="M178 22 C 184 24, 184 32, 178 34 C 172 36, 172 28, 178 28" class="dg-line dg-ultra" stroke-width="2" fill="none"/>
+              <text x="178" y="52" text-anchor="middle" class="dg-label">Transf.</text>
+            </g>
+            <text x="100" y="74" text-anchor="middle" class="dg-label">vier Grundmuster jeder Zukunftserzählung</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Jim Dator (Manoa School) zeigte, dass sich nahezu alle Zukunftsbilder auf vier Grundmuster zurückführen lassen: <em>Continued Growth</em> (Weiter-so-Wachstum), <em>Collapse</em> (Zusammenbruch), <em>Discipline</em> (Bewusste Begrenzung/Genügsamkeit) und <em>Transformation</em> (radikaler Wandel, oft technologisch/spirituell). Das Modell verhindert, dass alle Szenarien nur Varianten desselben Grundbildes werden.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Ein Team prüft seine vier selbstgebauten Szenarien und merkt, dass drei davon nur „Continued Growth"-Spielarten waren — und ergänzt bewusst ein Collapse- und ein Discipline-Bild.
+        </p>
+      </article>
+
+      <!-- 14 — Design Fiction -->
+      <article class="card" id="design-fiction" data-name="Design Fiction Speculative Design dunne raby artefakt prototyp objekt future archaeology bedienungsanleitung">
+        <div class="card__head">
+          <h2 class="card__title">Design Fiction<span class="alt">Speculative Design</span></h2>
+          <span class="card__num">14 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Artefakt mit Museums-/Produktetikett -->
+          <svg viewBox="0 0 200 90" role="img">
+            <rect x="40" y="18" width="60" height="54" rx="6" class="dg-fill-surf"/>
+            <circle cx="70" cy="40" r="12" class="dg-line dg-signal" fill="none" stroke-width="2"/>
+            <line x1="70" y1="34" x2="70" y2="46" class="dg-line dg-signal" stroke-width="2"/>
+            <line x1="64" y1="40" x2="76" y2="40" class="dg-line dg-signal" stroke-width="2"/>
+            <line x1="64" y1="58" x2="92" y2="58" class="dg-line" stroke-width="1.5"/>
+            <rect x="112" y="30" width="64" height="34" rx="3" class="dg-fill-surf" opacity="0.7"/>
+            <line x1="120" y1="40" x2="168" y2="40" class="dg-line dg-flare"/>
+            <line x1="120" y1="48" x2="160" y2="48" class="dg-line"/>
+            <line x1="120" y1="56" x2="166" y2="56" class="dg-line"/>
+            <text x="70" y="84" text-anchor="middle" class="dg-label">artefakt 2040</text>
+            <text x="144" y="26" text-anchor="middle" class="dg-label">etikett</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Ein von Anthony Dunne und Fiona Raby geprägter Ansatz, der Zukünfte nicht beschreibt, sondern <em>materialisiert</em>: greifbare Artefakte, Prototypen oder Szenen aus einer möglichen Zukunft, die zum Nachdenken und Diskutieren provozieren. Das Objekt wird zur Frage — es bestätigt nicht, was wir erwarten, sondern irritiert produktiv. <em>Verwandt:</em> „Future Archaeology" — ein Objekt von heute wird aus der Perspektive von Archäolog:innen aus ferner Zukunft befundet.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Eine „Bedienungsanleitung für ein Haushaltsgerät von 2040" oder eine fiktive Werbeanzeige macht Annahmen über Konsum und Technik plötzlich verhandelbar.
+        </p>
+      </article>
+
+      <!-- 15 — Futures Triangle -->
+      <article class="card" id="futures-triangle" data-name="Futures Triangle Zukunftsdreieck inayatullah pull push weight present past spannungsfeld hebel schule digital">
+        <div class="card__head">
+          <h2 class="card__title">Futures Triangle<span class="alt">Zukunftsdreieck</span></h2>
+          <span class="card__num">15 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Dreieck mit beschrifteten Ecken + Spannung in der Mitte -->
+          <svg viewBox="0 0 200 90" role="img">
+            <polygon points="100,12 24,78 176,78" class="dg-line" fill="none" stroke-width="1.5"/>
+            <circle cx="100" cy="12" r="5" class="dg-fill-s"/>
+            <circle cx="24" cy="78" r="5" class="dg-fill-m"/>
+            <circle cx="176" cy="78" r="5" class="dg-fill-f"/>
+            <circle cx="100" cy="56" r="7" class="dg-fill-u" opacity="0.55"/>
+            <text x="100" y="8" text-anchor="middle" class="dg-label" style="fill:var(--ft-signal)">Pull (Zukunft)</text>
+            <text x="20" y="88" text-anchor="middle" class="dg-label">Weight (Vergangenheit)</text>
+            <text x="178" y="88" text-anchor="middle" class="dg-label" style="fill:var(--ft-flare)">Push (Gegenwart)</text>
+            <text x="100" y="59" text-anchor="middle" class="dg-label">spannung</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Ebenfalls von Sohail Inayatullah: ein Dreieck, das drei Kräfte sichtbar macht, die jede Zukunft formen — den <em>Pull of the Future</em> (anziehende Bilder und Visionen), den <em>Push of the Present</em> (treibende Trends und Kräfte) und das <em>Weight of the Past</em> (bremsende Strukturen, Gewohnheiten, Geschichte). Die plausible Zukunft entsteht im Spannungsfeld dieser drei. Wo die Spannung am größten ist, liegt der eigentliche Hebel.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Eine Schule wünscht sich digitales Lernen (Pull), die Technik ist vorhanden (Push) — doch Prüfungsordnung und Gewohnheiten (Weight) blockieren; das Gewicht zu lockern ist die Aufgabe.
+        </p>
+      </article>
+
+      <!-- 16 — Trendanalyse & Megatrends -->
+      <article class="card" id="megatrends" data-name="Trendanalyse Megatrends mode trend megatrend urbanisierung konnektivität demografie nachhaltigkeit individualisierung wellen">
+        <div class="card__head">
+          <h2 class="card__title">Trendanalyse &amp; Megatrends</h2>
+          <span class="card__num">16 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Konzentrische Wellen: Mode -> Trend -> Megatrend -->
+          <svg viewBox="0 0 200 90" role="img">
+            <g transform="translate(40,45)">
+              <circle r="10" class="dg-line dg-flare" fill="none" stroke-width="1.5"/>
+              <circle r="22" class="dg-line dg-signal" fill="none" stroke-width="1.5"/>
+              <circle r="36" class="dg-line dg-ultra" fill="none" stroke-width="1.5"/>
+              <circle r="3" class="dg-fill-m"/>
+            </g>
+            <text x="92" y="30" class="dg-label" style="fill:var(--ft-flare)">Mode — kurz</text>
+            <text x="92" y="48" class="dg-label" style="fill:var(--ft-signal)">Trend — mittel</text>
+            <text x="92" y="66" class="dg-label" style="fill:var(--ft-ultra)">Megatrend — lang/global</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Die systematische Beobachtung und Einordnung von Veränderungsmustern — von kurzlebigen Moden über mittelfristige Trends bis zu <em>Megatrends</em>: tiefgreifenden, langanhaltenden, globalen Strömungen wie Urbanisierung, Konnektivität, demografischer Wandel oder Nachhaltigkeit. Trendanalyse liefert das Rohmaterial für Szenarien und Strategien — allerdings nur dann sauber, wenn man die Verlängerung eines Trends nicht mit einer Vorhersage verwechselt.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Ein Unternehmen unterscheidet sauber zwischen dem kurzfristigen Hype um ein Tool und dem dahinterliegenden Megatrend „Individualisierung" — und plant für Letzteren.
+        </p>
+      </article>
+
+      <!-- 17 — Horizon Scanning -->
+      <article class="card" id="horizon-scanning" data-name="Horizon Scanning Environmental Scanning radar dauerbetrieb ränder mainstream signal-radar steep">
+        <div class="card__head">
+          <h2 class="card__title">Horizon Scanning<span class="alt">Environmental Scanning</span></h2>
+          <span class="card__num">17 / 17</span>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <!-- Radar-Schirm mit Punkten -->
+          <svg viewBox="0 0 200 90" role="img">
+            <g transform="translate(54,46)">
+              <circle r="38" class="dg-line" fill="none" stroke-width="1"/>
+              <circle r="24" class="dg-line" fill="none" stroke-width="1" opacity="0.6"/>
+              <circle r="10" class="dg-line" fill="none" stroke-width="1" opacity="0.4"/>
+              <line x1="-38" y1="0" x2="38" y2="0" class="dg-line" opacity="0.5"/>
+              <line x1="0" y1="-38" x2="0" y2="38" class="dg-line" opacity="0.5"/>
+              <path d="M0 0 L34 -18 A38 38 0 0 0 38 0 Z" class="dg-fill-s" opacity="0.18"/>
+              <line x1="0" y1="0" x2="34" y2="-18" class="dg-line dg-signal" stroke-width="1.5"/>
+              <circle cx="8" cy="-4" r="2.5" class="dg-fill-s"/>
+              <circle cx="-30" cy="14" r="2.5" class="dg-fill-u"/>
+              <circle cx="20" cy="26" r="2.5" class="dg-fill-m"/>
+              <circle cx="-16" cy="-22" r="2.5" class="dg-fill-f"/>
+            </g>
+            <text x="100" y="34" class="dg-label dg-label-ink">stark / im Zentrum</text>
+            <text x="100" y="58" class="dg-label">schwach / am Rand</text>
+          </svg>
+        </div>
+        <p class="card__body">
+          Der laufende, systematische Suchprozess, mit dem eine Organisation ihr Umfeld nach Trends, schwachen Signalen und aufkommenden Themen absucht — oft als Dauerbetrieb, nicht als einmaliges Projekt. Scanning füttert alle anderen Methoden: Es liefert die Signale, die später in STEEP-Rastern, Szenarien oder Cross-Impact-Matrizen verarbeitet werden. Gutes Scanning achtet bewusst auf die Ränder, nicht nur auf den Mainstream.
+        </p>
+        <p class="card__example">
+          <span class="lbl">Mini-Beispiel</span>
+          Ein „Signal-Radar", in das ein Team monatlich neue Beobachtungen einträgt, mit Quelle, betroffenem Bereich (Technologie / Gesellschaft / Ökologie / Wirtschaft / Politik / Kultur) und vermuteter Stärke.
+        </p>
+      </article>
+
+    </section>
+  </div>
+
+</main>
+
+<!-- v10 · Floating Menü-Button (Sicherheitsnetz „Menü von überall", mobil) — öffnet DAS
+     bestehende Nav-Sheet via data-nav-toggle. Erscheint nach dem ersten Viewport.
+     Identisch zur index.html-Lösung, Portrait-tauglich. -->
+<button type="button" class="floating-menu" id="floatingMenu" data-nav-toggle
+        aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-sheet" hidden>
+  <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+  <span class="floating-menu__lbl">menü</span>
+</button>
+
+<!-- ========================== FOOTER (Shared §11-Gerüst) ========================== -->
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <div class="site-footer__col site-footer__brand">
+      <span class="brand__word">futures<span class="brand__dot">·</span>thinking</span>
+      <p>Methoden-Wiki · zum Stöbern.</p>
+      <p class="foot-note">Die Methodenbeschreibungen sind bewusst generisch und öffentlich gehalten — Futures-Literacy-Methoden sind Allgemeingut, kein internes Kursmaterial.</p>
+      <a class="totop" href="#main">↑ nach oben</a>
+    </div>
+    <nav class="site-footer__col" aria-label="Rechtliches">
+      <span class="eyebrow">rechtliches</span>
+      <a href="impressum.html">impressum</a>
+      <a href="datenschutz.html">datenschutz</a>
+      <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="license noopener">lizenz · CC-BY-NC 4.0</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---- Theme-Toggle wird vom kanonischen Header-Script ([data-mode-toggle]) gehandhabt. ---- */
+
+  /* ---- 2) Sprung-Chips automatisch aus den Karten bauen ---- */
+  var cards = Array.prototype.slice.call(document.querySelectorAll('#grid .card'));
+  var chipWrap = document.getElementById('jumpchips');
+  cards.forEach(function (card, i) {
+    var titleEl = card.querySelector('.card__title');
+    // nur den Haupttitel (ohne .alt-Untertitel) als Chip-Text
+    var label = titleEl.childNodes[0].textContent.trim();
+    var a = document.createElement('a');
+    a.className = 'jumpchip';
+    a.href = '#' + card.id;
+    a.setAttribute('role', 'listitem');
+    a.innerHTML = '<span class="jumpchip__num">' + String(i + 1).padStart(2, '0') + '</span>' + label;
+    chipWrap.appendChild(a);
+  });
+
+  /* ---- 2b) Mobil: Sprung-Menü kollabierbar (Default ZU, schließt nach Auswahl) ---- */
+  var jt = document.getElementById('jumpToggle');
+  if (jt && chipWrap) {
+    jt.addEventListener('click', function () {
+      var open = chipWrap.classList.toggle('is-open');
+      jt.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    // Event-Delegation: fängt auch die dynamisch gerenderten Chips.
+    // Tap auf Chip → springt (href) UND schließt das Menü.
+    chipWrap.addEventListener('click', function (e) {
+      if (e.target.closest('.jumpchip')) {
+        chipWrap.classList.remove('is-open');
+        jt.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  /* ---- 3) Live-Filter über data-name + sichtbaren Text ---- */
+  var filter = document.getElementById('filter');
+  var empty = document.getElementById('filterEmpty');
+  var chips = Array.prototype.slice.call(chipWrap.querySelectorAll('.jumpchip'));
+
+  function norm(s) {
+    return (s || '').toLowerCase()
+      .replace(/[äáà]/g, 'a').replace(/[öó]/g, 'o').replace(/[üú]/g, 'u').replace(/ß/g, 'ss');
+  }
+
+  filter.addEventListener('input', function () {
+    var q = norm(filter.value.trim());
+    var shown = 0;
+    cards.forEach(function (card, i) {
+      var hay = norm(card.getAttribute('data-name') + ' ' + card.textContent);
+      var match = q === '' || hay.indexOf(q) !== -1;
+      card.classList.toggle('is-hidden', !match);
+      if (chips[i]) chips[i].style.display = match ? '' : 'none';
+      if (match) shown++;
+    });
+    empty.classList.toggle('is-shown', shown === 0);
+  });
+
+  /* ---- 4) v10 · Mini-Beispiele mobil: Toggle „Mini-Beispiel zeigen" ----
+     Nur ≤720px. Vor jedes .card__example wird ein Button injiziert; das
+     Beispiel ist via CSS default versteckt und wird per .is-shown sichtbar.
+     Additiv — kein Markup-Umbau der 17 Karten. JS-aus = Beispiel sichtbar
+     (graceful: längere Seite, kein Datenverlust). Desktop unverändert. */
+  if (window.matchMedia && window.matchMedia('(max-width:720px)').matches) {
+    var examples = Array.prototype.slice.call(document.querySelectorAll('.card__example'));
+    examples.forEach(function (ex, i) {
+      ex.id = ex.id || ('cardex-' + i);
+      var t = document.createElement('button');
+      t.type = 'button';
+      t.className = 'example-toggle';
+      t.setAttribute('aria-expanded', 'false');
+      t.setAttribute('aria-controls', ex.id);
+      t.innerHTML = 'Mini-Beispiel zeigen <span class="example-toggle__caret" aria-hidden="true">▾</span>';
+      ex.parentNode.insertBefore(t, ex);
+      t.addEventListener('click', function () {
+        var open = ex.classList.toggle('is-shown');
+        t.setAttribute('aria-expanded', open ? 'true' : 'false');
+        t.firstChild.textContent = (open ? 'Mini-Beispiel verbergen ' : 'Mini-Beispiel zeigen ');
+      });
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

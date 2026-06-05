@@ -1,0 +1,40 @@
+Inhalts-Lizenz: Creative Commons Attribution-NonCommercial 4.0 International
+(CC BY-NC 4.0)
+
+Diese Lizenz gilt fuer die INHALTE dieses Repositorys: alle Funde unter funde/
+(*.future) sowie zugehoerige Bilder, Texte und Beipackzettel. Der CODE
+(tools/, site/, functions/, scripts/, Config) steht separat unter der MIT-Lizenz
+(siehe LICENSE).
+
+Einzelne Funde koennen im Feld `lizenz` eine ANDERE der erlaubten CC-Varianten
+deklarieren (CC-BY-SA-4.0, CC-BY-4.0, CC0-1.0). In dem Fall gilt fuer den
+jeweiligen Fund die dort deklarierte Lizenz; der Default ist CC-BY-NC-4.0.
+
+Der vollstaendige, rechtsverbindliche Lizenztext (Legal Code):
+  https://creativecommons.org/licenses/by-nc/4.0/legalcode
+Allgemeinverstaendliche Zusammenfassung (Deed):
+  https://creativecommons.org/licenses/by-nc/4.0/deed.de
+
+-------------------------------------------------------------------------------
+Zusammenfassung (NICHT der Lizenztext, nur zur Orientierung):
+
+Du darfst:
+  - Teilen — das Material in jedwedem Format vervielfaeltigen und weiterverbreiten
+  - Bearbeiten — das Material remixen, veraendern und darauf aufbauen
+
+Unter folgenden Bedingungen:
+  - Namensnennung (BY) — Du musst angemessene Urheber- und Rechteangaben machen,
+    einen Link zur Lizenz beifuegen und angeben, ob Aenderungen vorgenommen wurden.
+  - Nicht kommerziell (NC) — Du darfst das Material nicht fuer kommerzielle Zwecke
+    nutzen.
+  - Keine weiteren Einschraenkungen — Du darfst keine zusaetzlichen Klauseln oder
+    technischen Verfahren einsetzen, die anderen rechtlich irgendetwas untersagen,
+    was die Lizenz erlaubt.
+
+Hinweise:
+  - Namensnennung erfolgt ueber das Pseudonym im Feld `urheber` des jeweiligen Funds.
+  - Foederation/Spiegeln ist unter CC-BY-NC ausdruecklich erlaubt (NC verbietet nur
+    die kommerzielle Nutzung, nicht das nicht-kommerzielle Weiterverbreiten/Spiegeln).
+-------------------------------------------------------------------------------
+
+Der oben verlinkte Legal Code ist die verbindliche Fassung dieser Lizenz.

@@ -1,0 +1,19 @@
+# wrangler.toml — Cloudflare Pages + Pages Functions Konfiguration.
+#
+# Statisches Hosting (public-build/) + die Submit-Function (functions/api/submit.js)
+# laufen im SELBEN Pages-Projekt. Deploy erfolgt aus dem CI (.github/workflows/deploy.yml)
+# via `wrangler pages deploy public-build --project-name=futuresthinking`.
+#
+# Secrets/Env werden NICHT hier gesetzt, sondern im Cloudflare-Dashboard
+# (Pages > Settings > Environment variables) bzw. als GitHub-Actions-Secrets:
+#   TURNSTILE_SECRET, GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO  (Function-Runtime)
+#   CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID               (CI-Deploy)
+
+name = "futuresthinking"
+compatibility_date = "2025-01-01"
+
+# Verzeichnis mit dem fertigen Build, das deployt wird (erzeugt von tools/build.mjs).
+pages_build_output_dir = "public-build"
+
+# functions/ wird von Cloudflare Pages automatisch als Functions-Verzeichnis erkannt.
+# /api/submit -> functions/api/submit.js (onRequestPost).

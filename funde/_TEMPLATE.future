@@ -1,0 +1,83 @@
+# ============================================================================
+#  .future — Fund-Template (Schema v1.0)
+#  Kopiere diese Datei nach funde/<objekt_id>.future und fülle die Felder.
+#  Der Dateiname (ohne .future) MUSS exakt der objekt_id entsprechen.
+#  Validierung: node tools/validate.mjs   (CI-Gate, schema/v1.0/future.schema.json)
+#  Diese Datei (_TEMPLATE.future) wird vom Validator ignoriert.
+# ============================================================================
+
+# --- PFLICHTFELDER ---------------------------------------------------------
+
+# Schema-Generation. Optional laut Schema, aber für neue Funde immer "1.0" setzen.
+schema_version:     "1.0"
+
+# Eindeutiger Slug: <fundjahr>-<kebab-case-ascii>. PFLICHT.
+# Muss == Dateiname sein und mit dem fundjahr beginnen (Validator prüft beides).
+# Erlaubte Zeichen: a-z 0-9 und Bindestrich. Keine Umlaute, kein ß, kein Leerzeichen.
+objekt_id:          "2045-beispiel-slug"
+
+# Anzeigename des Fundes (2–80 Zeichen). PFLICHT.
+objektname:         "Beispielobjekt, Variante X"
+
+# Fiktives Fundjahr, Ganzzahl 2030–2070. PFLICHT.
+# Muss mit dem Jahr-Präfix der objekt_id übereinstimmen.
+fundjahr:           2045
+
+# Fundort, Form "Etwas, Ort". PFLICHT (Komma erforderlich).
+fundort:            "Ort des Fundes, Stadt"
+
+# Deskriptive Achse — wie wahrscheinlich ist diese Zukunft? PFLICHT.
+# Genau einer von: moeglich | plausibel | wahrscheinlich
+wahrscheinlichkeit: "plausibel"
+
+# Wertungsachse — wollen wir das? PFLICHT.
+# Genau einer von: wuenschenswert | neutral | nicht
+wuenschbarkeit:     "neutral"
+
+# Beipackzettel: 280–600 ZEICHEN (Unicode-Code-Points, Validator zählt scharf). PFLICHT.
+# Diktion: in-world, nüchtern, „Beipackzettel eines Objekts aus der Zukunft".
+beipackzettel: >
+  Hier 280 bis 600 Zeichen erzählender Beipackzettel-Text. Beschreibe das
+  Objekt aus der Innensicht seiner Zeit: wofür es da ist, wie es benutzt
+  wird, welche Regeln daran hängen. Kein Werbeton, kein Meta-Kommentar —
+  als läge das Objekt wirklich vor dir und spräche für sich. Ersetze diesen
+  Platzhalter vollständig und prüfe die Länge.
+
+# Lizenz. PFLICHT. Default und Empfehlung: CC-BY-NC-4.0.
+# Erlaubt: CC-BY-NC-4.0 | CC-BY-SA-4.0 | CC-BY-4.0 | CC0-1.0
+lizenz:             "CC-BY-NC-4.0"
+
+# --- OPTIONALE FELDER ------------------------------------------------------
+
+# Selbstgewähltes Pseudonym oder Kollektiv (2–60 Zeichen). Optional.
+urheber:            "pseudonym"
+
+# Materialbeschreibung (max. 200 Zeichen) oder null. Optional.
+material:           null
+
+# Tonalität (ASCII-safe enum). Optional. Einer von:
+#   solarpunk | cyberpunk | degrowth | hightech-optimistisch |
+#   klima-realistisch | retro-futur | buerokratisch-mundan | unbestimmt
+tonalitaet:         "unbestimmt"
+
+# Lineage: zeigt auf eine ANDERE existierende objekt_id oder null. Optional.
+# Validator prüft, dass das Ziel im Repo existiert (kein dangling).
+verweist_auf:       null
+
+# Remix-Quelle: zeigt auf eine ANDERE existierende objekt_id oder null. Optional.
+remix_von:          null
+
+# Bild-Metadaten. Optional. Wenn gesetzt, sind src/alt/credit Pflicht.
+# src teilt den Slug: bilder/<objekt_id>.<png|webp|svg>. CI prüft Existenz + 1:1.
+# bild:
+#   src:    "bilder/2045-beispiel-slug.png"
+#   alt:    "Kurze Bildbeschreibung, 8–300 Zeichen"
+#   credit: "pseudonym (generiert)"
+#   width:  1024
+#   height: 1024
+
+# Optionale 15s-Fundnotiz: audio/<datei>.<mp3|ogg|m4a> oder null. Optional.
+audio_fundnotiz:    null
+
+# HINWEIS: cone_position ist DEPRECATED (Zwei-Achsen-Modell ist kanonisch).
+# NICHT in neue Funde aufnehmen — nur Legacy-Altbestand darf es noch tragen.

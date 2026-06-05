@@ -1,0 +1,24 @@
+# Self-Test-Fixture: MUSS valide sein (grün).
+# Deckt alle Pflichtfelder + eine auflösende verweist_auf-Referenz ab.
+# Der Self-Test seedet "2041-stub-referenz-ziel" ins ids-Set, damit der FK auflöst.
+schema_version:     "1.0"
+objekt_id:          "2041-self-test-gueltiger-fund"
+objektname:         "Self-Test-Fund, gültig"
+fundjahr:           2041
+fundort:            "Testarchiv, Nirgendwo"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "degrowth"
+beipackzettel: >
+  Dieser Fund existiert nur, damit die CI beweisen kann, dass ein
+  korrekter Datensatz die Validierung besteht. Er trägt beide
+  Pflicht-Achsen, einen Beipackzettel in der zulässigen Länge von 280 bis
+  600 Zeichen, eine erlaubte Lizenz und eine Referenz, die im Self-Test
+  auflöst. Wird dieser Datensatz rot, ist das Schema oder der Validator
+  defekt — nicht der Fund. Bitte vor jedem Merge grün halten.
+urheber:            "self-test"
+lizenz:             "CC-BY-NC-4.0"
+material:           "Testpapier"
+remix_von:          null
+verweist_auf:       "2041-stub-referenz-ziel"
+audio_fundnotiz:    null

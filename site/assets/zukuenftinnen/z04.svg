@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600" role="img" aria-label="Zukuenft:in — Strategisch-Angewandt (Linnea). Stilisiertes Portraet-Platzhalter (Prototyp).">
+  <defs>
+    <radialGradient id="halo3" cx="0.7" cy="0.32" r="0.9">
+      <stop offset="0" stop-color="#FBBF3C" stop-opacity="0.26"/>
+      <stop offset="0.55" stop-color="#FBBF3C" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#141A2E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141A2E"/><stop offset="1" stop-color="#0B0E1A"/>
+    </linearGradient>
+    <filter id="grain4" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.78" numOctaves="2" seed="31" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.09"/></feComponentTransfer>
+    </filter>
+    <clipPath id="card3"><rect x="0" y="0" width="480" height="600" rx="18"/></clipPath>
+    <clipPath id="head3"><path d="M 181.0 230.6 C 181.0 177.0, 207.6 171.0, 240.0 171.0 C 272.4 171.0, 299.0 177.0, 299.0 230.6 C 299.0 268.1, 286.0 297.6, 240.0 311.0 C 194.0 297.6, 181.0 268.1, 181.0 230.6 Z"/></clipPath>
+    <clipPath id="faceopen3"><path d="M 191.6 241.3 C 191.6 185.0, 288.4 185.0, 288.4 241.3 C 278.9 305.6, 201.1 305.6, 191.6 241.3 Z"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#card3)">
+    <rect x="0" y="0" width="480" height="600" fill="url(#floor3)"/>
+    <rect x="0" y="0" width="480" height="600" fill="url(#halo3)"/>
+
+    <g transform="rotate(5 240.0 244)">
+      <!-- shoulders / clothing -->
+      <path d="M 215.2 305.0 L 213.2 331.0 C 54.0 375.0, 54.0 403.0, 54.0 600.0 L 426.0 600.0 C 426.0 403.0, 426.0 375.0, 266.8 331.0 L 264.8 305.0 Z" fill="#493c23"/>
+      <!-- hair behind head (locs, afro mass, bun) -->
+      
+      <!-- HEAD: lit base, then shadow half clipped to head = duotone terminator -->
+      <g clip-path="url(#head3)">
+        <rect x="0" y="0" width="480" height="600" fill="#fbc244"/>
+        <rect x="0" y="0" width="244.0" height="600" fill="#584725"/>
+      </g>
+      <!-- headwear / hair on top -->
+      <path d="M 167.0 249.4 C 165.0 157.0, 315.0 157.0, 313.0 249.4 C 319.0 300.3, 281.3 355.0, 260.1 373.0 L 219.9 373.0 C 198.7 355.0, 161.0 300.3, 167.0 249.4 Z" fill="#775e29" stroke="#fbc550" stroke-opacity="0.5" stroke-width="1.5"/>
+      <g clip-path="url(#faceopen3)"><rect x="0" y="0" width="480" height="600" fill="#fbc244"/><rect x="0" y="0" width="244.0" height="600" fill="#584725"/></g>
+      
+      
+      <!-- rim light on the lit edge of the head -->
+      <path d="M 181.0 230.6 C 181.0 177.0, 207.6 171.0, 240.0 171.0 C 272.4 171.0, 299.0 177.0, 299.0 230.6 C 299.0 268.1, 286.0 297.6, 240.0 311.0 C 194.0 297.6, 181.0 268.1, 181.0 230.6 Z" fill="none" stroke="#FBBF3C" stroke-opacity="0.85" stroke-width="2"/>
+    </g>
+
+    <rect x="0" y="0" width="480" height="600" filter="url(#grain4)" opacity="0.5"/>
+    <rect x="0.75" y="0.75" width="478.5" height="598.5" rx="17" fill="none" stroke="#2C3658" stroke-width="1.5"/>
+
+    <g font-family="'IBM Plex Mono','SFMono-Regular',monospace">
+      <rect x="14" y="14" width="160" height="22" rx="4" fill="#1E2742" stroke="#2C3658" stroke-width="1"/>
+      <text x="22" y="29" font-size="11" letter-spacing="1.2" fill="#7A82A6">PROTOTYP · PLATZHALTER</text>
+      <text x="20" y="554" font-size="11" letter-spacing="1.4" fill="#FBBF3C" opacity="0.92">Z04 · LINNEA</text>
+      <text x="20" y="574" font-size="13" fill="#F2F0FF" font-weight="500">Strategisch-Angewandt</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600" role="img" aria-label="Zukuenft:in — Integral / Transdisziplinär (Aurea). Stilisiertes Portraet-Platzhalter (Prototyp).">
+  <defs>
+    <radialGradient id="halo9" cx="0.7" cy="0.32" r="0.9">
+      <stop offset="0" stop-color="#CBC6F2" stop-opacity="0.26"/>
+      <stop offset="0.55" stop-color="#CBC6F2" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#141A2E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor9" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141A2E"/><stop offset="1" stop-color="#0B0E1A"/>
+    </linearGradient>
+    <filter id="grain10" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.62" numOctaves="2" seed="73" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.09"/></feComponentTransfer>
+    </filter>
+    <clipPath id="card9"><rect x="0" y="0" width="480" height="600" rx="18"/></clipPath>
+    <clipPath id="head9"><path d="M 183.0 221.8 C 183.0 165.0, 208.7 159.0, 240.0 159.0 C 271.4 159.0, 297.0 165.0, 297.0 221.8 C 297.0 261.6, 287.9 292.8, 240.0 307.0 C 192.1 292.8, 183.0 261.6, 183.0 221.8 Z"/></clipPath>
+    
+  </defs>
+
+  <g clip-path="url(#card9)">
+    <rect x="0" y="0" width="480" height="600" fill="url(#floor9)"/>
+    <rect x="0" y="0" width="480" height="600" fill="url(#halo9)"/>
+
+    <g transform="rotate(-1 240.0 236)">
+      <!-- shoulders / clothing -->
+      <path d="M 216.1 301.0 L 214.1 327.0 C 68.0 371.0, 68.0 399.0, 68.0 600.0 L 412.0 600.0 C 412.0 399.0, 412.0 371.0, 265.9 327.0 L 263.9 301.0 Z" fill="#3d3e52"/>
+      <!-- hair behind head (locs, afro mass, bun) -->
+      
+      <!-- HEAD: lit base, then shadow half clipped to head = duotone terminator -->
+      <g clip-path="url(#head9)">
+        <rect x="0" y="0" width="480" height="600" fill="#cdc8f3"/>
+        <rect x="0" y="0" width="244.0" height="600" fill="#48495f"/>
+      </g>
+      <!-- headwear / hair on top -->
+      
+      
+      <path d="M 174.0 238.8 C 171.0 151.0, 309.0 151.0, 306.0 238.8 L 308.0 359.0 L 295.0 361.0 C 297.0 236.0, 268.5 179.0, 240.0 177.0 C 211.5 179.0, 183.0 236.0, 185.0 361.0 L 172.0 359.0 Z" fill="#61617b" stroke="#d0ccf3" stroke-opacity="0.5" stroke-width="1.5"/>
+      
+      <!-- rim light on the lit edge of the head -->
+      <path d="M 183.0 221.8 C 183.0 165.0, 208.7 159.0, 240.0 159.0 C 271.4 159.0, 297.0 165.0, 297.0 221.8 C 297.0 261.6, 287.9 292.8, 240.0 307.0 C 192.1 292.8, 183.0 261.6, 183.0 221.8 Z" fill="none" stroke="#CBC6F2" stroke-opacity="0.85" stroke-width="2"/>
+    </g>
+
+    <rect x="0" y="0" width="480" height="600" filter="url(#grain10)" opacity="0.5"/>
+    <rect x="0.75" y="0.75" width="478.5" height="598.5" rx="17" fill="none" stroke="#2C3658" stroke-width="1.5"/>
+
+    <g font-family="'IBM Plex Mono','SFMono-Regular',monospace">
+      <rect x="14" y="14" width="160" height="22" rx="4" fill="#1E2742" stroke="#2C3658" stroke-width="1"/>
+      <text x="22" y="29" font-size="11" letter-spacing="1.2" fill="#7A82A6">PROTOTYP · PLATZHALTER</text>
+      <text x="20" y="554" font-size="11" letter-spacing="1.4" fill="#CBC6F2" opacity="0.92">Z10 · AUREA</text>
+      <text x="20" y="574" font-size="13" fill="#F2F0FF" font-weight="500">Integral / Transdisziplinär</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,45 @@
+name: validate
+
+# CI-Gate: schützt main. Läuft bei jedem PR und jedem Push auf die Pfade,
+# die das Datenmodell oder den Validator selbst berühren. tools/** ist bewusst
+# dabei — sonst könnte eine PR den Validator schwächen, ohne das Gate auszulösen.
+on:
+  pull_request:
+    paths:
+      - "funde/**"
+      - "schema/**"
+      - "tools/**"
+      - "tests/**"
+      - "package.json"
+      - "package-lock.json"
+  push:
+    paths:
+      - "funde/**"
+      - "schema/**"
+      - "tools/**"
+      - "tests/**"
+      - "package.json"
+      - "package-lock.json"
+
+permissions:
+  contents: read # least-privilege: PR-Validierung darf nichts schreiben
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Dependencies installieren (Lockfile-genau, Supply-Chain)
+        run: npm ci
+
+      - name: 0) Schema-Self-Test (Fixtures — valid muss PASSEN, invalid muss FEHLSCHLAGEN)
+        run: npm run selftest
+
+      - name: 1) Alle Funde validieren (Schema + Dedup + Slug-Jahr + FK + Beipackzettel)
+        run: npm run validate

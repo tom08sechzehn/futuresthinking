@@ -1,0 +1,3 @@
+# Platzhalter, damit .well-known/ im Repo existiert, bevor tools/build.mjs
+# hier futures-feed.json erzeugt. Der Feed selbst ist gitignored
+# (Single Source of Truth = funde/*.future; der Feed wird beim Build generiert).

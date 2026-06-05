@@ -1,0 +1,21 @@
+schema_version:     "1.0"
+objekt_id:          "2048-pfandbon-atemluft"
+objektname:         "Pfandbon, 4 m³ Atemluft"
+fundjahr:           2048
+fundort:            "Luftpfandautomat, U-Bahnhof Mexico City Centro"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "nicht"
+tonalitaet:         "klima-realistisch"
+beipackzettel: >
+  Dieser Bon berechtigt zur Entnahme von 4 m³ gefilterter Atemluft an
+  jedem AtmoRetorno-Automaten der Innenstadtzone. Gültig bei Vorlage der
+  Pfandmarke. Restguthaben wird nicht erstattet. An Tagen mit
+  Stufe-Rot-Warnung gilt der halbe Tarif. Kinder unter sechs Jahren atmen
+  im Begleittarif kostenlos, solange Vorrat reicht. Bewahren Sie den Bon
+  trocken auf — durchnässte Bons werden vom Automaten abgewiesen.
+urheber:            "AtmoRetorno S.A. (gefunden, urheber unbekannt)"
+lizenz:             "CC-BY-NC-4.0"
+material:           "beschichtetes Papier, QR-Prägung"
+remix_von:          null
+verweist_auf:       null
+audio_fundnotiz:    null

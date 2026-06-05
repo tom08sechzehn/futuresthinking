@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# CI-Build-Output (wird vom CI erzeugt und deployt, nie committet)
+public-build/
+
+# Vom build.mjs erzeugte Daten-Artefakte (Single Source of Truth = funde/*.future)
+site/data/funds.json
+.well-known/futures-feed.json
+
+# Cloudflare Wrangler / Pages
+.wrangler/
+
+# OS-Müll
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*

@@ -1,0 +1,22 @@
+schema_version:     "1.0"
+objekt_id:          "2041-quartiers-zeitheft-oberhausen"
+objektname:         "Quartiers-Zeitheft, Band III"
+fundjahr:           2041
+fundort:            "Tauschregal, Quartierspflege Augsburg-Oberhausen"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "degrowth"
+beipackzettel: >
+  Band III liegt offen am Regal. Jede Zeile zählt eine geleistete Stunde:
+  Einkauf getragen, Kind gehütet, Verband gewechselt, beim Sterben
+  gesessen. Gegengezeichnet von dem, dem geholfen wurde. Keine Währung,
+  keine Umrechnung — das Heft erinnert nur, wer da war. Voll geschriebene
+  Bände wandern ins Quartiersarchiv; das offene Band wartet auf die
+  nächste Hand. Am Rand kleben Leihscheine für Stunden, die noch jemand
+  einlösen darf.
+urheber:            "die nachbarschaft am schäfflerbach"
+lizenz:             "CC-BY-NC-4.0"
+material:           "Leinen, Recyclingpapier, viele Handschriften"
+remix_von:          null
+verweist_auf:       "2043-leihschein-paar-haende"
+audio_fundnotiz:    null

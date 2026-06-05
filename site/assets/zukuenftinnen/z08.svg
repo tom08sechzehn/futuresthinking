@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600" role="img" aria-label="Zukuenft:in — Design Futures (Yuki). Stilisiertes Portraet-Platzhalter (Prototyp).">
+  <defs>
+    <radialGradient id="halo7" cx="0.7" cy="0.32" r="0.9">
+      <stop offset="0" stop-color="#36D0D8" stop-opacity="0.26"/>
+      <stop offset="0.55" stop-color="#36D0D8" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#141A2E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor7" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141A2E"/><stop offset="1" stop-color="#0B0E1A"/>
+    </linearGradient>
+    <filter id="grain8" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.74" numOctaves="2" seed="59" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.09"/></feComponentTransfer>
+    </filter>
+    <clipPath id="card7"><rect x="0" y="0" width="480" height="600" rx="18"/></clipPath>
+    <clipPath id="head7"><path d="M 187.0 217.0 C 187.0 157.0, 210.8 151.0, 240.0 151.0 C 269.1 151.0, 293.0 157.0, 293.0 217.0 C 293.0 259.0, 287.7 292.0, 240.0 307.0 C 192.3 292.0, 187.0 259.0, 187.0 217.0 Z"/></clipPath>
+    
+  </defs>
+
+  <g clip-path="url(#card7)">
+    <rect x="0" y="0" width="480" height="600" fill="url(#floor7)"/>
+    <rect x="0" y="0" width="480" height="600" fill="url(#halo7)"/>
+
+    <g transform="rotate(-3 240.0 232)">
+      <!-- shoulders / clothing -->
+      <path d="M 217.7 301.0 L 216.0 327.0 C 86.0 371.0, 86.0 399.0, 86.0 600.0 L 394.0 600.0 C 394.0 399.0, 394.0 371.0, 264.0 327.0 L 262.3 301.0 Z" fill="#16404b"/>
+      <!-- hair behind head (locs, afro mass, bun) -->
+      
+      <!-- HEAD: lit base, then shadow half clipped to head = duotone terminator -->
+      <g clip-path="url(#head7)">
+        <rect x="0" y="0" width="480" height="600" fill="#3ed2da"/>
+        <rect x="0" y="0" width="244.0" height="600" fill="#194c57"/>
+      </g>
+      <!-- headwear / hair on top -->
+      
+      
+      <path d="M 180.0 241.0 C 176.0 145.0, 304.0 145.0, 300.0 241.0 L 298.0 271.0 L 284.5 268.0 C 287.7 167.0, 262.3 175.0, 240.0 175.0 C 217.7 175.0, 192.3 167.0, 195.5 268.0 L 182.0 271.0 Z" fill="#1e656f" stroke="#4ad5dc" stroke-opacity="0.5" stroke-width="1.5"/>
+      
+      <!-- rim light on the lit edge of the head -->
+      <path d="M 187.0 217.0 C 187.0 157.0, 210.8 151.0, 240.0 151.0 C 269.1 151.0, 293.0 157.0, 293.0 217.0 C 293.0 259.0, 287.7 292.0, 240.0 307.0 C 192.3 292.0, 187.0 259.0, 187.0 217.0 Z" fill="none" stroke="#36D0D8" stroke-opacity="0.85" stroke-width="2"/>
+    </g>
+
+    <rect x="0" y="0" width="480" height="600" filter="url(#grain8)" opacity="0.5"/>
+    <rect x="0.75" y="0.75" width="478.5" height="598.5" rx="17" fill="none" stroke="#2C3658" stroke-width="1.5"/>
+
+    <g font-family="'IBM Plex Mono','SFMono-Regular',monospace">
+      <rect x="14" y="14" width="160" height="22" rx="4" fill="#1E2742" stroke="#2C3658" stroke-width="1"/>
+      <text x="22" y="29" font-size="11" letter-spacing="1.2" fill="#7A82A6">PROTOTYP · PLATZHALTER</text>
+      <text x="20" y="554" font-size="11" letter-spacing="1.4" fill="#36D0D8" opacity="0.92">Z08 · YUKI</text>
+      <text x="20" y="574" font-size="13" fill="#F2F0FF" font-weight="500">Design Futures</text>
+    </g>
+  </g>
+</svg>

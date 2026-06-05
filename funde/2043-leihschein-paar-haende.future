@@ -1,0 +1,21 @@
+schema_version:     "1.0"
+objekt_id:          "2043-leihschein-paar-haende"
+objektname:         "Leihschein – Paar Hände, geübt"
+fundjahr:           2043
+fundort:            "Tauschregal, Quartierspflege Augsburg-Oberhausen"
+wahrscheinlichkeit: "moeglich"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "degrowth"
+beipackzettel: >
+  Eingelöst gegen vier Stunden begleitetes Aufstehen, Waschen, ein warmes
+  Essen. Die ausführende Person ist geprüft und kennt den Stadtteil.
+  Rückgabe nicht nötig – Hände bleiben im Quartier. Wer einlöst, schreibt
+  eine Zeile ins Heft am Regal: was getan wurde, wem es half. Dieser
+  Schein verfällt nicht. Er wird weitergereicht, wenn die eigenen Hände
+  wieder können.
+urheber:            "pflege-eule"
+lizenz:             "CC-BY-NC-4.0"
+material:           "Recyclingpapier, Stempelfarbe, Heftklammer"
+remix_von:          null
+verweist_auf:       "2041-quartiers-zeitheft-oberhausen"
+audio_fundnotiz:    null
