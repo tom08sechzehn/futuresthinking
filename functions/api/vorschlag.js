@@ -27,7 +27,7 @@
 
 /* Absender (MUSS auf der onboardeten Domain liegen) + fester Empfaenger. */
 const MAIL_FROM = { email: "kontakt@futuresthinking.eu", name: "futuresthinking" };
-const MAIL_TO = "tom.siegel@08sechzehn.de"; // hart verdrahtet — nie aus dem Body
+const MAIL_TO = "tom.thi.2022@gmail.com"; // hart verdrahtet — VERIFIZIERTE Email-Routing-Zieladresse (Gratis-Versand); nie aus dem Body
 
 /* Eingabe-Haertung. */
 const MAX_METHODE = 120;

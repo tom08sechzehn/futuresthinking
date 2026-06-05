@@ -46,15 +46,12 @@ binding = "ORACLE_LIMITS"
 id = "fff4a403476e42718ddc502fdcdc6b4d"
 
 # send_email-Binding fuer die Kachel „Methode vorschlagen" (/api/vorschlag).
-# Workers-Email-Sending OHNE API-Key: env.EMAIL.send({to, from, subject, html, text, replyTo}).
-#
-# BEWUSST AUSKOMMENTIERT, damit der HEUTIGE Deploy sicher bleibt:
-#   Solange das Binding fehlt, degradiert /api/vorschlag freundlich (503) — nichts bricht.
-#
-# Erst beim Go-Live ent-kommentieren, NACHDEM
-#   `wrangler email sending enable futuresthinking.eu`
-# lief (Domain muss dann Cloudflare-Zone sein) — sonst bricht der Deploy
-# (E_SENDER_NOT_VERIFIED / Binding ohne onboardete Domain).
-#
-# [[send_email]]
-# name = "EMAIL"
+# GRATIS-Weg ueber Cloudflare EMAIL ROUTING (NICHT das kostenpflichtige „Email Sending"):
+# Ein Worker darf kostenlos an eine VERIFIZIERTE Routing-Zieladresse senden.
+# `destination_address` beschraenkt das Binding HART auf genau diese Adresse
+# (tom.thi.2022@gmail.com) — der Worker kann an niemanden sonst senden.
+# Voraussetzung: Email Routing auf futuresthinking.eu aktiv + die Adresse verifiziert.
+# (Ohne aktives Routing greift der freundliche 503-Fallback in vorschlag.js.)
+[[send_email]]
+name = "EMAIL"
+destination_address = "tom.thi.2022@gmail.com"
