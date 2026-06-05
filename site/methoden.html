@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>futuresthinking — Methoden-Wiki</title>
+<!-- Cloudflare Turnstile (Bot-Schutz für den Methoden-Vorschlag) -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <!--
   ============================================================
@@ -683,6 +685,47 @@ a:hover { text-decoration: underline; }
   text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px;
 }
 [data-theme="light"] .card__example .lbl { color: var(--ft-flare-ink, var(--ft-flare)); }
+
+/* ============================================================
+   Methode-vorschlagen-Kachel (nach #grid). Nutzt .panel / .field /
+   .field-label / .btn aus dem Shared-System; hier nur Layout +
+   Honeypot-Versteck + Banner (das Shared-System dieser Seite hat
+   keine .banner-Klasse, also lokal definiert — Töne aus --ft-*).
+   ============================================================ */
+.vorschlag-panel { max-width: 760px; margin-inline: auto; padding: var(--ft-space-lg); }
+.vorschlag-panel__head { margin-bottom: var(--ft-space-md); }
+.vorschlag-panel__title {
+  font-family: var(--ft-font-display); font-weight: 700;
+  font-size: clamp(1.5rem, 4vw, var(--ft-text-h1));
+  line-height: var(--ft-lh-h1); color: var(--ft-ink);
+  letter-spacing: -0.01em; margin: var(--ft-space-xs) 0 var(--ft-space-sm);
+}
+.vorschlag-panel__lede { color: var(--ft-body); max-width: 60ch; margin: 0; }
+.vorschlag-form { display: flex; flex-direction: column; gap: var(--ft-space-md); }
+.vorschlag-field { display: flex; flex-direction: column; }
+.vorschlag-opt { font-weight: 400; color: var(--ft-muted); font-family: var(--ft-font-mono); font-size: var(--ft-text-caption); }
+.vorschlag-actions { display: flex; }
+.vorschlag-form textarea.field { min-height: 7rem; }
+
+/* Honeypot: visuell + für AT entfernt, aber im DOM (Bot-Falle). */
+.vorschlag-hp {
+  position: absolute; left: -9999px; top: auto;
+  width: 1px; height: 1px; overflow: hidden;
+}
+
+/* Banner (lokal — index.html hat es, diese Seite bisher nicht). */
+.banner {
+  margin-top: var(--ft-space-md);
+  padding: var(--ft-space-sm) var(--ft-space-md);
+  border-radius: var(--ft-radius-md);
+  font-family: var(--ft-font-mono); font-size: 0.88rem;
+  line-height: var(--ft-lh-mono); display: none;
+}
+.banner.show { display: block; animation: screen-in var(--ft-dur-base) var(--ft-ease-smooth); }
+.banner--ok   { background: color-mix(in srgb,var(--ft-success) 14%,transparent); border: 1px solid color-mix(in srgb,var(--ft-success) 45%,transparent); color: var(--ft-success); }
+.banner--warn { background: color-mix(in srgb,var(--ft-warning) 14%,transparent); border: 1px solid color-mix(in srgb,var(--ft-warning) 45%,transparent); color: var(--ft-warning); }
+.banner--info { background: color-mix(in srgb,var(--ft-info) 14%,transparent); border: 1px solid color-mix(in srgb,var(--ft-info) 45%,transparent); color: var(--ft-info); }
+@keyframes screen-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ============================================================
    Footer — Grundgerüst aus Shared-System (§11). Hier nur die
@@ -1634,6 +1677,62 @@ img, svg, video, canvas, iframe { max-width: 100%; }
     </section>
   </div>
 
+  <!-- ====================== METHODE VORSCHLAGEN (Kachel) ====================== -->
+  <section class="section" id="vorschlag" aria-label="Eine Methode vorschlagen">
+    <div class="wrap">
+      <div class="panel vorschlag-panel">
+        <div class="vorschlag-panel__head">
+          <p class="eyebrow">mitbauen · ans wiki</p>
+          <h2 class="vorschlag-panel__title">Fehlt eine Methode? Schlag sie vor.</h2>
+          <p class="vorschlag-panel__lede">Du kennst eine Methode der Zukunftsforschung, die hier fehlt? Schick sie uns — wir nehmen sie gern ins Wiki auf.</p>
+        </div>
+
+        <form class="vorschlag-form" id="vorschlagForm" novalidate>
+          <div class="vorschlag-field">
+            <label class="field-label" for="vorschlagMethode">Methode <span aria-hidden="true">*</span></label>
+            <input class="field" id="vorschlagMethode" name="methode" type="text" maxlength="120"
+                   placeholder="z. B. Three Horizons, Backcasting, Wild Cards …"
+                   autocomplete="off" required>
+          </div>
+
+          <div class="vorschlag-field">
+            <label class="field-label" for="vorschlagBeschreibung">Worum geht's? / warum <span aria-hidden="true">*</span></label>
+            <textarea class="field" id="vorschlagBeschreibung" name="beschreibung" maxlength="1500"
+                      placeholder="Kurz: was die Methode tut, wofür sie gut ist — und warum sie ins Wiki gehört." required></textarea>
+          </div>
+
+          <div class="vorschlag-field">
+            <label class="field-label" for="vorschlagEmail">deine E-Mail <span class="vorschlag-opt">(optional, für Rückfragen)</span></label>
+            <input class="field" id="vorschlagEmail" name="email" type="email" maxlength="200"
+                   placeholder="du@beispiel.de" autocomplete="email">
+          </div>
+
+          <!-- Honeypot: für Menschen unsichtbar, von Bots gern ausgefüllt → still verworfen. -->
+          <div class="vorschlag-hp" aria-hidden="true">
+            <label for="vorschlagWebsite">Website (bitte leer lassen)</label>
+            <input id="vorschlagWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <p class="ki-hinweis" role="note" style="margin:var(--ft-space-sm) 0 0;padding:var(--ft-space-sm) var(--ft-space-md);border:1px solid var(--ft-ultra,#B57BFF);border-radius:10px;background:color-mix(in srgb, var(--ft-surface) 82%, transparent);color:var(--ft-body);font-size:var(--ft-text-caption,0.85rem);line-height:1.55;">
+            <strong>Dein Vorschlag landet per Mail bei uns</strong> — wir lesen mit, kuratieren von Hand und melden uns bei Rückfragen (nur wenn du eine Mail hinterlässt). Kein Auto-Upload, keine Weitergabe.
+          </p>
+
+          <div class="turnstile-block" style="display:flex;margin-top:var(--ft-space-sm);">
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAADfO4U6MFWThyt7u"
+                 data-callback="onVorschlagTurnstileOk" data-error-callback="onVorschlagTurnstileErr"
+                 data-expired-callback="onVorschlagTurnstileErr" data-theme="dark"></div>
+          </div>
+
+          <div class="vorschlag-actions">
+            <button class="btn btn--primary" id="vorschlagBtn" type="submit">vorschlag senden</button>
+          </div>
+
+          <div class="banner" id="vorschlagBanner" role="status" aria-live="polite" style="max-width:64ch;"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <!-- v10 · Floating Menü-Button (Sicherheitsnetz „Menü von überall", mobil) — öffnet DAS
@@ -1747,6 +1846,96 @@ img, svg, video, canvas, iframe { max-width: 100%; }
       });
     });
   }
+})();
+</script>
+
+<!-- ====================== METHODE-VORSCHLAG · Handler ======================
+     Eigene IIFE, eigener Scope — keine Kollision mit dem Filter/Sprung-Script.
+     Spiegelt das Orakel-Muster aus index.html: Validierung → Button-Disable +
+     Lade-Banner → fetch POST /api/vorschlag → Erfolgs-/Warn-Banner → finally
+     re-enable + Turnstile-Reset. Vertrag siehe SHARED CONTRACT. -->
+<script>
+(function () {
+  'use strict';
+
+  var form = document.getElementById('vorschlagForm');
+  if (!form) return;
+
+  var btn      = document.getElementById('vorschlagBtn');
+  var banner   = document.getElementById('vorschlagBanner');
+  var elMeth   = document.getElementById('vorschlagMethode');
+  var elBeschr = document.getElementById('vorschlagBeschreibung');
+  var elMail   = document.getElementById('vorschlagEmail');
+  var elHp     = document.getElementById('vorschlagWebsite');
+
+  /* Turnstile-Token (eigene Callbacks, s. Widget oben). */
+  var vorschlagTsToken = '';
+  window.onVorschlagTurnstileOk  = function (t) { vorschlagTsToken = t || ''; };
+  window.onVorschlagTurnstileErr = function ()  { vorschlagTsToken = ''; };
+
+  function show(kind, msg) {
+    banner.className = 'banner banner--' + kind + ' show';
+    banner.textContent = msg;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var methode      = (elMeth.value || '').trim();
+    var beschreibung = (elBeschr.value || '').trim();
+    var email        = (elMail.value || '').trim();
+    var website      = (elHp.value || '').trim();   // Honeypot
+
+    if (!methode) {
+      show('info', 'ℹ gib bitte einen methoden-namen ein.');
+      elMeth.focus();
+      return;
+    }
+    if (!beschreibung) {
+      show('info', 'ℹ sag in einem satz, worum es geht und warum die methode ins wiki gehört.');
+      elBeschr.focus();
+      return;
+    }
+    if (methode.length > 120) { show('warn', '⚠ der methoden-name ist zu lang (max. 120 zeichen).'); return; }
+    if (beschreibung.length > 1500) { show('warn', '⚠ die beschreibung ist zu lang (max. 1500 zeichen) — bitte kürzen.'); return; }
+
+    btn.disabled = true;
+    show('info', '⋯ dein vorschlag ist unterwegs …');
+
+    fetch('/api/vorschlag', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        methode: methode,
+        beschreibung: beschreibung,
+        email: email,
+        website: website,
+        cf_turnstile_token: vorschlagTsToken
+      })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        var d = res.d || {};
+        if (!res.ok || d.fehler || !d.ok) {
+          show('warn', '⚠ ' + (d.fehler || 'das hat gerade nicht geklappt — versuch es gleich nochmal.'));
+          return;
+        }
+        show('ok', '✓ danke! dein vorschlag ist auf dem weg zu uns.');
+        elMeth.value = '';
+        elBeschr.value = '';
+        elMail.value = '';
+      })
+      .catch(function () {
+        show('warn', '⚠ das hat gerade nicht geklappt — versuch es gleich nochmal.');
+      })
+      .finally(function () {
+        btn.disabled = false;
+        if (window.turnstile && typeof window.turnstile.reset === 'function') {
+          try { window.turnstile.reset(); } catch (e) {}
+        }
+        vorschlagTsToken = '';
+      });
+  });
 })();
 </script>
 
