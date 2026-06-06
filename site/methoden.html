@@ -945,6 +945,28 @@ img, svg, video, canvas, iframe { max-width: 100%; }
 
 /* --- 4 · Overflow-Riegel für die neue Komponente -------------------- */
 .floating-menu { max-width: 100vw; }
+
+/* --- 5 · BUG-FIX mobil: Turnstile + Banner zentriert, kein Rechts-Überhang.
+   Das ~300px-Widget passte bei 390px nicht in das .vorschlag-panel
+   (Panel-Padding var(--ft-space-lg)=32px je Seite). Padding auf Mobil
+   reduzieren, Widget-Container zentrieren, Widget skalierbar machen.
+   Desktop (>720px) bleibt unberührt. --- */
+@media (max-width: 720px) {
+  .vorschlag-panel { padding: var(--ft-space-md); }     /* 32px → 20px je Seite */
+  .turnstile-block {
+    display: flex; justify-content: center; width: 100%;
+  }
+  .turnstile-block .cf-turnstile { max-width: 100%; }    /* kein Überhang am rechten Rand */
+  .turnstile-block iframe { max-width: 100%; }
+  #vorschlagBanner { max-width: 100%; }                  /* Banner statt 64ch → Panel-breit */
+}
+
+/* --- 6 · BUG-FIX mobil: Floating-„menü"-Button überlappt Footer/Inhalt nicht.
+   Bottom-Clearance unter <main> (gleiches Muster wie index.html-Stil).
+   Höhe Button (48px) + Abstand → ~88px. --- */
+@media (max-width: 760px) {
+  main { padding-bottom: calc(88px + env(safe-area-inset-bottom, 0)); }
+}
 </style>
 </head>
 <body>

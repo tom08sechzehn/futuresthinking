@@ -453,8 +453,10 @@ input[type="range"].field-range::-moz-range-thumb       { width:24px; height:24p
 .insp__lineage button { display:inline-flex; align-items:center; gap:6px; background:color-mix(in srgb,var(--ft-surface-2) 60%,transparent); border:var(--ft-border-lineage); color:var(--ft-body); border-radius:var(--ft-radius-md); padding:var(--ft-space-xs) var(--ft-space-sm); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); }
 .insp__lineage button:hover { border-color:var(--ft-ultra); color:var(--ft-ink); }
 .insp__actions { display:flex; flex-wrap:wrap; gap:var(--ft-space-sm); margin-top:var(--ft-space-lg); }
-.insp__permalink { display:flex; gap:var(--ft-space-xs); align-items:center; flex-wrap:wrap; background:var(--ft-surface); border:var(--ft-border); border-radius:var(--ft-radius-md); padding:var(--ft-space-sm); margin-top:var(--ft-space-md); }
-.insp__permalink code { font-family:var(--ft-font-mono); font-size:0.78rem; color:var(--ft-signal-ink); word-break:break-all; flex:1; min-width:0; }
+.insp__permalink { display:flex; flex-direction:column; gap:var(--ft-space-xs); align-items:stretch; background:var(--ft-surface); border:var(--ft-border); border-radius:var(--ft-radius-md); padding:var(--ft-space-sm); margin-top:var(--ft-space-md); }
+.insp__permalink-lbl { margin:0; }
+.insp__permalink code { display:block; width:100%; min-width:0; font-family:var(--ft-font-mono); font-size:0.78rem; color:var(--ft-signal-ink); overflow-wrap:anywhere; word-break:break-word; }
+.insp__permalink-actions { display:flex; flex-wrap:wrap; gap:var(--ft-space-xs); }
 .insp__diptych { display:flex; gap:var(--ft-space-md); margin-top:var(--ft-space-sm); }
 .insp__axis { flex:1; }
 .insp__axis-bar { height:6px; border-radius:var(--ft-radius-pill); background:var(--ft-line); position:relative; margin-top:6px; }
@@ -754,7 +756,8 @@ img, svg, canvas, iframe { max-width:100%; }
   .sec-head__meta { white-space:normal; width:100%; text-align:left; }
   .starlist__top { flex-wrap:wrap; }
   .chip { white-space:normal; }
-  .insp__permalink code, .permalink-bar code { word-break:break-all; }
+  .insp__permalink code { overflow-wrap:anywhere; word-break:break-word; }
+  .permalink-bar code { word-break:break-all; }
 
   /* Achsen-Labels kleiner & lesbar (Toggle bleibt frei, ≥44px) */
   .starmap__axes { font-size:0.7rem; }
@@ -846,6 +849,10 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
   .floating-menu.is-visible { display:inline-flex; }
   .floating-menu .nav-toggle__bars { width:16px; }
   .floating-menu .nav-toggle__bars span { display:block; height:2px; background:currentColor; border-radius:2px; }
+
+  /* Bug 3 · Floating-Menü-Button überlappt unteren Inhalt: untere Freihöhe
+     (Button ~48px + Abstand + iOS safe-area), damit gescrollter Inhalt + Footer freikommt. */
+  body { padding-bottom:calc(96px + env(safe-area-inset-bottom,0)); }
 }
 
 /* --- 3 · Mobile-Polish ---------------------------------------------- */
@@ -893,7 +900,8 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
 .floating-menu, .mic-paths { max-width:100vw; }
 .kurs-cta { min-width:0; }
 @media (max-width:720px) {
-  .kurs-cta__play { width:100%; justify-content:center; }
+  .kurs-cta__play { width:100%; justify-content:center; flex-wrap:wrap; white-space:normal; text-align:center; max-width:100%; }
+  .kurs-cta__play .play-badge { white-space:nowrap; }
 }
   /* ===== ORACLE-LOADER (Charta) — zehn Sterne pulsen zum Sternbild + Scan-Ring; CDN-frei, reduced-motion-safe ===== */
   .oracle-loader{ display:flex; align-items:center; gap:.85rem; width:400px; max-width:100%; }
@@ -1217,10 +1225,12 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       <div id="inspLineageBtns"></div>
     </div>
     <div class="insp__permalink">
-      <span class="eyebrow">permalink</span>
+      <span class="eyebrow insp__permalink-lbl">permalink</span>
       <code id="inspPermalink">—</code>
-      <button class="icon-btn" id="inspCopyLink" type="button">kopieren</button>
-      <button class="icon-btn" id="inspShare" type="button">QR</button>
+      <div class="insp__permalink-actions">
+        <button class="icon-btn" id="inspCopyLink" type="button">kopieren</button>
+        <button class="icon-btn" id="inspShare" type="button">QR</button>
+      </div>
     </div>
     <div class="insp__actions">
       <button class="btn btn--ghost" id="inspToGraph" type="button">im graph weiterstöbern</button>

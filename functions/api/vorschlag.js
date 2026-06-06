@@ -27,9 +27,10 @@
 
 import { EmailMessage } from "cloudflare:email";
 
-// TEMP-DEBUG (2026-06-05): bei true wird der echte Send-Fehler (code/message, KEIN Secret)
-// ins `fehler`-Feld geschrieben, damit die Ursache im Banner sichtbar ist. Vor Produktion: false.
-const DEBUG = true;
+// Diagnose-Schalter: bei true wird der echte Send-Fehler (code/message, KEIN Secret) ins
+// `fehler`-Feld geschrieben. Mail laeuft (2026-06-06 verifiziert) -> false. Die
+// console.log("vorschlag SEND FAIL", ...)-Logs laufen ohnehin immer.
+const DEBUG = false;
 
 /* Absender (MUSS auf der onboardeten Domain liegen) + fester Empfaenger. */
 const MAIL_FROM = { email: "kontakt@futuresthinking.eu", name: "futuresthinking" };
