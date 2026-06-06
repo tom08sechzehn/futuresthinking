@@ -788,7 +788,7 @@ a:hover { text-decoration: underline; }
 
 /* Overflow-Hardening — gilt immer (kein horizontaler Scroll an der Wurzel). */
 html, body { max-width: 100%; overflow-x: hidden; }
-img, svg, video, canvas { max-width: 100%; }   /* iframe BEWUSST RAUS: das Turnstile-iframe darf NICHT beschnitten werden (sonst bricht/verschwindet das Widget) */
+img, svg, video, canvas, iframe { max-width: 100%; }   /* wie in der funktionierenden Fassung (6abd3eb) */
 
 /* Jump-Toggle: global aus → nur in der ≤720px-Query sichtbar (Desktop = Chips offen). */
 .jump-toggle { display: none; }
@@ -973,13 +973,12 @@ img, svg, video, canvas { max-width: 100%; }   /* iframe BEWUSST RAUS: das Turns
    reduzieren, Widget-Container zentrieren, Widget skalierbar machen.
    Desktop (>720px) bleibt unberührt. --- */
 @media (max-width: 720px) {
+  /* WICHTIG: .turnstile-block + das Cloudflare-Widget werden mobil NICHT umgestylt.
+     Eine frühere Regel (.turnstile-block { width:100%; justify-content:center }) hat das
+     Widget gebrochen → "Challenge nicht bestanden". Es bleibt beim funktionierenden inline
+     display:flex. Nur das (unbedenkliche) Panel-Padding wird reduziert — das gibt dem
+     ~300px-Widget genug Platz und behebt den Rechts-Überhang ohne Widget-Eingriff. */
   .vorschlag-panel { padding: var(--ft-space-md); }     /* 32px → 20px je Seite */
-  .turnstile-block {
-    display: flex; justify-content: center; width: 100%;
-  }
-  /* Turnstile-Widget + sein iframe NICHT umstylen — das Widget bricht sonst (unsichtbar/Fehler).
-     Die Zentrierung über .turnstile-block genügt; das ~300px-Widget passt bei reduziertem
-     Panel-Padding (20px) auch auf 390px. */
   #vorschlagBanner { max-width: 100%; }                  /* Banner statt 64ch → Panel-breit */
 }
 
