@@ -767,7 +767,7 @@ a:hover { text-decoration: underline; }
 
 /* Overflow-Hardening — gilt immer (kein horizontaler Scroll an der Wurzel). */
 html, body { max-width: 100%; overflow-x: hidden; }
-img, svg, video, canvas, iframe { max-width: 100%; }
+img, svg, video, canvas { max-width: 100%; }   /* iframe BEWUSST RAUS: das Turnstile-iframe darf NICHT beschnitten werden (sonst bricht/verschwindet das Widget) */
 
 /* Jump-Toggle: global aus → nur in der ≤720px-Query sichtbar (Desktop = Chips offen). */
 .jump-toggle { display: none; }
@@ -956,8 +956,9 @@ img, svg, video, canvas, iframe { max-width: 100%; }
   .turnstile-block {
     display: flex; justify-content: center; width: 100%;
   }
-  .turnstile-block .cf-turnstile { max-width: 100%; }    /* kein Überhang am rechten Rand */
-  .turnstile-block iframe { max-width: 100%; }
+  /* Turnstile-Widget + sein iframe NICHT umstylen — das Widget bricht sonst (unsichtbar/Fehler).
+     Die Zentrierung über .turnstile-block genügt; das ~300px-Widget passt bei reduziertem
+     Panel-Padding (20px) auch auf 390px. */
   #vorschlagBanner { max-width: 100%; }                  /* Banner statt 64ch → Panel-breit */
 }
 

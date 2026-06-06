@@ -702,7 +702,7 @@ input[type="range"]::-moz-range-thumb { width:26px; height:26px; border-radius:5
 
 /* 0 · Overflow-Hardening (gilt immer — kein horizontaler Scroll) */
 html, body { max-width:100%; overflow-x:hidden; }
-img, svg, canvas, iframe { max-width:100%; }
+img, svg, canvas { max-width:100%; }   /* iframe BEWUSST RAUS: Turnstile-iframe darf NICHT beschnitten werden (sonst bricht/verschwindet das Widget) */
 
 /* Sternkarte: Y-Achsen-HUD raus aus der oberen Ecke (gehört dem Thema/Zeit-Toggle).
    Gilt auch >720px (Tablet 720–960), wo die Karte sichtbar ist. (Dieter · Fix 3) */
