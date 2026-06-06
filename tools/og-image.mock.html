@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1200px; height:630px; }
+  body {
+    --bg:#0B0E1A; --surface:#141A2E; --line:#2C3658;
+    --ink:#F2F0FF; --body:#C3C7DB; --muted:#7A82A6;
+    --signal:#3DF2C4; --flare:#FF6B4A; --ultra:#B57BFF;
+    width:1200px; height:630px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(820px 560px at 30% 30%, rgba(61,242,196,0.10), transparent 60%),
+      radial-gradient(680px 520px at 88% 82%, rgba(181,123,255,0.12), transparent 62%),
+      radial-gradient(900px 700px at 50% 40%, #141A2E 0%, #0B0E1A 70%);
+    font-family:'Inter','Segoe UI',system-ui,sans-serif;
+    color:var(--ink);
+  }
+  /* starfield dots */
+  .stars { position:absolute; inset:0; }
+  .stars i {
+    position:absolute; background:#fff; border-radius:50%;
+    width:2px; height:2px; opacity:.5;
+  }
+  .frame {
+    position:absolute; inset:28px; border:1px solid rgba(44,54,88,0.7);
+    border-radius:20px;
+    box-shadow: inset 0 0 0 1px rgba(61,242,196,0.04);
+  }
+  .pad { position:absolute; inset:0; padding:78px 88px; display:flex; flex-direction:column; }
+  .eyebrow {
+    font-family:'IBM Plex Mono',monospace; font-size:18px; letter-spacing:5px;
+    text-transform:uppercase; color:var(--muted);
+  }
+  .eyebrow b { color:var(--signal); font-weight:500; }
+  .wordmark {
+    font-family:'Space Grotesk',sans-serif; font-weight:700;
+    font-size:96px; line-height:1.0; letter-spacing:-2px; margin-top:30px;
+    color:var(--ink);
+  }
+  .wordmark .dot { color:var(--signal); }
+  .claim {
+    font-family:'Space Grotesk',sans-serif; font-weight:500;
+    font-size:40px; line-height:1.1; letter-spacing:-0.5px;
+    margin-top:18px; color:var(--body);
+  }
+  .claim .hl { color:var(--ultra); }
+  .desc {
+    margin-top:auto; max-width:880px; font-size:25px; line-height:1.5; color:var(--body);
+  }
+  .desc .mint { color:var(--signal); font-weight:500; }
+  .meta {
+    margin-top:30px; display:flex; align-items:center; gap:16px;
+    font-family:'IBM Plex Mono',monospace; font-size:17px; letter-spacing:1px; color:var(--muted);
+  }
+  .chip {
+    display:inline-flex; align-items:center; gap:9px;
+    padding:8px 16px; border:1px solid var(--line); border-radius:999px;
+    color:var(--body);
+  }
+  .chip::before { content:""; width:9px; height:9px; border-radius:50%; background:var(--signal);
+    box-shadow:0 0 10px var(--signal); }
+  .chip.flare::before { background:var(--flare); box-shadow:0 0 10px var(--flare); }
+  .chip.ultra::before { background:var(--ultra); box-shadow:0 0 10px var(--ultra); }
+  /* big star motif top-right */
+  .mark { position:absolute; top:70px; right:96px; }
+</style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <div class="frame"></div>
+  <svg class="mark" width="150" height="150" viewBox="0 0 32 32">
+    <defs>
+      <radialGradient id="g" cx="50%" cy="50%" r="55%">
+        <stop offset="0%" stop-color="#3DF2C4" stop-opacity="0.45"/>
+        <stop offset="60%" stop-color="#B57BFF" stop-opacity="0.10"/>
+        <stop offset="100%" stop-color="#0B0E1A" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="s" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#7CFCDD"/><stop offset="100%" stop-color="#3DF2C4"/>
+      </linearGradient>
+    </defs>
+    <circle cx="16" cy="16" r="15" fill="url(#g)"/>
+    <path d="M16 2 L18 14 L30 16 L18 18 L16 30 L14 18 L2 16 L14 14 Z" fill="url(#s)"/>
+    <circle cx="16" cy="16" r="2.4" fill="#EAFFF8"/>
+  </svg>
+  <div class="pad">
+    <div class="eyebrow">offenes zukunftsarchiv <b>·</b> orakel aus zehn perspektiven</div>
+    <div class="wordmark">futures<span class="dot">·</span>thinking</div>
+    <div class="claim">wir denken <span class="hl">zukünfte</span></div>
+    <div class="desc">
+      Ein offenes Zukunftsarchiv <span class="mint">+</span> ein Orakel aus zehn Perspektiven.
+      Futures Thinking zum Mitdenken.
+    </div>
+    <div class="meta">
+      <span class="chip">Archiv</span>
+      <span class="chip ultra">Orakel</span>
+      <span class="chip flare">Methoden</span>
+      <span style="margin-left:auto;">futuresthinking.eu</span>
+    </div>
+  </div>
+  <script>
+    // deterministic starfield
+    const s = document.getElementById('stars');
+    let seed = 1337;
+    function rnd(){ seed = (seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+    for (let k=0;k<90;k++){
+      const i=document.createElement('i');
+      i.style.left=(rnd()*1200)+'px';
+      i.style.top=(rnd()*630)+'px';
+      const sz=(rnd()<0.85?1:2);
+      i.style.width=sz+'px'; i.style.height=sz+'px';
+      i.style.opacity=(0.25+rnd()*0.5).toFixed(2);
+      if(rnd()<0.12){ i.style.background='#3DF2C4'; }
+      else if(rnd()<0.08){ i.style.background='#B57BFF'; }
+      s.appendChild(i);
+    }
+  </script>
+</body>
+</html>
