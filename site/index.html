@@ -2380,12 +2380,12 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
 
     /* ===== Zone B · Funde je Dekade — Stern-Stapelung (Iris v8 §2) =====
        Ein Fund = ein leuchtender Stern-Punkt; Höhe/Anzahl = wie viele je Jahrzehnt;
-       Farbe = Wünschbarkeit (Stapel von unten grün→neutral→rot); Lücke = gestrichelte
+       Farbe = Wünschbarkeit (Stapel von unten rot→neutral→grün → grün oben); Lücke = gestrichelte
        Aussparung bis zur Soll-Höhe der Max-Dekade = „was fehlt". */
     var BW = 520, BH = 262, bBase = 200;   /* BH erhöht: Platz für zweizeilige Dekaden-Labels (Wort oben, Zähler unten) */
     var R = 4, STEP = 18, FIRST = 14;                 /* Punkt-Radius · Zentrum-Abstand · Sockel-Offset */
     var COLMID = { '2030': 70, '2040': 190, '2050': 310, '2060': 430 };  /* Spalten-Mitte je Dekade */
-    var stackOrder = ['wuenschenswert', 'neutral', 'nicht'];
+    var stackOrder = ['nicht', 'neutral', 'wuenschenswert'];  /* von unten gestapelt: rot unten, neutral mitte, grün oben (wie die Legende) */
     var clsOf = { wuenschenswert: 'wue', neutral: 'neu', nicht: 'nic' };
     var byDec = {}, maxCount = 0;
     DECADES.forEach(function (d) { byDec[d.key] = { wuenschenswert: [], neutral: [], nicht: [], total: 0 }; });
@@ -2406,7 +2406,7 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       /* Grundlinie (Hairline) über die Spaltenbreite */
       bars += '<line class="dek-baseline" x1="' + (cx - 35) + '" y1="' + bBase + '" x2="' + (cx + 35) + '" y2="' + bBase + '"></line>';
 
-      /* reale Funde: gestapelte Stern-Punkte von unten nach oben (grün→neutral→rot) */
+      /* reale Funde: gestapelte Stern-Punkte von unten nach oben (rot→neutral→grün): grün oben, rot unten */
       var i = 0;
       stackOrder.forEach(function (wKey) {
         grp[wKey].forEach(function (f) {
