@@ -983,6 +983,8 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       <span class="nav-sep" aria-hidden="true">·</span>
       <a href="methoden.html">methoden</a>
       <span class="nav-sep" aria-hidden="true">·</span>
+      <a href="blog.html">blog</a>
+      <span class="nav-sep" aria-hidden="true">·</span>
       <a href="einreichen.html">einreichen</a>
     </nav>
 
@@ -1013,6 +1015,7 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       <a href="index.html#screen-archiv" aria-current="page">karte</a>
       <a href="index.html#oracle">zukünft:innen</a>
       <a href="methoden.html">methoden</a>
+      <a href="blog.html">blog</a>
       <a href="einreichen.html">einreichen</a>
     </nav>
     <a class="btn btn--primary btn--block nav-sheet__cta" href="einreichen.html" id="sheetSubmit">fund einreichen</a>
@@ -3277,7 +3280,7 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       }
       out.innerHTML = '';
 
-      var names = (typeof ORACLE !== 'undefined' && ORACLE.length) ? ORACLE : [];
+      var names = (typeof ZUKUENFTINNEN !== 'undefined' && ZUKUENFTINNEN.length) ? ZUKUENFTINNEN : [];
       d.stimmen.forEach(function (s, i) {
         var nm = names[i] ? names[i].name : '';
         var card = document.createElement('article');
@@ -3302,6 +3305,32 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       }
 
       out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      // Copy-Button: erzeugt nach der Synthese, kopiert alles als formatierten Text
+      var copyRow = document.createElement('div');
+      copyRow.style.cssText = 'display:flex;justify-content:flex-end;margin-top:var(--ft-space-sm);';
+      var copyBtn = document.createElement('button');
+      copyBtn.className = 'btn btn--secondary';
+      copyBtn.style.cssText = 'font-size:0.82rem;gap:6px;';
+      copyBtn.type = 'button';
+      copyBtn.innerHTML = '<svg aria-hidden="true" width="13" height="13" viewBox="0 0 16 16" fill="none" style="flex:none"><path d="M4 4V2.5A1.5 1.5 0 0 1 5.5 1h7A1.5 1.5 0 0 1 14 2.5v8A1.5 1.5 0 0 1 12.5 12H11M2 5.5A1.5 1.5 0 0 1 3.5 4h7A1.5 1.5 0 0 1 12 5.5v8A1.5 1.5 0 0 1 10.5 15h-7A1.5 1.5 0 0 1 2 13.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> antwort kopieren';
+      copyBtn.addEventListener('click', function () {
+        var lines = ['Orakel von futuresthinking.eu', 'Frage: ' + frage, ''];
+        d.stimmen.forEach(function (s, idx) {
+          var nm = names[idx] ? names[idx].name : '';
+          lines.push((idx + 1) + '. ' + s.schule + (nm ? ' (' + nm + ')' : ''));
+          lines.push(s.kernfrage);
+          lines.push(s.beitrag);
+          lines.push('');
+        });
+        lines.push('— Integrale Synthese —');
+        lines.push(d.synthese);
+        lines.push('');
+        lines.push('KI-generiert auf futuresthinking.eu — keine echten Personen, keine Beratung.');
+        copyToClipboard(lines.join('\n'), copyBtn);
+      });
+      copyRow.appendChild(copyBtn);
+      out.appendChild(copyRow);
     }
 
     document.getElementById('modalCloseBtn').addEventListener('click', closeShareModal);

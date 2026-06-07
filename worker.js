@@ -22,8 +22,10 @@
  */
 
 import { onRequestPost } from "./functions/api/submit.js";
-import { onRequestPost as oraclePost } from "./functions/api/oracle.js"; // Orakel (Turnstile + Anthropic)
-import { onRequestPost as vorschlagPost } from "./functions/api/vorschlag.js"; // Methoden-Vorschlag (Turnstile + Email-Sending)
+import { onRequestPost as oraclePost } from "./functions/api/oracle.js";     // Orakel (Turnstile + Anthropic)
+import { onRequestPost as vorschlagPost } from "./functions/api/vorschlag.js"; // Methoden-Vorschlag (Turnstile + Email)
+import { onRequestGet as oracleLogGet } from "./functions/api/oracle-log.js"; // Admin: Eingangs-Übersicht + Blog-Freigabe
+import { onRequestGet as blogGet } from "./functions/api/blog.js";             // Öffentlich: Blog-Posts
 
 export default {
   async fetch(request, env, ctx) {
@@ -50,6 +52,22 @@ export default {
     if (url.pathname === "/api/vorschlag") {
       if (request.method === "POST") {
         return vorschlagPost({ request, env });
+      }
+      return new Response("Method Not Allowed", { status: 405 });
+    }
+
+    // API-Route: GET /api/oracle-log -> Admin-Übersicht (Token-geschützt).
+    if (url.pathname === "/api/oracle-log") {
+      if (request.method === "GET") {
+        return oracleLogGet({ request, env });
+      }
+      return new Response("Method Not Allowed", { status: 405 });
+    }
+
+    // API-Route: GET /api/blog -> veröffentlichte Blog-Posts (öffentlich).
+    if (url.pathname === "/api/blog") {
+      if (request.method === "GET") {
+        return blogGet({ request, env });
       }
       return new Response("Method Not Allowed", { status: 405 });
     }

@@ -1,3 +1,5 @@
+import { EmailMessage } from "cloudflare:email";
+
 /**
  * functions/api/oracle.js — Cloudflare Pages Function (Worker-Modul).
  *
@@ -448,6 +450,65 @@ async function askOracle(apiKey, frage) {
   return parsed;
 }
 
+/* ===========================================================================
+ * LOGGING — DSGVO-freundlich: kein IP, kein PII.
+ * Speichert Frage + Antwort + Zeitstempel in ORACLE_LOG KV (30 Tage TTL).
+ * Sendet E-Mail-Benachrichtigung via EMAIL-Binding (wie vorschlag.js).
+ * Beide Pfade degrade-graceful: ohne Binding läuft das Orakel weiter.
+ * ======================================================================== */
+const MAIL_FROM_ORACLE = { email: "kontakt@futuresthinking.eu", name: "futuresthinking · Orakel" };
+const MAIL_TO_ORACLE = "tom.thi.2022@gmail.com";
+
+function b64utf8(str) {
+  const bytes = new TextEncoder().encode(String(str));
+  let bin = "";
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
+function buildOracleEmail({ subject, text }) {
+  const encWord = (s) => `=?UTF-8?B?${b64utf8(s)}?=`;
+  const bodyB64 = b64utf8(text).replace(/(.{76})/g, "$1\r\n");
+  return [
+    `From: ${MAIL_FROM_ORACLE.name} <${MAIL_FROM_ORACLE.email}>`,
+    `To: ${MAIL_TO_ORACLE}`,
+    `Subject: ${encWord(subject)}`,
+    `Message-ID: <${crypto.randomUUID()}@futuresthinking.eu>`,
+    `MIME-Version: 1.0`,
+    `Content-Type: text/plain; charset="utf-8"`,
+    `Content-Transfer-Encoding: base64`,
+    ``,
+    bodyB64,
+  ].join("\r\n");
+}
+
+/** Feuert nach erfolgreichem Orakel-Call — blockiert NICHT die Antwort. */
+async function logOracle(env, frage, orakel) {
+  const ts = new Date().toISOString();
+  const item = { frage, ts, published: false, stimmen: orakel.stimmen, synthese: orakel.synthese };
+
+  // 1) KV-Log (degrade-graceful: ohne Binding kein Fehler)
+  if (env.ORACLE_LOG) {
+    await env.ORACLE_LOG.put("q:" + ts, JSON.stringify(item), { expirationTtl: 30 * 24 * 3600 });
+  }
+
+  // 2) E-Mail-Benachrichtigung (degrade-graceful: ohne Binding kein Fehler)
+  if (env.EMAIL) {
+    const fragenKurz = frage.length > 80 ? frage.slice(0, 80) + "…" : frage;
+    let text = `Neue Orakel-Frage auf futuresthinking.eu\n\nFrage: ${frage}\nZeitpunkt: ${ts}\n\n`;
+    orakel.stimmen.forEach((s, i) => {
+      text += `${i + 1}. ${s.schule}\n${s.beitrag}\n\n`;
+    });
+    text += `--- Synthese ---\n${orakel.synthese}\n`;
+    try {
+      const raw = buildOracleEmail({ subject: "Orakel-Frage: " + fragenKurz, text });
+      await env.EMAIL.send(new EmailMessage(MAIL_FROM_ORACLE.email, MAIL_TO_ORACLE, raw));
+    } catch (e) {
+      console.log("oracle EMAIL FAIL", JSON.stringify({ code: e?.code || e?.name || "unknown" }));
+    }
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 export async function onRequestPost({ request, env }) {
   // env-Validierung (klare Fehler, keine Secrets im Body).
@@ -483,6 +544,8 @@ export async function onRequestPost({ request, env }) {
   // 3) Orakel befragen + Antwort validiert zurueckgeben.
   try {
     const orakel = await askOracle(env.ANTHROPIC_API_KEY, frage);
+    // Fire-and-forget: Logging + E-Mail blockieren nicht die Antwort-Latenz.
+    logOracle(env, frage, orakel).catch(() => {});
     return json(orakel, 200);
   } catch (e) {
     // 429/5xx/Timeout/Schema-Bruch -> freundlicher deutscher Fallback.

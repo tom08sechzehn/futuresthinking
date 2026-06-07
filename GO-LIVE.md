@@ -97,13 +97,13 @@ Cloudflare → **Workers & Pages** → Projekt `futuresthinking` → **Settings 
 ## Phase 6 — Secrets & Env setzen
 **Cloudflare Pages → Projekt → Settings → Environment variables** (als *encrypted* markieren):
 
-| Variable | Wert | Wofür |
-|---|---|---|
-| `TURNSTILE_SECRET` | Turnstile **Secret** Key (Phase 4) | Bot-Check serverseitig |
-| `GITHUB_TOKEN` | Fine-grained PAT (Phase 7) | öffnet PRs |
-| `GITHUB_OWNER` | `tom08sechzehn` (dein GitHub-Account) | Ziel-Repo |
-| `GITHUB_REPO` | `futuresthinking` | Ziel-Repo |
-| `GITHUB_BASE_BRANCH` | `main` *(optional)* | Ziel-Branch |
+| Variable             | Wert                                  | Wofür                  |
+| -------------------- | ------------------------------------- | ---------------------- |
+| `TURNSTILE_SECRET`   | Turnstile **Secret** Key (Phase 4)    | Bot-Check serverseitig |
+| `GITHUB_TOKEN`       | Fine-grained PAT (Phase 7)            | öffnet PRs             |
+| `GITHUB_OWNER`       | `tom08sechzehn` (dein GitHub-Account) | Ziel-Repo              |
+| `GITHUB_REPO`        | `futuresthinking`                     | Ziel-Repo              |
+| `GITHUB_BASE_BRANCH` | `main` *(optional)*                   | Ziel-Branch            |
 
 **Nur falls du auf CI-Deploy via `deploy.yml` umstellst** (GitHub → Settings → Secrets → Actions):
 `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.

@@ -45,6 +45,25 @@ GITHUB_BASE_BRANCH = "main"
 binding = "ORACLE_LIMITS"
 id = "fff4a403476e42718ddc502fdcdc6b4d"
 
+# KV-Namespace fuer den Orakel-Eingang (Fragen + Antworten, 30 Tage TTL).
+# SETUP (einmalig, 3 Schritte):
+#   1. Cloudflare Dashboard > Workers & Pages > KV > Create namespace → Name: "ORACLE_LOG"
+#   2. Die erzeugte ID unten bei `id =` eintragen, dann diese 3 Zeilen ent-kommentieren.
+#   3. Als Cloudflare Secret (Workers > Settings > Variables/Secrets) eintragen:
+#      Name: ORACLE_LOG_SECRET   Wert: ein langes, selbst gewähltes Passwort
+#      → Tom öffnet dann https://futuresthinking.eu/api/oracle-log?token=DEIN_PASSWORT
+# [[kv_namespaces]]
+# binding = "ORACLE_LOG"
+# id = "ERSETZEN_MIT_ECHTER_KV_ID"
+
+# KV-Namespace fuer veröffentlichte Blog-Posts (/api/blog + site/blog.html).
+# SETUP (einmalig, 2 Schritte):
+#   1. Cloudflare Dashboard > Workers & Pages > KV > Create namespace → Name: "ORACLE_BLOG"
+#   2. Die erzeugte ID unten eintragen, dann diese 3 Zeilen ent-kommentieren.
+# [[kv_namespaces]]
+# binding = "ORACLE_BLOG"
+# id = "ERSETZEN_MIT_ECHTER_KV_ID"
+
 # send_email-Binding fuer die Kachel „Methode vorschlagen" (/api/vorschlag).
 # GRATIS-Weg ueber Cloudflare EMAIL ROUTING (NICHT das kostenpflichtige „Email Sending"):
 # Ein Worker darf kostenlos an eine VERIFIZIERTE Routing-Zieladresse senden.
