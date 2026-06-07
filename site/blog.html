@@ -88,6 +88,8 @@ ul{margin:0;padding:0;list-style:none;}
 .topnav a[aria-current]::after{content:"";position:absolute;left:var(--ft-space-xs);right:var(--ft-space-xs);
   bottom:-3px;height:2px;border-radius:var(--ft-radius-pill);background:var(--ft-signal);}
 .nav-sep{color:var(--ft-line);user-select:none;font-size:var(--ft-text-caption);}
+.nav-sep--wide{padding:0 var(--ft-space-xs);}
+.nav-sep--inner{padding:0 2px;opacity:0.4;font-size:0.65em;}
 .header-actions{display:flex;align-items:center;gap:var(--ft-space-sm);}
 .mode-toggle{display:inline-flex;align-items:center;gap:var(--ft-space-2xs);background:transparent;
   border:var(--ft-border);border-radius:var(--ft-radius-pill);color:var(--ft-body);
@@ -169,13 +171,13 @@ footer{border-top:var(--ft-border);padding:var(--ft-space-lg) 0;}
     </a>
     <nav class="topnav" aria-label="Hauptnavigation">
       <a href="index.html#screen-archiv">karte</a>
-      <span class="nav-sep" aria-hidden="true">·</span>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
       <a href="index.html#oracle">zukünft:innen</a>
-      <span class="nav-sep" aria-hidden="true">·</span>
-      <a href="methoden.html">methoden</a>
-      <span class="nav-sep" aria-hidden="true">·</span>
+      <span class="nav-sep nav-sep--inner" aria-hidden="true">/</span>
       <a href="blog.html" aria-current="page">blog</a>
-      <span class="nav-sep" aria-hidden="true">·</span>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
+      <a href="methoden.html">methoden</a>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
       <a href="einreichen.html">einreichen</a>
     </nav>
     <div class="header-actions">
