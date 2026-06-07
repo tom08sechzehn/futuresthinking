@@ -1663,16 +1663,12 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
 
   /* ---------- Zukünft:innen — 10 Köpfe (Manifest) ---------- */
   var ZUKUENFTINNEN = [
-    { file: 'z01.svg', name: 'Esra',    school: 'Empirisch-Quantitativ',            q: 'Was sagen Daten, Trends und Wahrscheinlichkeiten, und wo brechen Vergangenheitsmuster?' },
-    { file: 'z02.svg', name: 'Kai',     school: 'Technologisch-Disruptiv',          q: 'Welche Technologien reifen, beschleunigen oder ersetzen, und wer ist eigentlich „wir", die sie bauen?' },
-    { file: 'z03.svg', name: 'Noor',    school: 'Systemisch',                        q: 'Welche Rückkopplungen, Bestände und Hebelpunkte bestimmen das Verhalten des Gesamtsystems?' },
-    { file: 'z04.svg', name: 'Linnea',  school: 'Strategisch-Angewandt (Szenarien)', q: 'Welche kontrastierenden Zukünfte sollten wir durchspielen, damit Entscheidungen robust werden?' },
-    { file: 'z05.svg', name: 'Amani',   school: 'Kritisch-Normativ',                 q: 'Wessen Zukunft wird hier entworfen — und wer kommt darin nicht vor?' },
-    { file: 'z06.svg', name: 'Tomek',   school: 'Kulturell-Narrativ',                q: 'Welche Bilder, Mythen und Erzählungen einer Kultur formen ihre Vorstellung von Zukunft?' },
-    { file: 'z07.svg', name: 'Gabriel', school: 'Transformativ-Partizipativ',        q: 'Wie werden die Betroffenen zu Beteiligten, die ihre Zukunft selbst gestalten?' },
-    { file: 'z08.svg', name: 'Yuki',    school: 'Design Futures (Speculative Design)', q: 'Welches greifbare Artefakt aus einer möglichen Zukunft macht sie diskutierbar?' },
-    { file: 'z09.svg', name: 'Solveig', school: 'Ökologisch-Planetar',               q: 'Welche Zukunft ist innerhalb der planetaren Belastungsgrenzen überhaupt tragfähig?' },
-    { file: 'z10.svg', name: 'Aurea',   school: 'Integral / Transdisziplinär',       q: 'Was trägt jede Perspektive bei, was übersieht sie — und welches Gespräch lohnt es weiterzuführen?' }
+    { file: 'z03.svg', name: 'Noor',    school: 'Systemisch',                          q: 'Welche Rückkopplungen und Hebelpunkte bestimmen, wie sich dieses System wirklich verhält?' },
+    { file: 'z05.svg', name: 'Amani',   school: 'Kritisch-Normativ',                   q: 'Wessen Zukunft wird hier entworfen — und wessen Stimme fehlt im Entwurf?' },
+    { file: 'z06.svg', name: 'Tomek',   school: 'Kulturell-Narrativ',                  q: 'Welche Bilder und Erzählungen halten uns in einer bestimmten Zukunft fest — oder könnten uns befreien?' },
+    { file: 'z07.svg', name: 'Gabriel', school: 'Transformativ-Partizipativ',          q: 'Wie werden Betroffene zu Gestaltenden ihrer eigenen Zukunft — und was braucht dieser Wandel?' },
+    { file: 'z08.svg', name: 'Yuki',    school: 'Design Futures',                      q: 'Welches konkrete Artefakt aus einer möglichen Zukunft macht sie greifbar, diskutierbar, streitbar?' },
+    { file: 'z09.svg', name: 'Solveig', school: 'Ökologisch-Planetar',                 q: 'Welche Zukunft ist innerhalb der planetaren Belastungsgrenzen überhaupt noch tragfähig?' }
   ];
 
   /* ---------- SVG-Platzhalter-Generator (UNVERÄNDERT) ---------- */
@@ -2300,15 +2296,13 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     var isMobile = window.matchMedia('(max-width:720px)').matches;
     var list = ZUKUENFTINNEN;
     if (isMobile) {
-      var aurea  = ZUKUENFTINNEN.filter(function (z) { return z.file === 'z10.svg'; });
-      var others = pickRandom(ZUKUENFTINNEN.filter(function (z) { return z.file !== 'z10.svg'; }), 3);
-      list = others.concat(aurea);   /* 3 zufällig + Aurea = 4, rotierend pro Besuch */
+      list = pickRandom(ZUKUENFTINNEN, 3);
     }
     list.forEach(function (z) { buildHeadCard(grid, z); });
     if (isMobile && list.length < ZUKUENFTINNEN.length) {
       var more = document.createElement('button');
       more.type = 'button'; more.id = 'headsMore'; more.className = 'heads-more';
-      more.textContent = 'alle 10 zukünft:innen zeigen';
+      more.textContent = 'alle 6 zukünft:innen zeigen';
       more.addEventListener('click', renderHeadsAll);
       if (grid.parentNode) grid.parentNode.insertBefore(more, grid.nextSibling);
     }
