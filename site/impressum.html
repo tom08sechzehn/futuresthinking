@@ -251,6 +251,8 @@ a { color: var(--ft-signal-ink); }
   height:2px; border-radius:var(--ft-radius-pill); background:var(--ft-signal);
 }
 .nav-sep { color:var(--ft-line); user-select:none; font-size:var(--ft-text-caption); }
+.nav-sep--wide{padding:0 var(--ft-space-xs);}
+.nav-sep--inner{padding:0 2px;opacity:0.4;font-size:0.65em;}
 
 .header-actions { display:flex; align-items:center; gap:var(--ft-space-sm); }
 .nav-cta { font-size:0.85rem; padding:var(--ft-space-xs) var(--ft-space-md); }
@@ -310,6 +312,7 @@ a { color: var(--ft-signal-ink); }
 }
 .nav-sheet__nav a:hover, .nav-sheet__nav a[aria-current] { color:var(--ft-signal-ink); }
 .nav-sheet__cta { margin-top:var(--ft-space-lg); }
+.nav-sheet__nav .nav-sub{padding-left:var(--ft-space-md);font-size:1.05rem;}
 
 /* 11 · Footer */
 .site-footer { border-top:var(--ft-border); margin-top:var(--ft-space-2xl); padding-block:var(--ft-space-xl); color:var(--ft-muted); }
@@ -392,14 +395,16 @@ a { color: var(--ft-signal-ink); }
       <span class="brand__claim">wir denken zukünfte</span>
     </a>
 
-    <!-- Primär-Nav: karte · zukünft:innen · methoden · einreichen -->
+    <!-- Primär-Nav: karte · zukünft:innen / blog · methoden · einreichen -->
     <nav class="topnav" aria-label="Hauptnavigation">
       <a href="index.html#screen-archiv">karte</a>
-      <span class="nav-sep" aria-hidden="true">·</span>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
       <a href="index.html#oracle">zukünft:innen</a>
-      <span class="nav-sep" aria-hidden="true">·</span>
+      <span class="nav-sep nav-sep--inner" aria-hidden="true">/</span>
+      <a href="blog.html">blog</a>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
       <a href="methoden.html">methoden</a>
-      <span class="nav-sep" aria-hidden="true">·</span>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
       <a href="einreichen.html">einreichen</a>
     </nav>
 
@@ -432,6 +437,7 @@ a { color: var(--ft-signal-ink); }
     <nav class="nav-sheet__nav" aria-label="Hauptnavigation (mobil)">
       <a href="index.html#screen-archiv">karte</a>
       <a href="index.html#oracle">zukünft:innen</a>
+      <a href="blog.html" class="nav-sub">blog</a>
       <a href="methoden.html">methoden</a>
       <a href="einreichen.html">einreichen</a>
     </nav>
