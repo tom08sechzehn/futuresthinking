@@ -43,7 +43,7 @@ export default {
     // API-Route: POST /api/oracle -> Orakel-Function (Turnstile + Anthropic).
     if (url.pathname === "/api/oracle") {
       if (request.method === "POST") {
-        return oraclePost({ request, env });
+        return oraclePost({ request, env, ctx });
       }
       return new Response("Method Not Allowed", { status: 405 });
     }

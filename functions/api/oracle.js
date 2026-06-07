@@ -510,7 +510,7 @@ async function logOracle(env, frage, orakel) {
 }
 
 /* -------------------------------------------------------------------------- */
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, ctx }) {
   // env-Validierung (klare Fehler, keine Secrets im Body).
   for (const k of ["TURNSTILE_SECRET", "ANTHROPIC_API_KEY"]) {
     if (!env[k]) return fallback(503);
@@ -544,8 +544,8 @@ export async function onRequestPost({ request, env }) {
   // 3) Orakel befragen + Antwort validiert zurueckgeben.
   try {
     const orakel = await askOracle(env.ANTHROPIC_API_KEY, frage);
-    // Fire-and-forget: Logging + E-Mail blockieren nicht die Antwort-Latenz.
-    logOracle(env, frage, orakel).catch(() => {});
+    // waitUntil hält den Worker am Leben bis Logging + E-Mail durch sind.
+    if (ctx && ctx.waitUntil) ctx.waitUntil(logOracle(env, frage, orakel).catch(() => {}));
     return json(orakel, 200);
   } catch (e) {
     // 429/5xx/Timeout/Schema-Bruch -> freundlicher deutscher Fallback.
