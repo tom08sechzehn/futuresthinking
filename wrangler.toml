@@ -52,17 +52,17 @@ id = "fff4a403476e42718ddc502fdcdc6b4d"
 #   3. Als Cloudflare Secret (Workers > Settings > Variables/Secrets) eintragen:
 #      Name: ORACLE_LOG_SECRET   Wert: ein langes, selbst gewähltes Passwort
 #      → Tom öffnet dann https://futuresthinking.eu/api/oracle-log?token=DEIN_PASSWORT
-# [[kv_namespaces]]
-# binding = "ORACLE_LOG"
-# id = "ERSETZEN_MIT_ECHTER_KV_ID"
+[[kv_namespaces]]
+binding = "ORACLE_LOG"
+id = "e0e8a4e8b13d49be94ca78b3bf77dcfb"
 
 # KV-Namespace fuer veröffentlichte Blog-Posts (/api/blog + site/blog.html).
 # SETUP (einmalig, 2 Schritte):
 #   1. Cloudflare Dashboard > Workers & Pages > KV > Create namespace → Name: "ORACLE_BLOG"
 #   2. Die erzeugte ID unten eintragen, dann diese 3 Zeilen ent-kommentieren.
-# [[kv_namespaces]]
-# binding = "ORACLE_BLOG"
-# id = "ERSETZEN_MIT_ECHTER_KV_ID"
+[[kv_namespaces]]
+binding = "ORACLE_BLOG"
+id = "b3e8a8ddb2204f0d9e9df77ed9da6dbe"
 
 # send_email-Binding fuer die Kachel „Methode vorschlagen" (/api/vorschlag).
 # GRATIS-Weg ueber Cloudflare EMAIL ROUTING (NICHT das kostenpflichtige „Email Sending"):
