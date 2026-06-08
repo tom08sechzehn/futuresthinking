@@ -92,6 +92,7 @@ ul{margin:0;padding:0;list-style:none;}
 .nav-sep--wide{padding:0 var(--ft-space-xs);}
 .nav-sep--inner{padding:0 2px;opacity:0.4;font-size:0.65em;}
 .header-actions{display:flex;align-items:center;gap:var(--ft-space-sm);}
+.nav-cta{font-size:.85rem;padding:var(--ft-space-xs) var(--ft-space-md);}
 .mode-toggle{display:inline-flex;align-items:center;gap:var(--ft-space-2xs);background:transparent;
   border:var(--ft-border);border-radius:var(--ft-radius-pill);color:var(--ft-body);
   font-family:var(--ft-font-mono);font-size:var(--ft-text-caption);text-transform:lowercase;
@@ -103,7 +104,8 @@ ul{margin:0;padding:0;list-style:none;}
 .nav-toggle:hover{border-color:var(--ft-signal);}
 .nav-toggle__bars{display:flex;flex-direction:column;gap:4px;width:18px;}
 .nav-toggle__bars span{display:block;height:2px;background:currentColor;border-radius:2px;}
-@media(max-width:760px){.topnav{display:none;}.nav-toggle{display:inline-flex;}.mode-toggle__label{display:none;}}
+@media(max-width:760px){.topnav{display:none;}.nav-toggle{display:inline-flex;}.mode-toggle__label{display:none;}.nav-cta{padding:var(--ft-space-2xs) var(--ft-space-sm);font-size:.8rem;}}
+@media(max-width:640px){.brand__claim{display:none;}}
 /* Mobil-Sheet (Menü) — kanonisch, identisch zu den anderen Seiten */
 .btn--block{width:100%;}
 .nav-sheet{position:fixed;inset:0;z-index:60;}
@@ -214,6 +216,7 @@ footer{border-top:var(--ft-border);padding:var(--ft-space-lg) 0;}
       <a href="einreichen.html">einreichen</a>
     </nav>
     <div class="header-actions">
+      <a class="btn btn--primary nav-cta" href="einreichen.html">fund bergen</a>
       <button class="mode-toggle" id="modeToggle" aria-label="Hell-/Dunkel-Modus umschalten">
         <span class="mode-toggle__glyph" aria-hidden="true" id="modeGlyph">◑</span>
         <span class="mode-toggle__label">modus</span>
