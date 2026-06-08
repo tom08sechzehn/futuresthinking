@@ -47,6 +47,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(var(--ft-header-h) + 20px);}
+html.nav-locked{overflow:hidden;}
 body{margin:0;background:var(--ft-bg);color:var(--ft-body);
   font-family:var(--ft-font-body);font-size:1rem;line-height:1.6;
   -webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;}
@@ -64,7 +65,7 @@ ul{margin:0;padding:0;list-style:none;}
   text-transform:uppercase;letter-spacing:var(--ft-tracking-eyebrow);color:var(--ft-muted);margin:0;}
 .wrap{width:100%;max-width:1180px;margin-inline:auto;padding-inline:var(--ft-space-lg);}
 .wrap--text{width:100%;max-width:720px;margin-inline:auto;padding-inline:var(--ft-space-lg);}
-@media(max-width:640px){.wrap,.wrap--text{padding-inline:var(--ft-space-md);}}
+@media(max-width:640px){.wrap,.wrap--text{padding-inline:var(--ft-space-sm);}}
 .section{padding-block:var(--ft-space-xl);}
 .section--hero{padding-block:var(--ft-space-2xl);}
 @media(max-width:760px){.section--hero{padding-block:var(--ft-space-xl);}}
@@ -97,7 +98,35 @@ ul{margin:0;padding:0;list-style:none;}
   letter-spacing:.03em;padding:var(--ft-space-2xs) var(--ft-space-sm);cursor:pointer;
   transition:border-color var(--ft-dur-fast) var(--ft-ease-smooth),color var(--ft-dur-fast) var(--ft-ease-smooth);}
 .mode-toggle:hover{border-color:var(--ft-signal);color:var(--ft-ink);}
-@media(max-width:760px){.topnav{display:none;}}
+.nav-toggle{display:none;width:38px;height:38px;align-items:center;justify-content:center;
+  background:transparent;border:var(--ft-border);border-radius:var(--ft-radius-md);color:var(--ft-ink);cursor:pointer;}
+.nav-toggle:hover{border-color:var(--ft-signal);}
+.nav-toggle__bars{display:flex;flex-direction:column;gap:4px;width:18px;}
+.nav-toggle__bars span{display:block;height:2px;background:currentColor;border-radius:2px;}
+@media(max-width:760px){.topnav{display:none;}.nav-toggle{display:inline-flex;}.mode-toggle__label{display:none;}}
+/* Mobil-Sheet (Menü) — kanonisch, identisch zu den anderen Seiten */
+.btn--block{width:100%;}
+.nav-sheet{position:fixed;inset:0;z-index:60;}
+.nav-sheet[hidden]{display:none;}
+.nav-sheet__scrim{position:absolute;inset:0;background:rgba(6,8,16,.6);backdrop-filter:blur(2px);
+  opacity:0;transition:opacity var(--ft-dur-base) var(--ft-ease-smooth);}
+.nav-sheet__panel{position:absolute;top:0;left:0;right:0;background:var(--ft-surface);
+  border-bottom:var(--ft-border);box-shadow:0 16px 48px -12px rgba(0,0,0,.65);
+  padding:var(--ft-space-md) var(--ft-space-lg) var(--ft-space-lg);
+  transform:translateY(-100%);transition:transform var(--ft-dur-base) var(--ft-ease-pop);}
+.nav-sheet.is-open .nav-sheet__scrim{opacity:1;}
+.nav-sheet.is-open .nav-sheet__panel{transform:translateY(0);}
+.nav-sheet__bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--ft-space-md);}
+.brand__word--sheet{font-size:1rem;}
+.nav-sheet__close{background:transparent;border:var(--ft-border);border-radius:var(--ft-radius-md);
+  width:34px;height:34px;color:var(--ft-body);cursor:pointer;}
+.nav-sheet__close:hover{border-color:var(--ft-signal);color:var(--ft-ink);}
+.nav-sheet__nav{display:flex;flex-direction:column;}
+.nav-sheet__nav a{font-family:var(--ft-font-display);font-weight:500;font-size:1.25rem;color:var(--ft-ink);
+  text-decoration:none;text-transform:lowercase;padding:var(--ft-space-sm) 0;border-bottom:var(--ft-border);}
+.nav-sheet__nav a:hover,.nav-sheet__nav a[aria-current]{color:var(--ft-signal-ink);}
+.nav-sheet__nav .nav-sub{padding-left:var(--ft-space-md);font-size:1.05rem;}
+.nav-sheet__cta{margin-top:var(--ft-space-lg);}
 /* Button */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--ft-space-xs);
   border:none;border-radius:var(--ft-radius-md);font-family:var(--ft-font-display);font-weight:700;
@@ -130,7 +159,11 @@ ul{margin:0;padding:0;list-style:none;}
 /* Stimmen-Grid */
 .stimmen-grid{padding:var(--ft-space-md) var(--ft-space-lg);display:grid;
   grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--ft-space-sm);}
-@media(max-width:640px){.stimmen-grid{grid-template-columns:1fr;}}
+@media(max-width:640px){
+  .stimmen-grid{grid-template-columns:1fr;padding:var(--ft-space-md) var(--ft-space-sm);}
+  .post-card__head{padding:var(--ft-space-md) var(--ft-space-sm);}
+  .synthese{margin:0 var(--ft-space-sm) var(--ft-space-md);}
+}
 .stimme{padding:var(--ft-space-sm) var(--ft-space-md);border:1px solid var(--ft-line);
   border-radius:var(--ft-radius-md);background:var(--ft-surface);font-size:.9rem;}
 .stimme__nr{font-family:var(--ft-font-mono);font-size:.72rem;color:var(--ft-muted);}
@@ -185,9 +218,31 @@ footer{border-top:var(--ft-border);padding:var(--ft-space-lg) 0;}
         <span class="mode-toggle__glyph" aria-hidden="true" id="modeGlyph">◑</span>
         <span class="mode-toggle__label">modus</span>
       </button>
+      <button type="button" class="nav-toggle" data-nav-toggle aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-sheet">
+        <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
     </div>
   </div>
 </header>
+
+<!-- Mobil-Sheet: Hauptnavigation (mobil) — kanonisch, identisch zu den anderen Seiten. -->
+<div class="nav-sheet" id="nav-sheet" data-nav-sheet hidden>
+  <div class="nav-sheet__scrim" data-nav-close></div>
+  <div class="nav-sheet__panel" role="dialog" aria-modal="true" aria-label="Navigation">
+    <div class="nav-sheet__bar">
+      <span class="brand__word brand__word--sheet">futures<span class="brand__dot">.</span>thinking</span>
+      <button type="button" class="nav-sheet__close" data-nav-close aria-label="Menü schließen">✕</button>
+    </div>
+    <nav class="nav-sheet__nav" aria-label="Hauptnavigation (mobil)">
+      <a href="index.html#screen-archiv">karte</a>
+      <a href="index.html#oracle">zukünft:innen</a>
+      <a href="blog.html" class="nav-sub" aria-current="page">blog</a>
+      <a href="methoden.html">methoden</a>
+      <a href="einreichen.html">einreichen</a>
+    </nav>
+    <a class="btn btn--primary btn--block nav-sheet__cta" href="einreichen.html">fund bergen</a>
+  </div>
+</div>
 
 <main id="main">
 
@@ -258,6 +313,29 @@ footer{border-top:var(--ft-border);padding:var(--ft-space-lg) 0;}
     try { localStorage.setItem('ft-theme', next); } catch (e) {}
     document.getElementById('modeGlyph').textContent = next === 'light' ? '◐' : '◑';
   });
+
+  /* ---- Mobil-Menü (Nav-Sheet) ---- */
+  (function () {
+    var sheet  = document.querySelector('[data-nav-sheet]');
+    var toggle = document.querySelector('[data-nav-toggle]');
+    if (!sheet || !toggle) return;
+    var open = function () {
+      sheet.hidden = false;
+      requestAnimationFrame(function () { sheet.classList.add('is-open'); });
+      toggle.setAttribute('aria-expanded', 'true');
+      root.classList.add('nav-locked');
+    };
+    var close = function () {
+      sheet.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      root.classList.remove('nav-locked');
+      setTimeout(function () { sheet.hidden = true; }, 260);
+    };
+    toggle.addEventListener('click', open);
+    [].forEach.call(sheet.querySelectorAll('[data-nav-close]'), function (el) { el.addEventListener('click', close); });
+    [].forEach.call(sheet.querySelectorAll('.nav-sheet__nav a'), function (a) { a.addEventListener('click', close); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !sheet.hidden) close(); });
+  })();
 
   /* ---- Hilfsfunktionen ---- */
   function esc(str) {
