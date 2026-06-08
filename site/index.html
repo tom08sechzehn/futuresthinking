@@ -149,13 +149,19 @@
   --ft-drawer-w:clamp(340px,42vw,560px);
   --ft-drawer-bg:color-mix(in srgb,var(--ft-surface) 96%,transparent);
   --ft-drawer-shadow:-24px 0 64px -16px rgba(0,0,0,0.6);
-  --ft-scrim:color-mix(in srgb,var(--ft-bg) 64%,transparent);
+  /* ---- v-fix · Fehlende Ink-Tokens + Tilt-Rest + Scrim (F1 + F2) ---- */
+  --ft-flare-ink: #7A2800;    /* dark readable on --ft-flare (#FF6B4A) — dark-mode value */
+  --ft-ultra-ink: #2D1A5E;    /* dark readable on --ft-ultra (#B57BFF) — dark-mode value */
+  --ft-tilt-rest: -0.6deg;
+  --ft-scrim: color-mix(in srgb, var(--ft-bg) 64%, transparent); /* F2: promoted from inline drawer rule */
 }
 
 [data-theme="light"] {
   --ft-bg:#F4F2FB; --ft-surface:#FFFFFF; --ft-surface-2:#ECE9F7; --ft-line:#D8D3EC;
   --ft-ink:#11132A; --ft-body:#34384F; --ft-muted:#6E7392;
   --ft-signal-ink:#0E8C6E;
+  --ft-flare-ink: #C73D1E;  /* F1: flare as text on light — darkened for contrast */
+  --ft-ultra-ink: #6B2FCF;  /* F1: ultra as text on light — darkened for contrast */
   --ft-shadow-card:0 8px 24px -10px rgba(17,19,42,0.18);
   --ft-shadow-lift:0 16px 40px -14px rgba(17,19,42,0.22);
   --ft-glow-signal:0 0 0 1px rgba(14,140,110,0.45),0 8px 28px -8px rgba(14,140,110,0.25);
@@ -182,6 +188,7 @@ body {
   overflow-x:hidden;
 }
 h1,h2,h3 { font-family:var(--ft-font-display); color:var(--ft-ink); margin:0; }
+/* F14 intentional: h1 mapped to --ft-text-display (3.5rem) rather than --ft-text-h1 (2.25rem) for this design system — all h1 elements render at display scale */
 h1 { font-weight:700; font-size:var(--ft-text-display); line-height:var(--ft-lh-display); letter-spacing:-0.01em; }
 h2 { font-weight:500; font-size:var(--ft-text-h2); line-height:var(--ft-lh-h2); }
 h3 { font-weight:500; font-size:var(--ft-text-h3); line-height:var(--ft-lh-h3); }
@@ -194,7 +201,10 @@ ul { margin:0; padding:0; list-style:none; }
 
 .eyebrow { font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); text-transform:uppercase; letter-spacing:var(--ft-tracking-eyebrow); color:var(--ft-muted); margin:0; }
 .mono { font-family:var(--ft-font-mono); }
-.beipackzettel { font-family:var(--ft-font-mono); font-size:var(--ft-text-mono); line-height:var(--ft-lh-mono); color:var(--ft-body); }
+/* F8: max-width 62ch prevents 70+ char mono lines; not applied inside .drawer (natural width constraint there) */
+.beipackzettel { font-family:var(--ft-font-mono); font-size:var(--ft-text-mono); line-height:var(--ft-lh-mono); color:var(--ft-body); max-width:62ch; }
+.drawer .beipackzettel,
+.inspector-panel .beipackzettel { max-width:none; }
 
 .skip-link { position:absolute; left:-999px; top:8px; z-index:100; background:var(--ft-signal); color:var(--ft-on-signal); padding:var(--ft-space-sm) var(--ft-space-md); border-radius:var(--ft-radius-md); font-weight:700; }
 .skip-link:focus { left:8px; }
@@ -238,7 +248,8 @@ ul { margin:0; padding:0; list-style:none; }
 .card-interactive:hover,.card-interactive:focus-visible { border-color:var(--ft-signal); box-shadow:var(--ft-glow-signal),var(--ft-shadow-lift); transform:translateY(-2px); }
 
 /* --- Buttons — EINE Hierarchie (visuelles-system §4.3 / R5) --- */
-.btn { display:inline-flex; align-items:center; justify-content:center; gap:var(--ft-space-xs); border:none; border-radius:var(--ft-radius-md); font-family:var(--ft-font-display); font-weight:700; font-size:0.95rem; padding:var(--ft-space-sm) var(--ft-space-md); text-decoration:none; cursor:pointer; white-space:nowrap; transition:transform var(--ft-dur-fast) var(--ft-ease-pop),background var(--ft-dur-fast) var(--ft-ease-smooth),border-color var(--ft-dur-fast) var(--ft-ease-smooth),color var(--ft-dur-fast) var(--ft-ease-smooth); }
+/* F4: font-size 0.95rem → 1rem (raster value; more weight on coloured bg); padding kept at sm/md (12px/20px) which already meets 10px/24px spec */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:var(--ft-space-xs); border:none; border-radius:var(--ft-radius-md); font-family:var(--ft-font-display); font-weight:700; font-size:1rem; padding:var(--ft-space-sm) var(--ft-space-md); text-decoration:none; cursor:pointer; white-space:nowrap; transition:transform var(--ft-dur-fast) var(--ft-ease-pop),background var(--ft-dur-fast) var(--ft-ease-smooth),border-color var(--ft-dur-fast) var(--ft-ease-smooth),color var(--ft-dur-fast) var(--ft-ease-smooth); }
 .btn:hover:not(:disabled)  { transform:translateY(-2px); }
 .btn:active:not(:disabled) { transform:translateY(0); }
 .btn:disabled              { opacity:0.5; cursor:not-allowed; transform:none; }
@@ -360,7 +371,8 @@ input[type="range"].field-range::-moz-range-thumb       { width:24px; height:24p
 @keyframes drift-in { to { opacity:0.75; } }
 .mic-hero__inner { position:relative; z-index:2; }
 .mic-hero .eyebrow { margin-bottom:var(--ft-space-md); }
-.mic-claim { font-family:var(--ft-font-display); font-weight:700; font-size:clamp(2rem,5vw,3rem); line-height:0.98; letter-spacing:-0.02em; color:var(--ft-ink); margin:0 0 var(--ft-space-md); }
+/* F3: raised from clamp(2rem,5vw,3rem) — display-level anchor in first view */
+.mic-claim { font-family:var(--ft-font-display); font-weight:700; font-size:clamp(2.5rem,6vw,4rem); line-height:0.98; letter-spacing:-0.02em; color:var(--ft-ink); margin:0 0 var(--ft-space-md); }
 .mic-claim .uml { color:var(--ft-signal); }
 /* die überlebensgroße Eingabezeile selbst */
 .mic-field { position:relative; max-width:min(100%,42rem); }
@@ -375,6 +387,8 @@ input[type="range"].field-range::-moz-range-thumb       { width:24px; height:24p
 .mic-underline { height:2px; margin-top:var(--ft-space-sm); border-radius:var(--ft-radius-pill); background:var(--ft-mic-underline); background-size:200% 100%; animation:underline-breath var(--ft-dur-breath) var(--ft-ease-breath) infinite; }
 @keyframes underline-breath { 0%,100% { background-position:0% 0; opacity:0.6; } 50% { background-position:100% 0; opacity:1; } }
 .mic-hint { margin-top:var(--ft-space-md); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-muted); }
+/* F10: orientation sentence for first-time visitors — placed before mic input */
+.hero-orient { font-size:0.9375rem; color:var(--ft-muted); max-width:52ch; margin-bottom:var(--ft-space-sm); line-height:1.55; font-family:var(--ft-font-body); }
 /* die drei Pfade aus der Eingabe */
 /* drei gleichwertige Einstiege = drei gleich große Kästen (3-Spalten-Grid, gleiche Höhe & Breite). */
 .mic-paths { margin-top:var(--ft-space-lg); display:grid; grid-template-columns:repeat(3,1fr); gap:var(--ft-space-sm); align-items:stretch; }
@@ -386,10 +400,13 @@ input[type="range"].field-range::-moz-range-thumb       { width:24px; height:24p
 .mic-path--primary { border-color:var(--ft-signal); }
 .mic-path--ultra:hover { border-color:var(--ft-ultra); }
 
-/* ============ STICKY Fehlt-Leiste (Querschnitt-Geste, Leerstellen = Ultra) ============ */
-/* Iris v8 §1 · opak + sauber über Inhalt (kein Durchscheinen der „Sternkarte"-Überschrift) */
-.fehlt-bar { position:sticky; top:calc(var(--ft-header-h) + var(--ft-space-xs)); z-index:45; margin:0 auto; display:flex; isolation:isolate; }
-.fehlt-bar__inner { position:relative; display:flex; align-items:center; gap:var(--ft-space-sm); width:100%; background:var(--ft-surface); background-image:linear-gradient(180deg,color-mix(in srgb,var(--ft-surface-2) 60%,var(--ft-surface)) 0%,var(--ft-surface) 100%); border:var(--ft-border); border-left:3px solid var(--ft-ultra); border-radius:var(--ft-radius-md); padding:var(--ft-space-xs) var(--ft-space-sm); box-shadow:var(--ft-shadow-card),var(--ft-glow-ultra); }
+/* ============ FEHLT-LEISTE (In-Flow CTA, nach Graph — F9: sticky removed) ============ */
+/* F9: was position:sticky — now static in-flow CTA after the archive experience.
+   Principle: show what exists first, then ask for contribution.
+   z-index and top removed; isolation kept for stacking context of inner glow. */
+.fehlt-bar { position:static; margin:var(--ft-space-lg) auto 0; display:flex; isolation:isolate; }
+/* F6: glow-ultra halved via color-mix — prevents two competing glows (ultra + signal) at same scroll depth */
+.fehlt-bar__inner { position:relative; display:flex; align-items:center; gap:var(--ft-space-sm); width:100%; background:var(--ft-surface); background-image:linear-gradient(180deg,color-mix(in srgb,var(--ft-surface-2) 60%,var(--ft-surface)) 0%,var(--ft-surface) 100%); border:var(--ft-border); border-left:3px solid var(--ft-ultra); border-radius:var(--ft-radius-md); padding:var(--ft-space-xs) var(--ft-space-sm); box-shadow:var(--ft-shadow-card),0 0 24px color-mix(in srgb,var(--ft-ultra) 50%,transparent); }
 .fehlt-bar__inner::before { content:""; position:absolute; inset:0 0 auto 0; height:1px; background:color-mix(in srgb,var(--ft-ultra) 30%,transparent); border-radius:var(--ft-radius-md) var(--ft-radius-md) 0 0; pointer-events:none; }
 .fehlt-bar__label { font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-ultra); white-space:nowrap; flex:none; }
 /* Eingabe in der Querschnitt-Leiste: schlanker, randloser Inline-Feld-Slot (lebt in der Leiste) */
@@ -441,18 +458,30 @@ input[type="range"].field-range::-moz-range-thumb       { width:24px; height:24p
 .starmap.is-theme .starmap__axes .ax-x-l,.starmap.is-theme .starmap__axes .ax-x-r,.starmap.is-theme .starmap__axes .ax-y-top,.starmap.is-theme .starmap__axes .ax-y-bot { opacity:0.18; transition:opacity var(--ft-dur-base) var(--ft-ease-smooth); }
 .starmap__axes .ax-x-l,.starmap__axes .ax-x-r,.starmap__axes .ax-y-top,.starmap__axes .ax-y-bot { transition:opacity var(--ft-dur-base) var(--ft-ease-smooth); }
 /* Zwei beschriftete Legenden-Gruppen */
-.graph-legend { display:flex; flex-wrap:wrap; gap:var(--ft-space-lg); margin-top:var(--ft-space-md); }
+/* F5: background + border so legend reads against starfield; font-size raised to 0.875rem minimum */
+.graph-legend { display:flex; flex-wrap:wrap; gap:var(--ft-space-lg); margin-top:var(--ft-space-md);
+  background:var(--ft-surface); border:1px solid var(--ft-line); border-radius:var(--ft-radius-sm);
+  padding:var(--ft-space-xs) var(--ft-space-md); }
 .graph-legend__group { display:flex; flex-direction:column; gap:6px; }
 .graph-legend__head { font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); text-transform:uppercase; letter-spacing:var(--ft-tracking-eyebrow); color:var(--ft-muted); }
-.graph-legend__row { display:flex; flex-wrap:wrap; gap:var(--ft-space-sm) var(--ft-space-md); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-body); }
+.graph-legend__row { display:flex; flex-wrap:wrap; gap:var(--ft-space-sm) var(--ft-space-md); font-family:var(--ft-font-mono); font-size:0.875rem; color:var(--ft-body); }
 .graph-legend__row span { display:inline-flex; align-items:center; gap:6px; }
 .graph-legend__row i { width:11px; height:11px; border-radius:50%; display:inline-block; flex:none; }
+/* F12: mobile legend — hidden desktop, shown above starlist on mobile */
+.mobile-legend { display:none; }
 /* mobile: statische Liste statt Graph */
 .starlist { display:none; }
 @media (max-width:720px) {
   .starmap { display:none; }
   .starmap__layout { display:none; }
   .graph-legend { display:none; }
+  /* F12: show axis legend above the mobile list */
+  .mobile-legend { display:flex; gap:12px; flex-wrap:wrap; font-size:0.8125rem; color:var(--ft-muted); margin-bottom:16px; align-items:center; }
+  .leg-item { display:inline-flex; align-items:center; gap:6px; font-family:var(--ft-font-mono); }
+  .leg-item::before { content:""; display:inline-block; width:10px; height:10px; border-radius:50%; flex:none; }
+  .leg-good::before { background:var(--ft-cone-wuenschenswert-core); }
+  .leg-bad::before  { background:var(--ft-cone-nicht-core); }
+  .leg-note { font-family:var(--ft-font-mono); font-size:0.75rem; color:var(--ft-muted); }
   .starlist { display:grid; grid-template-columns:1fr; gap:var(--ft-space-sm); }
   .starlist__item { display:flex; flex-direction:row; align-items:center; gap:var(--ft-space-md); background:var(--ft-surface); border-left:3px solid var(--ft-star-rest); border-radius:var(--ft-radius-md); padding:var(--ft-space-sm) var(--ft-space-md); text-align:left; color:inherit; cursor:pointer; }
   .starlist__item:hover { border-left-color:var(--ft-signal); }
@@ -569,12 +598,14 @@ input[type="range"].field-range::-moz-range-thumb       { width:24px; height:24p
 .kurs-legend { display:flex; flex-wrap:wrap; gap:var(--ft-space-md); margin-top:var(--ft-space-md); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-body); }
 .kurs-legend span { display:inline-flex; align-items:center; gap:6px; }
 .kurs-legend i { width:14px; height:8px; border-radius:2px; display:inline-block; flex:none; }
-.kurs-thin { margin-top:var(--ft-space-lg); padding:var(--ft-space-md); border:var(--ft-gap-edge); border-radius:var(--ft-radius-card); background:var(--ft-gap-tint); }
+/* F7: symmetric radius — asymmetric 18px/4px reads as rendering error at narrow widths */
+.kurs-thin { margin-top:var(--ft-space-lg); padding:var(--ft-space-md); border:var(--ft-gap-edge); border-radius:var(--ft-radius-md); background:var(--ft-gap-tint); }
 .kurs-thin__head { font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); text-transform:uppercase; letter-spacing:var(--ft-tracking-eyebrow); color:var(--ft-ultra); margin-bottom:var(--ft-space-xs); }
 .kurs-thin__txt { font-family:var(--ft-font-body); font-size:var(--ft-text-body); color:var(--ft-body); }
 .kurs-thin__txt b { color:var(--ft-ink); }
 .kurs-cta { margin-top:var(--ft-space-lg); display:flex; justify-content:flex-start; }
-.kurs-note { margin-top:var(--ft-space-lg); padding:var(--ft-space-md); border:var(--ft-border-lineage); border-radius:var(--ft-radius-card); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-muted); max-width:74ch; }
+/* F7: symmetric radius for small/narrow note panels */
+.kurs-note { margin-top:var(--ft-space-lg); padding:var(--ft-space-md); border:var(--ft-border-lineage); border-radius:var(--ft-radius-md); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-muted); max-width:74ch; }
 /* Lückenzähler-Badge (Gesamtzahl im „Was fehlt"-Header — Ultra = Leerstellen-Kontext) */
 .luecken-badge { display:inline-block; font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); letter-spacing:0.02em; color:var(--ft-ultra); border:1px solid color-mix(in srgb,var(--ft-ultra) 45%,transparent); background:var(--ft-gap-tint); border-radius:var(--ft-radius-pill); padding:3px var(--ft-space-sm); white-space:nowrap; }
 .luecken-badge b { color:var(--ft-ultra); font-weight:700; }
@@ -696,6 +727,7 @@ input[type="range"]::-moz-range-thumb { width:26px; height:26px; border-radius:5
 .stub-note { font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-muted); }
 .stub-btn { background:transparent; border:1px dashed var(--ft-line); color:var(--ft-muted); border-radius:var(--ft-radius-md); padding:var(--ft-space-sm) var(--ft-space-md); font-family:var(--ft-font-mono); font-size:0.85rem; }
 .stub-btn:hover { border-color:var(--ft-muted); color:var(--ft-body); }
+/* F7: .banner already uses radius-md (symmetric) — confirmed correct */
 .banner { margin-top:var(--ft-space-md); padding:var(--ft-space-sm) var(--ft-space-md); border-radius:var(--ft-radius-md); font-family:var(--ft-font-mono); font-size:0.88rem; display:none; }
 .banner.show { display:block; animation:screen-in var(--ft-dur-base) var(--ft-ease-smooth); }
 .banner--pending { background:color-mix(in srgb,var(--ft-warning) 14%,transparent); border:1px solid color-mix(in srgb,var(--ft-warning) 45%,transparent); color:var(--ft-warning); }
@@ -711,6 +743,7 @@ input[type="range"]::-moz-range-thumb { width:26px; height:26px; border-radius:5
 .modal-backdrop.show { display:flex; animation:screen-in var(--ft-dur-fast) var(--ft-ease-smooth); }
 .modal { background:var(--ft-surface-2); border:var(--ft-border-active); border-radius:var(--ft-radius-card); box-shadow:var(--ft-glow-signal),var(--ft-shadow-lift); padding:var(--ft-space-lg); max-width:420px; width:100%; text-align:center; }
 .modal h3 { margin-bottom:var(--ft-space-md); }
+/* F15: #fff required — QR codes need pure white background for reliable scanning; not a token violation */
 .qr-frame { width:180px; height:180px; margin:0 auto var(--ft-space-md); background:#fff; border-radius:var(--ft-radius-sm); padding:10px; }
 
 /* ============ Footer (shared-system §11 / L3) — 3-spaltig Desktop, gestapelt Mobil ============ */
@@ -722,7 +755,8 @@ input[type="range"]::-moz-range-thumb { width:26px; height:26px; border-radius:5
 .site-footer a { color:var(--ft-body); text-decoration:none; }
 .site-footer a:hover { color:var(--ft-signal-ink); }
 .site-footer .mono { font-size:var(--ft-text-caption); }
-.proto-note { margin-top:var(--ft-space-lg); padding:var(--ft-space-md); border:var(--ft-border-lineage); border-radius:var(--ft-radius-card); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-muted); max-width:74ch; }
+/* F7: symmetric radius — .proto-note is a narrow footer element, asymmetric reads as error there */
+.proto-note { margin-top:var(--ft-space-lg); padding:var(--ft-space-md); border:var(--ft-border-lineage); border-radius:var(--ft-radius-md); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-muted); max-width:74ch; }
 @media (max-width:640px) { .site-footer__inner { flex-direction:column; gap:var(--ft-space-lg); } }
 
 @media (prefers-reduced-motion:reduce) {
@@ -850,6 +884,12 @@ img, svg, canvas { max-width:100%; }   /* iframe BEWUSST RAUS: Turnstile-iframe 
 /* Spiel-Pfad: gestrichelt, leiser, nie Signal-Vollfläche. */
 .mic-path--play { border-style:dashed; }
 .mic-path--play:hover { border-color:var(--ft-muted); transform:translateY(-1px); }
+/* F11: tertiary paths (oracle + stöbern) visually step back — no signal colour, reduced presence */
+.mic-path--ultra .mic-path__k,
+.mic-path:not(.mic-path--submit):not(.mic-path--play):not(.mic-path--ultra) .mic-path__k { color:var(--ft-muted); }
+.mic-path--ultra { opacity:0.72; }
+.mic-path:not(.mic-path--submit):not(.mic-path--play):not(.mic-path--ultra) { opacity:0.65; border-style:dashed; border-color:var(--ft-line); }
+.mic-path:not(.mic-path--submit):not(.mic-path--play):not(.mic-path--ultra):hover { opacity:1; border-color:var(--ft-muted); transform:translateY(-1px); }
 .play-badge {
   display:inline-block; margin-left:var(--ft-space-xs);
   font-family:var(--ft-font-mono); font-size:0.6rem; letter-spacing:0.04em;
@@ -944,7 +984,8 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
   .kurs-cta__play .play-badge { white-space:nowrap; }
 }
   /* ===== ORACLE-LOADER (Charta) — zehn Sterne pulsen zum Sternbild + Scan-Ring; CDN-frei, reduced-motion-safe ===== */
-  .oracle-loader{ display:flex; align-items:center; gap:.85rem; width:400px; max-width:100%; }
+  /* F13: width:400px → max-width:400px + width:100% — prevents viewport overflow on narrow screens */
+  .oracle-loader{ display:flex; align-items:center; gap:.85rem; max-width:400px; width:100%; }
   .oracle-loader__field{ position:relative; width:88px; height:88px; flex:none; }
   .oracle-loader__svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
   .ol-scan{ transform-origin:44px 44px; animation:ol-sweep 3.4s linear infinite; }
@@ -1039,6 +1080,8 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     <div class="wrap mic-hero__inner">
       <p class="eyebrow">futuresthinking · ein offenes fundbüro der zukunft · bestand 2030–2070</p>
       <p class="mic-claim">Geh auf die F<span class="uml">ü</span>nde!</p>
+      <!-- F10: Orientierungssatz für Erstbesucher — erklärt was diese Seite ist -->
+      <p class="hero-orient">futuresthinking ist ein offenes Archiv für Zukunftshypothesen — eingereichte Vorstellungen, was zwischen 2030 und 2070 passieren könnte.</p>
       <form class="mic-field" id="micForm" autocomplete="off">
         <label class="eyebrow" for="micInput" style="position:absolute;left:-9999px;">Welche Zukunft fehlt hier?</label>
         <div class="mic-field__line">
@@ -1073,15 +1116,6 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
   </div>
 
   <div class="wrap">
-
-    <!-- STICKY FEHLT-LEISTE (Querschnitt-Geste, lebt auf der Bühne) -->
-    <div class="fehlt-bar">
-      <div class="fehlt-bar__inner">
-        <span class="fehlt-bar__label">welche zukunft fehlt hier?</span>
-        <input class="fehlt-bar__input" id="fehltInput" type="text" placeholder="schreib das thema, das du vermisst …" aria-label="Welche Zukunft fehlt hier? Thema eingeben">
-        <button class="btn btn--ultra" id="fehltGo" type="button">bergen</button>
-      </div>
-    </div>
 
     <!-- ARCHIV = ZUKUNFTS-STERNKARTE (der Kern — direkt unter der Schwelle) -->
     <section class="section starmapSect" id="starmapSect" aria-label="Zukunfts-Sternkarte" style="padding-top:0;">
@@ -1121,6 +1155,12 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
           <ul class="graph-sr-list" id="graphSrList" aria-label="Funde im Graph, einzeln fokussierbar"></ul>
         </div>
         <!-- mobile Liste statt Graph -->
+        <!-- F12: Achsen-Legende nur mobil sichtbar (über der Liste) -->
+        <div class="mobile-legend" aria-label="Farbkodierung der Funde">
+          <span class="leg-item leg-good">wünschenswert</span>
+          <span class="leg-item leg-bad">nicht wünschenswert</span>
+          <span class="leg-note">Helligkeit = Wahrscheinlichkeit</span>
+        </div>
         <div class="starlist" id="starList" role="list" aria-label="Funde als Liste"></div>
         <button type="button" class="reveal-all" id="starListMore" hidden>
           alle <span id="starListCount">0</span> funde anschauen
@@ -1223,6 +1263,20 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
         <button class="btn btn--ghost kurs-cta__play" id="kursCtaPlay" type="button">…oder spielerisch ausprobieren <span class="play-badge">schnellprobe</span></button>
       </div>
       <p class="kurs-note" id="kursNote"></p>
+    </div>
+  </section>
+
+  <!-- FEHLT-LEISTE (F9: in-flow CTA nach dem Archiv-Erlebnis — kein Sticky mehr) -->
+  <!-- Prinzip: erst zeigen was da ist, dann nach Beitrag fragen. -->
+  <section class="section" aria-label="Eine fehlende Zukunft einreichen" style="padding-top:0;">
+    <div class="wrap">
+      <div class="fehlt-bar">
+        <div class="fehlt-bar__inner">
+          <span class="fehlt-bar__label">welche zukunft fehlt hier?</span>
+          <input class="fehlt-bar__input" id="fehltInput" type="text" placeholder="schreib das thema, das du vermisst …" aria-label="Welche Zukunft fehlt hier? Thema eingeben">
+          <button class="btn btn--ultra" id="fehltGo" type="button">bergen</button>
+        </div>
+      </div>
     </div>
   </section>
 
