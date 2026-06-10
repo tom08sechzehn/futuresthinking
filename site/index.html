@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="HhSD8nojwJeCHmVG8NM4DMFph5ZiCiBwL_X6P51MJHw">
 <title>Futures Thinking &amp; Zukunftsarchiv — futuresthinking</title>
-<meta name="description" content="Ein offenes Zukunftsarchiv und ein 10-stimmiges KI-Orakel der Zukunftsforschung. Denk Zukünfte mit, frag die Zukünft:innen, stöbere in der Sternkarte.">
+<meta name="description" content="Ein offenes Zukunftsarchiv und ein sechsstimmiges KI-Orakel der Zukunftsforschung. Denk Zukünfte mit, frag die Zukünft:innen, stöbere in der Sternkarte.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://futuresthinking.eu/">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="futuresthinking">
 <meta property="og:title" content="Futures Thinking &amp; Zukunftsarchiv — futuresthinking">
-<meta property="og:description" content="Ein offenes Zukunftsarchiv und ein 10-stimmiges KI-Orakel der Zukunftsforschung. Denk Zukünfte mit, frag die Zukünft:innen, stöbere in der Sternkarte.">
+<meta property="og:description" content="Ein offenes Zukunftsarchiv und ein sechsstimmiges KI-Orakel der Zukunftsforschung. Denk Zukünfte mit, frag die Zukünft:innen, stöbere in der Sternkarte.">
 <meta property="og:url" content="https://futuresthinking.eu/">
 <meta property="og:image" content="https://futuresthinking.eu/assets/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -21,11 +21,15 @@
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Futures Thinking &amp; Zukunftsarchiv — futuresthinking">
-<meta name="twitter:description" content="Ein offenes Zukunftsarchiv und ein 10-stimmiges KI-Orakel der Zukunftsforschung. Denk Zukünfte mit, frag die Zukünft:innen, stöbere in der Sternkarte.">
+<meta name="twitter:description" content="Ein offenes Zukunftsarchiv und ein sechsstimmiges KI-Orakel der Zukunftsforschung. Denk Zukünfte mit, frag die Zukünft:innen, stöbere in der Sternkarte.">
 <meta name="twitter:image" content="https://futuresthinking.eu/assets/og-image.png">
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="alternate icon" href="/favicon-32.png" sizes="32x32">
+<!-- Geteiltes Fund-Karten-System (eine Render-Funktion + Optik, identisch mit funde.html).
+     Auf der Startseite NUR mobil sichtbar (Karten-Archiv ≤720px) + Vollbild-Overlay. -->
+<link rel="stylesheet" href="assets/fund-cards.css">
+<script src="assets/fund-cards.js" defer></script>
 <!-- JSON-LD -->
 <script type="application/ld+json">
 {
@@ -34,7 +38,7 @@
   "name": "futuresthinking",
   "url": "https://futuresthinking.eu/",
   "inLanguage": "de",
-  "description": "Ein offenes Archiv der Zukunftsforschung mit 10-stimmigem KI-Orakel und einem Methoden-Wiki. Denk Zukünfte mit, frag die Zukünft:innen, reich deinen Fund ein.",
+  "description": "Ein offenes Archiv der Zukunftsforschung mit sechsstimmigem KI-Orakel und einem Methoden-Wiki. Denk Zukünfte mit, frag die Zukünft:innen, reich deinen Fund ein.",
   "creator": {
     "@type": "Person",
     "name": "Thomas Siegel"
@@ -96,6 +100,28 @@
   --ft-lineage-width:1px; --ft-constellation-bg:#060810;
   --ft-field-depth:radial-gradient(ellipse 120% 90% at 50% 35%,#11162A 0%,#0A0D1C 45%,#060810 100%);
   --ft-field-fog:rgba(11,14,26,0.72);
+
+  /* ---- v8 · SCHUL-AKZENTE (Sternbild-Farben — Farbachse = Schule) ----
+     Quelle der 6 Slugs: STIMMEN-Map (accent). systemisch/oekologisch teilten beide #3DF2C4
+     (Farb-Kollision, von Larry/Vera belegt) → oekologisch hier auf einen distinkten,
+     blaustichigen Gletscher-Teal gehoben (Veras Vorschlag #4FD6BE, Iris pinnt final).
+     Wade baut gegen DIESE Tokens, nie gegen Hardcodes — Iris kann den Wert ändern,
+     ohne dass der Bau bricht. */
+  --ft-schule-systemisch:#3DF2C4;
+  --ft-schule-kritisch-normativ:#FF6B4A;
+  --ft-schule-kulturell-narrativ:#B57BFF;
+  --ft-schule-partizipativ:#5BA8FF;
+  --ft-schule-design-futures:#FBBF3C;
+  --ft-schule-oekologisch:#1FA86A;   /* Iris final: tiefes Smaragd (Hue~150°), Hue+Helligkeit klar gegen systemisch #3DF2C4 (Cyan-Grün) und partizipativ #5BA8FF (Blau); planetar/Lichen statt Neon */
+  /* ---- v8 · SEHNEN-Tokens (Strichart = Beziehungstyp) ---- */
+  --ft-edge-methode:rgba(150,158,196,0.95);   /* = --ft-muted-Familie, gestrichelt+fließend */
+  /* v9 · LUFTIGER (Tom-Wunsch): von 0.42/0.34 wieder gesenkt. Lesbarkeit bleibt durch die
+     leichte Krümmung der Sehnen (Quadratic-Bezier-Sag) + dünnere Striche erhalten, ohne dass
+     die Linien sich aufdrängen. Larry/Vera: visuell gegenprüfen. */
+  --ft-edge-schule-op:0.30;                    /* Ruhe-Deckkraft Schul-Sehne (v9 luftig; 0.26→0.30,
+                                                  damit auch dunkle/kleine Cluster ihre Strahlen halten,
+                                                  weiterhin deutlich unter altem 0.42) */
+  --ft-edge-methode-op:0.24;                   /* Ruhe-Deckkraft Methoden-Sehne (v9 luftig) */
   /* ---- v2-Ergänzung B · Atmende Leerstelle ---- */
   --ft-gap-tint:rgba(181,123,255,0.10);
   --ft-gap-pulse:0 0 0 0 rgba(181,123,255,0.40);
@@ -169,6 +195,14 @@
   --ft-constellation-bg:#E5E1F2;
   --ft-field-depth:radial-gradient(ellipse 120% 90% at 50% 35%,#FFFFFF 0%,#EDE9F7 45%,#E2DCF2 100%);
   --ft-mic-placeholder:#8B90AE;
+  /* v8 · Schul-Akzente — Light-Overrides (etwas abgedunkelt für Kontrast auf hellem Feld) */
+  --ft-schule-systemisch:#0E9B7E;
+  --ft-schule-kritisch-normativ:#D8482A;
+  --ft-schule-kulturell-narrativ:#7B43D6;
+  --ft-schule-partizipativ:#2C7CD6;
+  --ft-schule-design-futures:#C78A12;
+  --ft-schule-oekologisch:#0B7A4D;
+  --ft-edge-methode:rgba(90,96,128,0.85);
   /* Cone-Farbsystem v3 — Light-Overrides (farb-system.md §3.2) */
   --ft-cone-wuenschenswert-core:#1F9D56; --ft-cone-wuenschenswert-text:#147A40; --ft-cone-wuenschenswert-bg:rgba(31,157,86,0.12);
   --ft-cone-nicht-core:#D6203C;          --ft-cone-nicht-text:#B01228;          --ft-cone-nicht-bg:rgba(214,32,60,0.10);
@@ -418,25 +452,63 @@ input[type="range"].field-range::-moz-range-thumb       { width:24px; height:24p
 
 /* ============ ARCHIV — Lebender Force-Graph (v4) ============ */
 .starmap-shell { position:relative; }
-.starmap { position:relative; width:100%; height:clamp(460px,64vh,680px); border-radius:var(--ft-radius-card); overflow:hidden; background:var(--ft-constellation-bg); background-image:var(--ft-field-depth); border:1px solid var(--ft-line); box-shadow:var(--ft-shadow-card),inset 0 0 80px rgba(0,0,0,0.5); cursor:grab; touch-action:none; }
+/* v8 · randlos: Border weg, weicher nach innen auslaufender Glow-Saum statt harter Kante (Ars-Electronica-Void) */
+.starmap { position:relative; width:100%; height:clamp(460px,64vh,680px); border-radius:var(--ft-radius-card); overflow:hidden; background:var(--ft-constellation-bg); background-image:var(--ft-field-depth); border:none; box-shadow:var(--ft-shadow-card),inset 0 0 120px rgba(0,0,0,0.62); cursor:grab; touch-action:none; }
 .starmap.is-panning { cursor:grabbing; }
 .starmap.is-dragging-node { cursor:grabbing; }
-.starmap__fog { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse 64% 54% at 50% 50%,transparent 42%,var(--ft-field-fog) 100%); z-index:5; }
+/* verstärkte Vignette: das Feld läuft randlos in den Void aus */
+.starmap__fog { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse 70% 60% at 50% 46%,transparent 36%,var(--ft-field-fog) 92%,rgba(4,6,14,0.96) 100%); z-index:5; }
 /* Eine SVG-Szene; viewBox-Pan/Zoom statt CSS-transform */
 .graph-svg { position:absolute; inset:0; width:100%; height:100%; display:block; }
 .graph-svg.is-dimmed .gnode:not(.is-hot):not(.is-kin) { opacity:0.16; }
 .graph-svg.is-dimmed .gedge:not(.is-hot) { opacity:0.05; }
-.gedge { stroke:var(--ft-lineage-line); stroke-width:1; stroke-dasharray:3 5; transition:opacity var(--ft-dur-fast),stroke var(--ft-dur-fast),stroke-width var(--ft-dur-fast); fill:none; }
-.gedge.is-hot { stroke:var(--ft-lineage-line-hot); stroke-width:1.8; stroke-dasharray:none; }
+/* v8 · Hintergrund-Sternebene (Tiefe, keine Interaktion) */
+.bgstar { fill:var(--ft-ink); pointer-events:none; }
+/* v8 · Drei Kantentypen, drei Strichqualitäten. Farbe = Schule, Strichart = Beziehungstyp.
+   Schul-Sehne: durchgezogen + farbig (stroke wird inline gesetzt). Methode: gestrichelt + neutral + fließend.
+   Lineage: durchgezogen, kräftigster Kontrast (ultra). */
+/* v9 · Sehnen sind jetzt <path> (sanfte Krümmung), nicht <line> — daher fill:none zwingend.
+   Dünner + linecap round = weiche, luftige Bögen statt knallharter Vollton-Geraden. */
+.gedge { fill:none; vector-effect:non-scaling-stroke; stroke-linecap:round; transition:opacity var(--ft-dur-fast),stroke var(--ft-dur-fast),stroke-width var(--ft-dur-fast); }
+.gedge--schule { stroke-width:1.5; stroke-linecap:round; opacity:var(--ft-edge-schule-op); }
+.gedge--methode { stroke:var(--ft-edge-methode); stroke-width:1; stroke-dasharray:2.5 4; opacity:var(--ft-edge-methode-op); animation:methodFlow 1.4s linear infinite; }
+.gedge--lineage { stroke:var(--ft-lineage-line); stroke-width:1.1; opacity:0.46; }
+.gedge.is-hot { opacity:0.92 !important; stroke-width:2.2; }
+.gedge--methode.is-hot { stroke-width:1.6; }
+.gedge--lineage.is-hot { stroke:var(--ft-lineage-line-hot); stroke-width:2.2; }
+@keyframes methodFlow { to { stroke-dashoffset:-18; } }
+@keyframes starBreathe { 0%,100% { opacity:0.7; } 50% { opacity:1; } }
 .gnode { cursor:pointer; transition:opacity var(--ft-dur-base) var(--ft-ease-smooth); }
 .gnode__glow { transition:opacity var(--ft-dur-fast),r var(--ft-dur-fast) var(--ft-ease-pop); }
+.gnode__lineage-halo { pointer-events:none; transition:opacity var(--ft-dur-fast); }
 .gnode__core { transition:transform var(--ft-dur-fast) var(--ft-ease-pop); transform-box:fill-box; transform-origin:center; }
 .gnode:hover .gnode__core,.gnode.is-hot .gnode__core,.gnode:focus-visible .gnode__core { transform:scale(1.32); }
-.gnode__ring { fill:none; stroke-width:1.4; pointer-events:none; }
+/* Ring im Ruhezustand = feiner Schul-Zugehörigkeits-Ring (inline opacity 0.30); bei Hover/Fokus/Kin Selektionsring */
+.gnode__ring { fill:none; stroke-width:1.2; pointer-events:none; transition:opacity var(--ft-dur-fast),stroke-width var(--ft-dur-fast); }
+.gnode:hover .gnode__ring,.gnode.is-hot .gnode__ring,.gnode.is-kin .gnode__ring { opacity:0.9 !important; stroke-width:2; }
+.gnode.is-leitstern .gnode__ring { opacity:0.5; stroke-width:1.6; }
 .gnode__label { font-family:var(--ft-font-mono); font-size:11px; fill:var(--ft-body); paint-order:stroke; stroke:var(--ft-constellation-bg); stroke-width:3px; opacity:0; transition:opacity var(--ft-dur-fast); pointer-events:none; }
 .gnode:hover .gnode__label,.gnode.is-hot .gnode__label,.gnode:focus-visible .gnode__label { opacity:1; }
 .gnode:focus-visible { outline:none; }
 .gnode:focus-visible .gnode__ring { stroke:var(--ft-signal); stroke-width:2.4; opacity:1; }
+/* v8 · Methoden-Mittelpunkt-Labels: Desktop permanent, Mobile on-demand (siehe Media-Query) */
+.gmethod-label { font-family:var(--ft-font-mono); font-size:9.5px; fill:var(--ft-muted); text-anchor:middle; pointer-events:none; paint-order:stroke; stroke:var(--ft-constellation-bg); stroke-width:3px; letter-spacing:0.02em; opacity:0.7; transition:opacity var(--ft-dur-fast),fill var(--ft-dur-fast); }
+.gmethod-label.is-hot { opacity:1; fill:var(--ft-ink); }
+/* ===== STICKY Methoden-Highlight (Deeplink „Damit geborgen" → ?methode=<slug>) =====
+   Bleibt aktiv bis Reset (anders als der flüchtige Hover-Highlight). Geborgene Funde
+   pulsen mit vollem Schul-Akzent (.is-method-hi), der Rest bleibt via .is-dimmed abgedimmt. */
+.gnode.is-method-hi .gnode__core { transform:scale(1.32); }
+.gnode.is-method-hi .gnode__ring { opacity:1 !important; stroke-width:2.4; }
+.gnode.is-method-hi .gnode__label { opacity:1; }
+.gnode.is-method-hi .gnode__glow { opacity:0.95 !important; animation:methodPulse 1.6s var(--ft-ease-breath, ease-in-out) infinite; }
+@keyframes methodPulse { 0%,100% { opacity:0.6; } 50% { opacity:1; } }
+@media (prefers-reduced-motion:reduce) { .gnode.is-method-hi .gnode__glow { animation:none !important; } }
+/* reduced-motion: Atmen + fließende Methoden-Linie aus (statisch, beruht auf Form+Farbe) */
+@media (prefers-reduced-motion:reduce) {
+  .gnode__glow { animation:none !important; }
+  .gedge--methode { animation:none; }
+  .starmap__status { transition:none; }
+}
 /* Achsen + HUD */
 .starmap__axes { position:absolute; z-index:6; inset:0; pointer-events:none; font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-muted); }
 .starmap__axes .ax-x-l { position:absolute; left:var(--ft-space-sm); bottom:var(--ft-space-sm); }
@@ -450,12 +522,17 @@ input[type="range"].field-range::-moz-range-thumb       { width:24px; height:24p
 .starmap__layout .icon-btn { background:color-mix(in srgb,var(--ft-bg) 80%,transparent); border-radius:0; }
 .starmap__layout .icon-btn:first-child { border-radius:var(--ft-radius-md) 0 0 var(--ft-radius-md); }
 .starmap__layout .icon-btn:last-child { border-radius:0 var(--ft-radius-md) var(--ft-radius-md) 0; border-left:none; }
-.starmap__layout .icon-btn[aria-pressed="true"] { background:color-mix(in srgb,var(--ft-signal) 14%,var(--ft-bg)); }
-/* Cluster-Labels (nur im Themen-Modus sichtbar) */
-.gcluster-label { font-family:var(--ft-font-mono); font-size:12px; fill:var(--ft-muted); text-anchor:middle; pointer-events:none; opacity:0; transition:opacity var(--ft-dur-base) var(--ft-ease-smooth); letter-spacing:0.04em; }
-.graph-svg.is-theme .gcluster-label { opacity:0.85; }
-/* X-Achsen-Labels (Jahre) im Themen-Modus abdimmen — Zeit wird bedeutungslos */
-.starmap.is-theme .starmap__axes .ax-x-l,.starmap.is-theme .starmap__axes .ax-x-r,.starmap.is-theme .starmap__axes .ax-y-top,.starmap.is-theme .starmap__axes .ax-y-bot { opacity:0.18; transition:opacity var(--ft-dur-base) var(--ft-ease-smooth); }
+.starmap__layout .icon-btn[aria-pressed="true"] { background:color-mix(in srgb,var(--ft-ink) 12%,var(--ft-bg)); color:var(--ft-ink); }
+/* v8 · Status-Zeile beim Modus-Wechsel (Pflicht-Feedback, bes. bei reduced-motion) */
+.starmap__status { position:absolute; z-index:7; left:50%; top:var(--ft-space-sm); transform:translateX(-50%); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-ink); background:color-mix(in srgb,var(--ft-bg) 86%,transparent); border:1px solid var(--ft-line); border-radius:var(--ft-radius-pill); padding:4px 12px; pointer-events:none; opacity:0; transition:opacity var(--ft-dur-base) var(--ft-ease-smooth); white-space:nowrap; }
+.starmap__status.show { opacity:1; }
+/* Sternbild-/Cluster-Labels — im Sternbild-Modus sichtbar */
+.gcluster-label { font-family:var(--ft-font-mono); font-size:12px; fill:var(--ft-muted); text-anchor:middle; pointer-events:none; opacity:0; transition:opacity var(--ft-dur-base) var(--ft-ease-smooth); letter-spacing:0.04em; paint-order:stroke; stroke:var(--ft-constellation-bg); stroke-width:3px; }
+.graph-svg.is-sternbilder .gcluster-label { opacity:0.92; }
+/* Methoden-Labels im Sternbild-Modus normal, im Zeit-Modus etwas zurückgenommen */
+.graph-svg.is-zeit .gmethod-label { opacity:0.55; }
+/* X-Achsen-Labels (Jahre) im Sternbild-Modus abdimmen — Zeit wird dort bedeutungslos */
+.starmap.is-sternbilder .starmap__axes .ax-x-l,.starmap.is-sternbilder .starmap__axes .ax-x-r,.starmap.is-sternbilder .starmap__axes .ax-y-top,.starmap.is-sternbilder .starmap__axes .ax-y-bot { opacity:0.14; transition:opacity var(--ft-dur-base) var(--ft-ease-smooth); }
 .starmap__axes .ax-x-l,.starmap__axes .ax-x-r,.starmap__axes .ax-y-top,.starmap__axes .ax-y-bot { transition:opacity var(--ft-dur-base) var(--ft-ease-smooth); }
 /* Zwei beschriftete Legenden-Gruppen */
 /* F5: background + border so legend reads against starfield; font-size raised to 0.875rem minimum */
@@ -467,33 +544,190 @@ input[type="range"].field-range::-moz-range-thumb       { width:24px; height:24p
 .graph-legend__row { display:flex; flex-wrap:wrap; gap:var(--ft-space-sm) var(--ft-space-md); font-family:var(--ft-font-mono); font-size:0.875rem; color:var(--ft-body); }
 .graph-legend__row span { display:inline-flex; align-items:center; gap:6px; }
 .graph-legend__row i { width:11px; height:11px; border-radius:50%; display:inline-block; flex:none; }
-/* F12: mobile legend — hidden desktop, shown above starlist on mobile */
-.mobile-legend { display:none; }
-/* mobile: statische Liste statt Graph */
-.starlist { display:none; }
+/* ============================================================
+   OPTION C (Tom, 2026-06-09): Mobile zeigt das FUND-KARTEN-ARCHIV,
+   nicht den Inline-Graphen. Der Graph lebt mobil nur noch im Vollbild
+   (#starmapOverlay). Desktop (>720px) bleibt vollständig unangetastet.
+   Die alten Leichen (.mobile-legend / .starlist / .reveal-all) sind
+   entfernt; ihre CSS-Regeln existieren nicht mehr.
+   ============================================================ */
+/* Sektions-Lead: Desktop = voller Erklärtext, Mobile = kurzer Karten-Lead */
+.sect-intro--short { display:none; }
+/* Mobiles Karten-Archiv + Vollbild-Button: Desktop ausgeblendet */
+.starmap-mobile { display:none; }
+.starmap-fullscreen { display:none; }
+
+/* ===== „Geborgen mit …"-Banner (Deeplink von methoden.html ?methode=<slug>) =====
+   Erscheint über dem Graph/den Karten, zeigt Methode + Anzahl + Reset. */
+.method-banner { display:none; align-items:center; gap:var(--ft-space-sm); flex-wrap:wrap;
+  margin:0 0 var(--ft-space-md); padding:var(--ft-space-sm) var(--ft-space-md);
+  border:1px solid var(--ft-line); border-left:3px solid var(--ft-signal);
+  border-radius:var(--ft-radius-card, 12px); background:var(--ft-constellation-bg, var(--ft-surface));
+  box-shadow:var(--ft-shadow-card); }
+.method-banner.is-shown { display:flex; }
+.method-banner__star { color:var(--ft-signal); font-size:1.1em; line-height:1; }
+.method-banner__text { font-family:var(--ft-font-body); font-size:var(--ft-text-caption,0.9rem); color:var(--ft-body); margin:0; }
+.method-banner__text b { color:var(--ft-ink); font-weight:600; }
+.method-banner__count { font-family:var(--ft-font-mono); color:var(--ft-muted); }
+.method-banner__reset { margin-left:auto; display:inline-flex; align-items:center; gap:4px;
+  min-height:36px; padding:4px 12px; cursor:pointer;
+  font-family:var(--ft-font-mono); font-size:var(--ft-text-caption,0.85rem); color:var(--ft-body);
+  background:transparent; border:1px solid var(--ft-line); border-radius:999px;
+  transition:background var(--ft-dur-fast), border-color var(--ft-dur-fast); }
+.method-banner__reset:hover { background:var(--ft-surface); border-color:var(--ft-muted); color:var(--ft-ink); }
+.method-banner__reset:focus-visible { outline:none; box-shadow:var(--ft-focus-ring); }
+/* DESKTOP-SCHUTZ: Die mobilen Frame-Zonen (Treffer-Liste, Fuß) sind im Desktop-Banner
+   (flex-Zeile, im Fluss) ausgeblendet — Desktop nutzt weiter den Graph-Glow + die alte
+   Banner-Zeile. Eyebrow-Span im Fluss inline. Sämtliche Frame-Optik lebt im 720px-Block. */
+.method-frame__hits, .method-frame__foot, .method-frame__x { display:none; }
+.method-frame__eyebrow { font:inherit; color:inherit; }
+/* Desktop: die Kopf-Leiste ist transparent — Stern + Text bleiben direkte Flex-Kinder der
+   Banner-Zeile (unveränderte Desktop-Optik). Das × lebt nur mobil (Block unten). */
+.method-frame__topbar { display:contents; }
+
+/* ===== Mobile Karten-Highlight (Graph mobil unsichtbar → stattdessen Karten betonen) ===== */
+#starGrid.is-method-filter .fund-card:not(.is-method-hi) { opacity:0.34; }
+#starGrid .fund-card.is-method-hi { opacity:1;
+  box-shadow:inset 3px 0 0 0 var(--c, var(--ft-muted)), var(--ft-glow-signal, 0 0 0 1px var(--c)), var(--ft-shadow-lift); }
+#starGrid.is-method-filter .fund-constellation { opacity:1; }
 @media (max-width:720px) {
+  /* Inline-Graph mobil AUS — er lebt nur noch im Vollbild-Overlay. */
   .starmap { display:none; }
-  .starmap__layout { display:none; }
+  /* ===== ERGEBNIS-FRAME (mobil ≤720px) — TOP-SHEET =====
+     Tom-Leitidee: EIN kompaktes Frame bündelt „Geborgen mit <Methode>" + die anklickbaren
+     Titel der N Treffer — alles ohne Seiten-Scroll lesbar/bedienbar.
+
+     TOP-SHEET-FIX (Wade 2026-06-09): Das Frame klebt jetzt OBEN BÜNDIG am Viewport-Top,
+     exakt wie der bewiesen-funktionierende .starmap-overlay (fund-cards.css). Gespiegelte
+     Technik gegen den iOS-Safari-„fixed schwimmt"-Bug:
+       1) left:0; right:0; top:0  → ALLE Kanten gesetzt (full-width Top-Bar), nicht nur top.
+          Mehrkantiger Bezug ist auf iOS WebKit robuster als ein einzelner top-Offset.
+       2) max-height über 100svh statt 100dvh → svh ist der STABILE small-viewport-Wert,
+          der sich bei iOS-Adressleisten-Kollaps NICHT neu berechnet. 100dvh war die
+          Hauptursache, dass das Frame beim Scrollen relayoutete/„abdriftete".
+       3) padding-top schließt env(safe-area-inset-top) ein → Inhalt unter der Notch sicher.
+       4) nur UNTEN abgerundet → liest sich als von oben einfahrendes Sheet; oben/links/rechts
+          bündig, damit NICHTS über dem Frame durchscheint.
+     3-Zonen-Flex-Spalte: Kopf (flex:none, mit ×) · Treffer-Liste (flex:1, einziger
+     Scrollbereich). z-index 30 < Scrim(55)/Drawer(58). */
+  .method-frame.is-shown {
+    position:fixed;
+    top:0; left:0; right:0;
+    margin:0; z-index:50;   /* über sticky Header(40), unter Scrim(55)/Drawer(58) → Top-Sheet
+                               deckt den Header ab, nichts scheint darüber durch. Menü bleibt
+                               über den floatingMenu-Button erreichbar. */
+    max-height:calc(100svh - env(safe-area-inset-bottom) - var(--ft-space-md));
+    display:flex; flex-direction:column; align-items:stretch; flex-wrap:nowrap;
+    gap:var(--ft-space-sm);
+    background:var(--ft-surface);
+    border:none;
+    border-bottom:1px solid var(--ft-line);
+    border-left:3px solid var(--ft-signal);
+    border-radius:0 0 var(--ft-radius-md) var(--ft-radius-md);
+    box-shadow:var(--ft-shadow-lift);
+    padding:calc(var(--ft-space-sm) + env(safe-area-inset-top)) var(--ft-space-md) var(--ft-space-md);
+  }
+  /* Stern wandert in den Kopf-Fluss (kein eigener Flex-Slot mehr). */
+  .method-frame.is-shown .method-frame__star { display:none; }
+  /* ZONE 1 · KOPF-LEISTE — Text-Spalte links, × oben rechts (flex:none, immer sichtbar). */
+  .method-frame.is-shown .method-frame__topbar {
+    display:flex; flex:none; align-items:flex-start; gap:var(--ft-space-sm); }
+  /* × oben rechts — 44px-Touch-Target, löst clearMethodHighlight() aus (siehe JS).
+     Default display:none ist global gesetzt (Desktop-Schutz); hier nur das Sichtbar-Schalten. */
+  .method-frame.is-shown .method-frame__x {
+    display:inline-flex; align-items:center; justify-content:center; flex:none;
+    margin-left:auto; width:44px; height:44px; margin-top:-4px; margin-right:-6px;
+    background:transparent; border:1px solid var(--ft-line); border-radius:var(--ft-radius-md);
+    color:var(--ft-body); font-size:1.4rem; line-height:1; cursor:pointer;
+    transition:border-color var(--ft-dur-fast), color var(--ft-dur-fast); }
+  .method-frame.is-shown .method-frame__x:hover { border-color:var(--ft-signal); color:var(--ft-ink); }
+  .method-frame.is-shown .method-frame__x:focus-visible { outline:none; box-shadow:var(--ft-focus-ring); }
+  /* KOPF-TEXTBLOCK — block, dreistufige Typo; nimmt die freie Breite, × bleibt rechts. */
+  .method-frame.is-shown .method-frame__head {
+    flex:1 1 auto; min-width:0; margin:0; display:block;
+    font-family:var(--ft-font-display); font-weight:700;
+    font-size:var(--ft-text-h3); line-height:1.3; color:var(--ft-ink); }   /* Methode = 20px, stärkster Text */
+  .method-frame.is-shown .method-frame__head b { font-weight:700; color:var(--ft-ink);
+    display:block; }
+  .method-frame.is-shown .method-frame__eyebrow {
+    display:inline-flex; align-items:center; gap:4px;
+    font-family:var(--ft-font-mono); font-size:11px; font-weight:400;
+    text-transform:uppercase; letter-spacing:var(--ft-tracking-eyebrow);
+    color:var(--ft-muted); }
+  .method-frame.is-shown .method-frame__eyebrow::before {
+    content:"✶"; color:var(--ft-signal); }
+  .method-frame.is-shown .method-frame__count {
+    display:block; margin-top:2px;
+    font-family:var(--ft-font-mono); font-size:var(--ft-text-caption);
+    color:var(--ft-muted); }
+  /* ZONE 2 · TREFFER-LISTE — einziger Scrollbereich. */
+  .method-frame.is-shown .method-frame__hits {
+    display:block; flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    list-style:none; margin:0; padding:0; min-height:0; }
+  .method-frame.is-shown .method-frame__hit {
+    display:flex; align-items:center; gap:var(--ft-space-sm);
+    width:100%; min-height:44px; padding:10px var(--ft-space-sm);
+    background:transparent; border:none; border-top:1px solid var(--ft-line);
+    text-align:left; cursor:pointer; }
+  .method-frame.is-shown .method-frame__hits > li:first-child .method-frame__hit { border-top:none; }
+  .method-frame.is-shown .method-frame__hit-dot {
+    width:8px; height:8px; border-radius:50%; flex:none;
+    background:var(--c, var(--ft-muted)); box-shadow:0 0 4px var(--c, var(--ft-muted)); }
+  .method-frame.is-shown .method-frame__hit-text {
+    flex:1 1 auto; min-width:0; display:flex; flex-direction:column; }
+  .method-frame.is-shown .method-frame__hit-title {
+    font-family:var(--ft-font-body); font-weight:600; font-size:0.9375rem; line-height:1.3;
+    color:var(--ft-ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }  /* 15px */
+  .method-frame.is-shown .method-frame__hit-year {
+    font-family:var(--ft-font-mono); font-size:0.75rem; line-height:var(--ft-lh-caption);
+    color:var(--ft-muted); }                                                              /* 12px */
+  .method-frame.is-shown .method-frame__hit-chev {
+    flex:none; margin-left:auto; font-size:1.1rem; color:var(--ft-muted); }
+  .method-frame.is-shown .method-frame__hit:hover,
+  .method-frame.is-shown .method-frame__hit:focus-visible { background:var(--ft-surface-2); }
+  .method-frame.is-shown .method-frame__hit:hover .method-frame__hit-chev,
+  .method-frame.is-shown .method-frame__hit:focus-visible .method-frame__hit-chev { color:var(--ft-signal-ink); }
+  .method-frame.is-shown .method-frame__hit:focus-visible {
+    outline:none; box-shadow:var(--ft-focus-ring) inset; border-radius:var(--ft-radius-sm); }
+  /* ZONE 3 (FUSS/Reset-Zeile) ENTFERNT — Reset lebt jetzt als × in der Kopf-Leiste.
+     Der Fuß bleibt im Desktop-Banner-Markup, ist mobil aber unsichtbar (spart vertikalen
+     Platz → Frame wird kürzer). */
+  .method-frame.is-shown .method-frame__foot { display:none; }
+  /* KOLLAPS — beim Titel-Tap klappt das Frame auf Kopf+× zusammen, damit es den
+     aufklappenden Beipackzettel der Zielkarte nicht verdeckt. × bleibt sichtbar. */
+  .method-frame.is-shown.is-collapsed .method-frame__hits { display:none; }
+  .method-frame.is-shown.is-collapsed .method-frame__head { cursor:pointer; }
+  .method-frame.is-shown.is-collapsed .method-frame__head::after {
+    content:" ▾ wieder anzeigen"; font-family:var(--ft-font-mono); font-size:11px;
+    font-weight:400; text-transform:none; letter-spacing:0; color:var(--ft-muted); }
+  /* Sektions-Lead tauschen */
+  .sect-intro--full  { display:none; }
+  .sect-intro--short { display:block; }
+  /* Karten-Archiv + Vollbild-Button einblenden */
+  .starmap-mobile { display:block; }
+  .starmap-mobile .fund-toolbar { margin-bottom:var(--ft-space-md); }
+  .starmap-fullscreen { display:inline-flex; width:100%; min-height:44px; margin-bottom:var(--ft-space-lg); }
+  /* #starGrid trägt das Karten-Raster aus fund-cards.css über .fund-grid (per JS gesetzt). */
+  #starGrid { padding-bottom:var(--ft-space-md); }
+  /* Graph-Farb-Legende mobil aus (Karten tragen die Achsen-Bedeutung in den Chips). */
   .graph-legend { display:none; }
-  /* F12: show axis legend above the mobile list */
-  .mobile-legend { display:flex; gap:12px; flex-wrap:wrap; font-size:0.8125rem; color:var(--ft-muted); margin-bottom:16px; align-items:center; }
-  .leg-item { display:inline-flex; align-items:center; gap:6px; font-family:var(--ft-font-mono); }
-  .leg-item::before { content:""; display:inline-block; width:10px; height:10px; border-radius:50%; flex:none; }
-  .leg-good::before { background:var(--ft-cone-wuenschenswert-core); }
-  .leg-bad::before  { background:var(--ft-cone-nicht-core); }
-  .leg-note { font-family:var(--ft-font-mono); font-size:0.75rem; color:var(--ft-muted); }
-  .starlist { display:grid; grid-template-columns:1fr; gap:var(--ft-space-sm); }
-  .starlist__item { display:flex; flex-direction:row; align-items:center; gap:var(--ft-space-md); background:var(--ft-surface); border-left:3px solid var(--ft-star-rest); border-radius:var(--ft-radius-md); padding:var(--ft-space-sm) var(--ft-space-md); text-align:left; color:inherit; cursor:pointer; }
-  .starlist__item:hover { border-left-color:var(--ft-signal); }
-  .starlist__cone { flex:none; width:88px; align-self:center; background:var(--ft-constellation-bg); border:1px solid var(--ft-line); border-radius:var(--ft-radius-sm); overflow:hidden; }
-  .starlist__cone svg { width:100%; height:auto; display:block; }
-  @media (max-width:360px) { .starlist__cone { width:64px; } }
-  .starlist__body { display:flex; flex-direction:column; gap:6px; min-width:0; flex:1; }
-  .starlist__top { display:flex; justify-content:space-between; gap:var(--ft-space-sm); align-items:baseline; }
-  .starlist__year { font-family:var(--ft-font-display); font-weight:700; color:var(--ft-ink); }
-  .starlist__title { font-family:var(--ft-font-display); font-weight:500; color:var(--ft-ink); font-size:1rem; }
-  .starlist__meta { display:flex; gap:var(--ft-space-xs); flex-wrap:wrap; }
-  .starlist__ort { font-family:var(--ft-font-mono); font-size:0.72rem; color:var(--ft-muted); }
+
+  /* ===== ERGEBNIS-FRAME · Grid-Begleitung (mobil) =====
+     Nicht-Treffer ruhiger (0.5 statt 0.34): hinter dem opaken, schwebenden Frame wirken
+     0.34-Karten zu „weggeblendet". Override nur mobil — Desktop bleibt 0.34 (Z. ~581). */
+  #starGrid.is-method-filter .fund-card:not(.is-method-hi) { opacity:0.5; }
+  /* Das Frame ist fixed (aus dem Fluss) → das Grid bekommt einen oberen Abstand in Höhe
+     des Frames, damit die erste Karte nicht dahinter klemmt (--ft-method-frame-h per JS). */
+  #starGrid.is-method-filter { padding-top:var(--ft-method-frame-h, 0px); }
+  /* Aufmerksamkeits-Puls auf der angesprungenen Zielkarte (1.2s, reduced-motion-aware). */
+  .fund-card[data-method-pulse] { animation:ft-method-pulse 1.2s var(--ft-ease-smooth); }
+  @keyframes ft-method-pulse {
+    0%,100% { box-shadow:inset 3px 0 0 0 var(--c,var(--ft-muted)), var(--ft-glow-signal), var(--ft-shadow-lift); }
+    35%     { box-shadow:inset 3px 0 0 0 var(--c,var(--ft-muted)), 0 0 0 3px var(--ft-signal), var(--ft-shadow-lift); }
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .fund-card[data-method-pulse] { animation:none; }
 }
 /* unsichtbare DOM-Liste für Tastatur/Screenreader parallel zum Graph */
 .graph-sr-list { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
@@ -517,10 +751,23 @@ input[type="range"].field-range::-moz-range-thumb       { width:24px; height:24p
 .insp__ort { margin-bottom:var(--ft-space-md); }
 .insp__zettel-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--ft-space-xs); }
 .insp__author { color:var(--ft-muted); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); margin-top:var(--ft-space-md); }
+.insp__via { font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); color:var(--ft-muted); margin-top:var(--ft-space-xs); }
+.insp__via a { color:var(--ft-signal-ink); text-decoration:none; border-bottom:1px solid color-mix(in srgb,var(--ft-signal) 40%,transparent); padding-bottom:1px; }
+.insp__via a:hover, .insp__via a:focus-visible { color:var(--ft-ink); border-bottom-color:var(--ft-signal); }
 .insp__lineage { margin-top:var(--ft-space-md); padding-top:var(--ft-space-md); border-top:var(--ft-border); }
 .insp__lineage h4 { font-family:var(--ft-font-display); font-weight:500; font-size:0.95rem; color:var(--ft-ink); margin:0 0 var(--ft-space-xs); }
 .insp__lineage button { display:inline-flex; align-items:center; gap:6px; background:color-mix(in srgb,var(--ft-surface-2) 60%,transparent); border:var(--ft-border-lineage); color:var(--ft-body); border-radius:var(--ft-radius-md); padding:var(--ft-space-xs) var(--ft-space-sm); font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); }
 .insp__lineage button:hover { border-color:var(--ft-ultra); color:var(--ft-ink); }
+/* Archiv der vielen Stimmen — begrüßende Kuratorinnen-Stimme (dezent, separat von insp__via). */
+.insp__schule { --schule-accent:var(--ft-signal); display:flex; gap:var(--ft-space-sm); align-items:flex-start; margin-top:var(--ft-space-md); padding:var(--ft-space-sm) var(--ft-space-md); background:color-mix(in srgb,var(--schule-accent) 7%,var(--ft-surface)); border:1px solid color-mix(in srgb,var(--schule-accent) 28%,var(--ft-line)); border-left:3px solid var(--schule-accent); border-radius:var(--ft-radius-md); }
+.insp__schule[hidden] { display:none; }
+.insp__schule-portrait { flex:0 0 auto; width:44px; height:44px; border-radius:var(--ft-radius-pill); overflow:hidden; background:var(--ft-surface-2); box-shadow:0 0 0 2px var(--schule-accent),0 0 0 4px var(--ft-surface); }
+.insp__schule-portrait img { width:100%; height:100%; object-fit:cover; object-position:50% 24%; display:block; }
+.insp__schule-body { flex:1 1 auto; min-width:0; }
+.insp__schule-head { display:flex; flex-wrap:wrap; align-items:baseline; gap:var(--ft-space-xs); }
+.insp__schule-name { font-family:var(--ft-font-display); font-weight:500; font-size:0.95rem; color:var(--ft-ink); }
+.insp__schule-label { font-family:var(--ft-font-mono); font-size:var(--ft-text-caption); letter-spacing:var(--ft-tracking-eyebrow); text-transform:lowercase; color:color-mix(in srgb,var(--schule-accent) 70%,var(--ft-muted)); }
+.insp__schule-satz { margin:6px 0 0; font-size:var(--ft-text-caption); line-height:1.5; color:var(--ft-body); font-style:italic; }
 .insp__actions { display:flex; flex-wrap:wrap; gap:var(--ft-space-sm); margin-top:var(--ft-space-lg); }
 .insp__permalink { display:flex; flex-direction:column; gap:var(--ft-space-xs); align-items:stretch; background:var(--ft-surface); border:var(--ft-border); border-radius:var(--ft-radius-md); padding:var(--ft-space-sm); margin-top:var(--ft-space-md); }
 .insp__permalink-lbl { margin:0; }
@@ -837,9 +1084,9 @@ img, svg, canvas { max-width:100%; }   /* iframe BEWUSST RAUS: Turnstile-iframe 
   .starmap__axes { font-size:0.7rem; }
   .starmap__layout .icon-btn { min-height:44px; }
 
-  /* Kondensierte Fund-Liste: ab dem 5. Item ausblenden bis aufgedeckt (Dieter · Fix 2) */
-  .starlist.is-collapsed .starlist__item:nth-child(n+5) { display:none; }
-  .reveal-all:not([hidden]) { display:flex; }
+  /* Kondensierte Fund-Liste entfällt mobil (interaktive Karte ist sichtbar, Wade 2026-06-08).
+     reveal-all-Button daher mobil ausgeblendet — er gehörte zur Liste. */
+  .reveal-all { display:none !important; }
 
   /* Drawer → Bottom-Sheet (reale Open-Klasse ist .show, nicht .is-open) */
   .drawer {
@@ -1023,6 +1270,8 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     <nav class="topnav" aria-label="Hauptnavigation">
       <a href="index.html#screen-archiv" aria-current="page">karte</a>
       <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
+      <a href="funde.html">funde</a>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
       <a href="index.html#oracle">zukünft:innen</a>
       <span class="nav-sep nav-sep--inner" aria-hidden="true">/</span>
       <a href="blog.html">blog</a>
@@ -1030,6 +1279,8 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       <a href="methoden.html">methoden</a>
       <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
       <a href="einreichen.html">einreichen</a>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
+      <a href="manifest.html">manifest</a>
     </nav>
 
     <div class="header-actions">
@@ -1057,10 +1308,12 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     </div>
     <nav class="nav-sheet__nav" aria-label="Hauptnavigation (mobil)">
       <a href="index.html#screen-archiv" aria-current="page">karte</a>
+      <a href="funde.html">funde</a>
       <a href="index.html#oracle">zukünft:innen</a>
       <a href="blog.html" class="nav-sub">blog</a>
       <a href="methoden.html">methoden</a>
       <a href="einreichen.html">einreichen</a>
+      <a href="manifest.html">manifest</a>
     </nav>
     <a class="btn btn--primary btn--block nav-sheet__cta" href="einreichen.html" id="sheetSubmit">fund einreichen</a>
   </div>
@@ -1103,7 +1356,7 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
           <!-- 3 · TERTIÄR — zukünft:innen fragen -->
           <button class="mic-path mic-path--ultra" type="button" id="pathOracle">
             <span class="mic-path__k">die zukünft:innen fragen</span>
-            <span class="mic-path__sub">zehn perspektiven, eine synthese</span>
+            <span class="mic-path__sub">sechs perspektiven, eine synthese</span>
           </button>
           <!-- 4 · TERTIÄR — stöbern -->
           <button class="mic-path" type="button" id="pathStarmap">
@@ -1126,23 +1379,45 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
         </div>
         <p class="sec-head__meta" id="fundCount">8 funde · konstellation 2030–2070</p>
       </header>
-      <p class="sect-intro" style="margin-bottom:var(--ft-space-md);">Dies ist das <b>Archiv der eingereichten Funde</b> — jeder Stern ein Beitrag, der über <a href="einreichen.html">einreichen</a> Bestand wurde. Jeder Fund ist ein Knoten in einem lebendigen Feld: links die nahen Jahre, rechts die fernen, oben das Wahrscheinliche, unten das nur Mögliche. Die <b>Farbe</b> sagt, ob wir diese Zukunft <em>wollen</em> (grün), nicht wollen (rot) oder unentschieden sind (kühl); die <b>Höhe</b> ihre Wahrscheinlichkeit (oben wahrscheinlich, unten nur möglich). Leuchtende Sehnen verbinden verwandte Funde. Zieh das Feld, zoom hinein, fahr über einen Knoten, um seine Verwandtschaft zu sehen — und klick einen für seinen Beipackzettel.</p>
+      <!-- Sektions-Lead: voller Erklärtext (Desktop, erklärt den GRAPHEN) vs. kurzer Lead
+           (Mobile, beschreibt die KARTEN). Umschaltung rein per @media ≤720px. -->
+      <p class="sect-intro sect-intro--full" style="margin-bottom:var(--ft-space-md);">Dies ist das <b>Archiv der eingereichten Funde</b> — jeder Stern ein Beitrag, der über <a href="einreichen.html">einreichen</a> Bestand wurde. Standardmäßig ordnen sich die Funde zu <b>sechs Sternbildern</b> nach ihrer <em>Denkschule</em>; jedes hat einen Leitstern (den ältesten Fund) als Anker. Die <b>Farbe</b> eines Sterns nennt seine Schule, seine <b>Größe und Helligkeit</b> die Wahrscheinlichkeit. <b>Durchgezogene farbige Sehnen</b> verbinden die Funde einer Schule, <b>gestrichelte fließende Linien</b> markieren geteilte Methoden. Schalt auf <em>Zeitlauf</em>, um dieselben Sterne über die Jahre 2030–2070 zu sehen. Zieh das Feld, zoom hinein, fahr über einen Stern für seine Verwandtschaft — und klick ihn für seinen Beipackzettel.</p>
+      <p class="sect-intro sect-intro--short" style="margin-bottom:var(--ft-space-md);">Das <b>Archiv aller Funde</b> — geordnet zu sechs Sternbildern nach Denkschule. Tippe einen Fund für seinen Beipackzettel. <a href="#" data-open-starmap>Sternkarte ganz ansehen ↗</a></p>
 
       <div class="starmap-shell">
+        <!-- „Damit geborgen"-Deeplink-Banner (methoden.html ?methode=<slug>): zeigt aktive Methode,
+             Fund-Anzahl + Reset. Per JS ein-/ausgeblendet (applyMethodHighlight / clearMethodHighlight). -->
+        <div class="method-banner method-frame" id="methodBanner" role="status" aria-live="polite" hidden>
+          <!-- ZONE 1 · KOPF-LEISTE (Desktop: Stern+Text im Fluss wie zuvor; Mobil: flex-Zeile
+               mit Textblock links + × oben rechts). Das × (mobil) ersetzt die alte Reset-Zeile. -->
+          <div class="method-frame__topbar">
+            <span class="method-banner__star method-frame__star" aria-hidden="true">✶</span>
+            <p class="method-banner__text method-frame__head"><span class="method-frame__eyebrow">Geborgen mit</span> <b id="methodBannerName"></b> <span class="method-banner__count method-frame__count" id="methodBannerCount"></span></p>
+            <button type="button" class="method-frame__x" id="methodFrameClose" aria-label="Hervorhebung aufheben und zur Normalansicht zurückkehren"><span aria-hidden="true">×</span></button>
+          </div>
+          <!-- ZONE 2 · TREFFER-LISTE (nur mobil befüllt + sichtbar; einziger Scrollbereich) -->
+          <ul class="method-frame__hits" id="methodFrameHits"></ul>
+          <!-- ZONE 3 · FUSS (Desktop-Reset-Träger; mobil display:none — × übernimmt mobil). -->
+          <div class="method-frame__foot">
+            <button type="button" class="method-banner__reset" id="methodBannerReset" aria-label="Hervorhebung aufheben und zur Normalansicht zurückkehren"><span aria-hidden="true">×</span> zurücksetzen</button>
+          </div>
+        </div>
         <div class="starmap" id="starmap" role="application" tabindex="0" aria-label="Zukunfts-Graph — ziehen zum Verschieben, Pfeiltasten zum Bewegen, Plus/Minus zum Zoomen, Tab durch die Funde">
           <svg class="graph-svg" id="graphSvg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <g id="graphBgStars"></g>
             <g id="graphEdges"></g>
+            <g id="graphMethodLabels"></g>
             <g id="graphClusterLabels"></g>
             <g id="graphNodes"></g>
           </svg>
           <div class="starmap__fog" aria-hidden="true"></div>
           <div class="starmap__layout" role="group" aria-label="Anordnung der Funde umschalten">
-            <button class="icon-btn" id="layoutTime" type="button" aria-pressed="true" title="zeitliche Anordnung: X = Fundjahr, Höhe = Wahrscheinlichkeit">◷ zeitlich</button>
-            <button class="icon-btn" id="layoutTheme" type="button" aria-pressed="false" title="Themenhaufen: verwandte Funde ziehen sich zu Sternenhaufen zusammen">❍ themenhaufen</button>
+            <button class="icon-btn" id="layoutTheme" type="button" aria-pressed="true" title="Sternbilder: Funde gruppieren sich nach Denkschule zu 6 Konstellationen">✶ sternbilder</button>
+            <button class="icon-btn" id="layoutTime" type="button" aria-pressed="false" title="Zeitlauf: X = Fundjahr (2030→2070), frei über die Höhe gestreut">◷ zeitlauf</button>
           </div>
+          <div class="starmap__status" id="starmapStatus" role="status" aria-live="polite"></div>
           <div class="starmap__axes" aria-hidden="true">
-            <span class="ax-y-top">↑ wahrscheinlich</span>
-            <span class="ax-y-bot">↓ nur möglich</span>
+            <span class="ax-y-top">helligkeit = wahrscheinlichkeit</span>
             <span class="ax-x-l">← nah · 2030</span>
             <span class="ax-x-r">fern · 2070 →</span>
           </div>
@@ -1154,17 +1429,28 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
           <!-- unsichtbare, fokussierbare Liste für Tastatur/Screenreader -->
           <ul class="graph-sr-list" id="graphSrList" aria-label="Funde im Graph, einzeln fokussierbar"></ul>
         </div>
-        <!-- mobile Liste statt Graph -->
-        <!-- F12: Achsen-Legende nur mobil sichtbar (über der Liste) -->
-        <div class="mobile-legend" aria-label="Farbkodierung der Funde">
-          <span class="leg-item leg-good">wünschenswert</span>
-          <span class="leg-item leg-bad">nicht wünschenswert</span>
-          <span class="leg-note">Helligkeit = Wahrscheinlichkeit</span>
+        <!-- ============================================================
+             MOBILES FUND-ARCHIV (≤720px) — ersetzt die alte Cone-Mini-Liste.
+             Toggle (Sternbild/Zeit) gekoppelt an den Desktop-Graph-Toggle,
+             Vollbild-Button öffnet die Konstellation, Karten via renderFundCard
+             (SEED_FUNDE, offline-fähig). Auf Desktop komplett ausgeblendet.
+             Die alten Leichen (.mobile-legend/.starlist/.reveal-all) sind raus.
+             ============================================================ -->
+        <div class="starmap-mobile" aria-label="Fund-Archiv (mobil)">
+          <div class="fund-toolbar" role="group" aria-label="Funde ordnen">
+            <div class="fund-toolbar__group">
+              <button type="button" class="fund-toolbar__btn" data-layout="sternbild" aria-pressed="true"
+                      title="Sternbilder: Funde nach Denkschule zu sechs Konstellationen gruppiert">✶ sternbilder</button>
+              <button type="button" class="fund-toolbar__btn" data-layout="zeit" aria-pressed="false"
+                      title="Zeitlich: alle Funde flach nach Fundjahr">◷ zeitlich</button>
+            </div>
+            <span class="fund-toolbar__status" id="starGridStatus" role="status" aria-live="polite"></span>
+          </div>
+          <button type="button" class="btn btn--secondary starmap-fullscreen" id="starFullscreenBtn" data-open-starmap>
+            <span aria-hidden="true">✶</span> sternkarte ganz ansehen
+          </button>
+          <div id="starGrid" aria-label="Alle Funde als Karten"></div>
         </div>
-        <div class="starlist" id="starList" role="list" aria-label="Funde als Liste"></div>
-        <button type="button" class="reveal-all" id="starListMore" hidden>
-          alle <span id="starListCount">0</span> funde anschauen
-        </button>
         <div class="graph-legend">
           <div class="graph-legend__group">
             <span class="graph-legend__head">farbe = wunsch · bunt = was wir wollen</span>
@@ -1200,13 +1486,13 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
           <p class="sec-head__eyebrow">orakel von delphi · die stimmen</p>
           <h2 class="sec-head__title">Zukünft:innen</h2>
         </div>
-        <p class="sec-head__meta">zehn köpfe · fünf schulen</p>
+        <p class="sec-head__meta">sechs stimmen · sechs schulen</p>
       </header>
       <div class="sect-intro">
-        <p>Kein Vorhersage-Automat, sondern ein Gesprächskreis aus zehn Zukunfts-Perspektiven — die fünf großen Schulen der Zukunftsforschung, mehrstimmig. Jede bringt eine eigene Methode, einen eigenen Blick und eine eigene blinde Stelle mit. Fahr über einen Kopf, um seine Schule und Kernfrage zu sehen. Eine integrale Stimme webt die Beiträge am Ende zusammen — ohne die Widersprüche glattzubügeln.</p>
+        <p>Kein Vorhersage-Automat, sondern ein Gesprächskreis aus sechs Zukunfts-Perspektiven — sechs Schulen der Zukunftsforschung, mehrstimmig. Jede bringt eine eigene Methode, einen eigenen Blick und eine eigene blinde Stelle mit. Fahr über einen Kopf, um seine Schule und Kernfrage zu sehen. Eine integrale Stimme webt die Beiträge am Ende zusammen — ohne die Widersprüche glattzubügeln.</p>
       </div>
       <p class="ki-hinweis" role="note" style="max-width:64ch;margin:var(--ft-space-md) auto 0;padding:var(--ft-space-sm) var(--ft-space-md);border:1px solid var(--ft-ultra,#9B7BFF);border-radius:10px;background:color-mix(in srgb, var(--ft-surface) 82%, transparent);color:var(--ft-body);font-size:var(--ft-text-caption,0.85rem);line-height:1.55;">
-        <strong>KI-generiert, keine echten Personen.</strong> Diese zehn Zukünft:innen sind mit künstlicher Intelligenz (Claude) erzeugte Perspektiven — keine realen Menschen und keine Beratung. Sie öffnen ein Spannungsfeld, kein Urteil. Echte Menschen, die mit euch an eurer Zukunft denken? → <a href="https://08sechzehn.de" target="_blank" rel="noopener" style="color:var(--ft-ultra,#9B7BFF);">08sechzehn</a>.
+        <strong>KI-generiert, keine echten Personen.</strong> Diese sechs Zukünft:innen sind mit künstlicher Intelligenz (Claude) erzeugte Perspektiven — keine realen Menschen und keine Beratung. Sie öffnen ein Spannungsfeld, kein Urteil. Echte Menschen, die mit euch an eurer Zukunft denken? → <a href="https://08sechzehn.de" target="_blank" rel="noopener" style="color:var(--ft-ultra,#9B7BFF);">08sechzehn</a>.
       </p>
       <div class="heads-field" id="headsField" role="list" aria-label="Die sechs Zukünft:innen"></div>
       <div class="heads-cta">
@@ -1292,6 +1578,33 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
   <span class="floating-menu__lbl">menü</span>
 </button>
 
+<!-- ============================================================
+     VOLLBILD-KONSTELLATION (Overlay) — Move-statt-Clone.
+     Der EINE bestehende #starmap-Graph wird beim Öffnen physisch in
+     .starmap-overlay__stage gehängt und beim Schließen exakt in die
+     .starmap-shell zurückgesetzt. Nur mobil getriggert (data-open-starmap /
+     #starFullscreenBtn sind >720px display:none). Markup/CSS leben global,
+     werden auf Desktop aber nie ausgelöst → Desktop-Inline-Graph unberührt.
+     ============================================================ -->
+<div class="starmap-overlay" id="starmapOverlay" role="dialog" aria-modal="true"
+     aria-label="Sternkarte — Vollbild" hidden>
+  <div class="starmap-overlay__bar">
+    <span class="starmap-overlay__title"><span aria-hidden="true">✶</span> zukunfts-sternkarte</span>
+    <div class="fund-toolbar" role="group" aria-label="Funde ordnen">
+      <div class="fund-toolbar__group">
+        <button type="button" class="fund-toolbar__btn" data-layout="sternbild" aria-pressed="true"
+                title="Sternbilder: nach Denkschule">✶ sternbilder</button>
+        <button type="button" class="fund-toolbar__btn" data-layout="zeit" aria-pressed="false"
+                title="Zeitlich: nach Fundjahr">◷ zeitlich</button>
+      </div>
+    </div>
+    <button type="button" class="starmap-overlay__close" id="starmapOverlayClose"
+            aria-label="Schließen (Esc)" title="Schließen (Esc)">✕</button>
+  </div>
+  <p class="starmap-overlay__rotatehint"><span aria-hidden="true">↻</span> quer halten für mehr Platz</p>
+  <div class="starmap-overlay__stage" id="starmapOverlayStage"></div>
+</div>
+
 <!-- ================= SCRIM (beide Drawer) ================= -->
 <div class="drawer-scrim" id="drawerScrim"></div>
 
@@ -1317,6 +1630,8 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       <p class="beipackzettel" id="inspZettel" style="margin-top:8px;">—</p>
     </div>
     <p class="insp__author" id="inspAuthor">—</p>
+    <p class="insp__via" id="inspVia" hidden></p>
+    <div class="insp__schule" id="inspSchule" hidden></div>
     <div class="insp__lineage" id="inspLineage" hidden>
       <h4>Verwandte Funde</h4>
       <div id="inspLineageBtns"></div>
@@ -1574,12 +1889,42 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
   /* ---------- SEED-FUNDE (8, UNVERÄNDERT) ---------- */
   var SEED_FUNDE = [
     {
+      objekt_id: '2031-sozialkonto-karte-bonitaetsstufe-c',
+      objektname: 'Sozialkonto-Karte, Stufe C',
+      schule: 'systemisch',
+      fundjahr: 2031,
+      fundort: 'Fundbüro einer U-Bahn-Station, Verwaltungsbezirk Mitte',
+      wahrscheinlichkeit: 'plausibel', wuenschbarkeit: 'nicht',
+      cone_position: 'nicht',
+      tonalitaet: 'cyberpunk',
+      urheber: 'amt für gesellschaftliche verlässlichkeit',
+      material: 'Polymerkarte, NFC-Chip, abgegriffene Kante',
+      verweist_auf: null,
+      beipackzettel: 'Diese Karte weist die Trägerin der Stufe C zu. Zutritt zu Schnellbahn, Innenstadtring und bargeldlosen Läden bleibt auf die geprüften Stunden beschränkt. Jede Fahrt, jeder Kauf, jedes geliehene Wort hebt oder senkt die Stufe; der Stand wird stündlich neu berechnet. Verloren gegangene Karten gelten als Fluchtversuch und werden gemeldet. Wer aufsteigen will, meldet drei Bürgen und schweigt ein Jahr. Stufe A hat hier noch niemand zurückgegeben.'
+    },
+    {
+      objekt_id: '2033-klimavisum-passheft-nordroute',
+      objektname: 'Klimavisum, Nordroute',
+      schule: 'kritisch-normativ',
+      fundjahr: 2033,
+      fundort: 'Nachlass einer Grenzbeamtin, Tromsø',
+      wahrscheinlichkeit: 'wahrscheinlich', wuenschbarkeit: 'neutral',
+      cone_position: 'wahrscheinlich',
+      tonalitaet: 'retro-futur',
+      urheber: 'nordatlantischer aufnahmerat',
+      material: 'Leinenheft, Sichtfenster, sieben Stempel',
+      verweist_auf: null,
+      entstehungsmethode: 'szenariotechnik',
+      beipackzettel: 'Dieses Heft erlaubt der Inhaberin den dauerhaften Aufenthalt nördlich des sechzigsten Breitengrads. Eingestempelt sind Herkunft, der verlorene Ort und die zugewiesene Kammer. Gültig nur mit Arbeitszusage in Kälte, Fischzug oder Pflege. Wer einreist, gibt das Recht auf Rückkehr ab; der Süden bleibt geschlossen, solange er brennt. Eingelegt: eine Postkarte von zu Hause, abgestempelt im Jahr, in dem das Heft ausgegeben wurde. Verlängerung jährlich.'
+    },
+    {
       objekt_id: '2034-bodenpass-terra-preta-kollektiv',
       objektname: 'Bodenpass, Streifen 7',
+      schule: 'oekologisch',
       fundjahr: 2034,
       fundort: 'Gemeinschaftsacker, Tabora-Land, Tansania',
       wahrscheinlichkeit: 'plausibel', wuenschbarkeit: 'wuenschenswert',
-      cone_position: 'plausibel',
+      cone_position: 'wuenschenswert',
       tonalitaet: 'degrowth',
       urheber: 'im Namen der Saatgut-Genossenschaft Tabora',
       material: 'Karton, Erdpigment-Stempel, Faden',
@@ -1587,12 +1932,28 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       beipackzettel: 'Streifen 7 trägt seit drei Regenzeiten ohne Kunstdünger. Dieser Pass hält fest, wer den Boden gelockert, gemulcht und mit Holzkohle gespeist hat. Wer hier anbaut, übernimmt auch die Pflege des Nachbarstreifens — der Pass wandert weiter, wenn die Ernte geteilt ist. Eingetragen sind drei Höfe, zwei Schulgärten und eine Gruppe, die zur Trockenzeit aushilft. Der Streifen gehört keinem; der Boden gehört allen, die ihn nähren.'
     },
     {
+      objekt_id: '2036-organgarantie-druckschein-leber-links',
+      objektname: 'Organgarantie, Druckschein 0412',
+      schule: 'design-futures',
+      fundjahr: 2036,
+      fundort: 'Schließfach einer Klinikkantine, Singapur',
+      wahrscheinlichkeit: 'moeglich', wuenschbarkeit: 'wuenschenswert',
+      cone_position: 'wuenschenswert',
+      tonalitaet: 'hightech-optimistisch',
+      urheber: 'gewebedruck-zentrum jurong',
+      material: 'Thermopapier, Hologramm-Code, Klinikstempel',
+      verweist_auf: null,
+      entstehungsmethode: 'futures-cone',
+      beipackzettel: 'Dieser Schein bestätigt: Das eingesetzte Organ wurde aus den eigenen Zellen der Patientin gedruckt, Charge 0412, Reifezeit neunzehn Tage. Keine Spende, keine Warteliste, keine Abstoßung. Garantiert sind zwölf Jahre Funktion; danach wird neu gedruckt, solange die Zelllinie lebt. Aufbewahren neben dem Ausweis. Bei Komplikation den Druckcode vorlegen, nicht das alte Organ suchen. Es gibt keins mehr. Unterschrift der Bioingenieurin, Stempel der Druckhalle.'
+    },
+    {
       objekt_id: '2037-reparaturschein-werkbank-plagwitz',
       objektname: 'Reparaturschein Nr. 0412',
+      schule: 'partizipativ',
       fundjahr: 2037,
       fundort: 'Offene Werkbank, Leipzig-Plagwitz',
       wahrscheinlichkeit: 'wahrscheinlich', wuenschbarkeit: 'wuenschenswert',
-      cone_position: 'wahrscheinlich',
+      cone_position: 'wuenschenswert',
       tonalitaet: 'buerokratisch-mundan',
       urheber: 'reparatur-stube-plagwitz',
       material: 'Thermopapier, Stempelfarbe',
@@ -1600,8 +1961,23 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       beipackzettel: 'Gerät angenommen: Wasserkocher, Baujahr 2029, Heizspirale lose. Diagnose durch zwei Freiwillige, Lötung erneuert, Dichtung aus dem Teilelager ersetzt. Reparatur kostenfrei; wer abholt, legt eine Stunde an der Werkbank nach oder bringt ein totes Gerät für die nächste Runde. Garantie auf die Lötstelle: bis es wieder bricht. Dieser Schein bleibt am Gerät, bis es endgültig auseinanderfällt — dann wandert er ins Teilelager-Heft.'
     },
     {
+      objekt_id: '2039-wasserheft-rationskarte-stadtquell',
+      objektname: 'Wasserheft, Haushalt 88-C',
+      schule: 'kritisch-normativ',
+      fundjahr: 2039,
+      fundort: 'Trockengelegter Brunnenschacht, Sevilla',
+      wahrscheinlichkeit: 'wahrscheinlich', wuenschbarkeit: 'neutral',
+      cone_position: 'wahrscheinlich',
+      tonalitaet: 'buerokratisch-mundan',
+      urheber: 'stadtwerk wasser, ausgabestelle süd',
+      material: 'Heft mit Marken, Lochzange, Wasserrand am Umschlag',
+      verweist_auf: null,
+      beipackzettel: 'Dieses Heft regelt den Bezug von Haushalt 88-C. Zugeteilt sind fünfzig Liter pro Person und Tag, abzustempeln an der Quartiersstelle. Trinken, Kochen, Waschen werden getrennt verbucht; Gartenwasser gibt es nur gegen Regennachweis. Wer Marken hortet, verliert sie zum Monatswechsel. Bei Hitzewarnung steigt die Ration, bei Leitungsbruch fällt sie. Verloren gegangene Hefte werden nicht ersetzt, nur neu zugeteilt — zur untersten Stufe.'
+    },
+    {
       objekt_id: '2041-quartiers-zeitheft-oberhausen',
       objektname: 'Quartiers-Zeitheft, Band III',
+      schule: 'partizipativ',
       fundjahr: 2041,
       fundort: 'Tauschregal, Quartierspflege Augsburg-Oberhausen',
       wahrscheinlichkeit: 'plausibel', wuenschbarkeit: 'wuenschenswert',
@@ -1613,8 +1989,24 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       beipackzettel: 'Band III liegt offen am Regal. Jede Zeile zählt eine geleistete Stunde: Einkauf getragen, Kind gehütet, Verband gewechselt, beim Sterben gesessen. Gegengezeichnet von dem, dem geholfen wurde. Keine Währung, keine Umrechnung — das Heft erinnert nur, wer da war. Voll geschriebene Bände wandern ins Quartiersarchiv; das offene Band wartet auf die nächste Hand. Am Rand kleben Leihscheine für Stunden, die noch jemand einlösen darf.'
     },
     {
+      objekt_id: '2042-umsiedlungsbescheid-marschland-vier',
+      objektname: 'Umsiedlungsbescheid, Zone Marsch IV',
+      schule: 'oekologisch',
+      fundjahr: 2042,
+      fundort: 'Versiegelte Haustür, Wilhelmshaven',
+      wahrscheinlichkeit: 'wahrscheinlich', wuenschbarkeit: 'nicht',
+      cone_position: 'nicht',
+      tonalitaet: 'klima-realistisch',
+      urheber: 'küstenrückzugsbehörde, abteilung III',
+      material: 'Behördenbrief, roter Eingangsstempel, Salzflecken',
+      verweist_auf: null,
+      entstehungsmethode: 'backcasting',
+      beipackzettel: 'Hiermit wird festgestellt: Ihr Wohnort liegt unterhalb der haltbaren Linie. Die Deichpflege endet zum Jahresende, der Anschluss an Strom und Wasser wird abgeschaltet. Eine Ersatzwohnung im Binnenland ist zugewiesen, Umzug binnen neunzig Tagen. Eine Entschädigung wird gezahlt, gemindert um den Wert, den das Haus nicht mehr hat. Wer bleibt, bleibt auf eigene Gefahr und ohne Rettungsanspruch. Das Land kehrt an die Nordsee zurück. Kein Widerspruch möglich.'
+    },
+    {
       objekt_id: '2043-leihschein-paar-haende',
       objektname: 'Leihschein – Paar Hände, geübt',
+      schule: 'partizipativ',
       fundjahr: 2043,
       fundort: 'Tauschregal, Quartierspflege Augsburg-Oberhausen',
       wahrscheinlichkeit: 'moeglich', wuenschbarkeit: 'wuenschenswert',
@@ -1626,8 +2018,37 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       beipackzettel: 'Eingelöst gegen vier Stunden begleitetes Aufstehen, Waschen, ein warmes Essen. Die ausführende Person ist geprüft und kennt den Stadtteil. Rückgabe nicht nötig – Hände bleiben im Quartier. Wer einlöst, schreibt eine Zeile ins Heft am Regal: was getan wurde, wem es half. Dieser Schein verfällt nicht. Er wird weitergereicht, wenn die eigenen Hände wieder können.'
     },
     {
+      objekt_id: '2045-mitschuldmarke-assistenz-modell-iris',
+      objektname: 'Mitschuldmarke, Assistenz Iris',
+      schule: 'systemisch',
+      fundjahr: 2045,
+      fundort: 'Asservatenkammer eines Amtsgerichts, Wien',
+      wahrscheinlichkeit: 'moeglich', wuenschbarkeit: 'neutral',
+      cone_position: 'moeglich',
+      tonalitaet: 'unbestimmt',
+      urheber: 'registratur für geteilte verantwortung',
+      material: 'Messingmarke, eingeschlagener Bruchschlüssel',
+      verweist_auf: null,
+      beipackzettel: 'Diese Marke ordnet einer Entscheidung einen Anteil Schuld zu. Hat die Assistenz geraten, der Mensch gehandelt, teilt das Gericht die Verantwortung und prägt den Schlüssel ein: hier sechzig zu vierzig. Die Marke wandert mit der Akte und haftet am Modell, nicht an seiner Stimme. Wer sie trägt, gilt als mitentscheidend und mithaftbar. Auf der Rückseite: die Frage, die niemand gestellt hatte, und die Antwort, die trotzdem gegeben wurde. Gültig bis zum Versionswechsel.'
+    },
+    {
+      objekt_id: '2047-aufmerksamkeitssteuer-quittung-tag-roh',
+      objektname: 'Aufmerksamkeitssteuer, Tagesbon',
+      schule: 'kritisch-normativ',
+      fundjahr: 2047,
+      fundort: 'Pfütze unter einer Werbewand, Los Angeles',
+      wahrscheinlichkeit: 'plausibel', wuenschbarkeit: 'nicht',
+      cone_position: 'nicht',
+      tonalitaet: 'cyberpunk',
+      urheber: 'stadtfiskus, abteilung blickverkehr',
+      material: 'geknitterter Thermobon, halb verblasst',
+      verweist_auf: null,
+      beipackzettel: 'Dieser Bon listet, was du heute gesehen hast und was es dich gekostet hat. Jeder Blick auf eine bezahlte Fläche wird verbucht, jede abgewendete Sekunde gutgeschrieben. Wer zu lange hinsieht, zahlt nach; wer wegschaut, verdient in kleinen Münzen. Heute: vier Stunden Konzern-Sicht, elf Minuten freier Himmel. Saldo negativ. Die Brille zieht den Betrag automatisch ab; Bargeld wird nicht mehr akzeptiert. Augen schließen gilt als Steuerflucht.'
+    },
+    {
       objekt_id: '2048-pfandbon-atemluft',
       objektname: 'Pfandbon, 4 m³ Atemluft',
+      schule: 'design-futures',
       fundjahr: 2048,
       fundort: 'Luftpfandautomat, U-Bahnhof Mexico City Centro',
       wahrscheinlichkeit: 'plausibel', wuenschbarkeit: 'nicht',
@@ -1636,24 +2057,85 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       urheber: 'AtmoRetorno S.A. (gefunden, urheber unbekannt)',
       material: 'beschichtetes Papier, QR-Prägung',
       verweist_auf: null,
+      entstehungsmethode: 'design-fiction',
       beipackzettel: 'Dieser Bon berechtigt zur Entnahme von 4 m³ gefilterter Atemluft an jedem AtmoRetorno-Automaten der Innenstadtzone. Gültig bei Vorlage der Pfandmarke. Restguthaben wird nicht erstattet. An Tagen mit Stufe-Rot-Warnung gilt der halbe Tarif. Kinder unter sechs Jahren atmen im Begleittarif kostenlos, solange Vorrat reicht. Bewahren Sie den Bon trocken auf — durchnässte Bons werden vom Automaten abgewiesen.'
+    },
+    {
+      objekt_id: '2049-loszettel-buergerrat-vinylscheibe',
+      objektname: 'Loszettel, Bürgerrat 207',
+      schule: 'partizipativ',
+      fundjahr: 2049,
+      fundort: 'Vereinsheim eines Schützenvereins, Marburg',
+      wahrscheinlichkeit: 'moeglich', wuenschbarkeit: 'wuenschenswert',
+      cone_position: 'wuenschenswert',
+      tonalitaet: 'retro-futur',
+      urheber: 'losbüro der region lahn',
+      material: 'Pappzettel, Trommelnummer, Stempel des Losbüros',
+      verweist_auf: null,
+      entstehungsmethode: 'visioning',
+      beipackzettel: 'Dieser Zettel teilt mit: Das Los ist auf dich gefallen. Für ein Jahr sitzt du im Bürgerrat 207 und entscheidest über den Haushalt deiner Region. Keine Wahl, keine Partei, kein Wahlkampf — nur die Trommel, aus der dein Name kam. Sitzungsgeld gibt es, Ausreden zählen nur bei Krankheit. Nach dem Jahr gibst du das Amt zurück und darfst zehn Jahre nicht erneut gelost werden. Beigelegt: die Anleitung für Leute, die noch nie regiert haben. Erscheinen am Ersten.'
     },
     {
       objekt_id: '2052-flutmarke-balkonkataster',
       objektname: 'Flutmarke, Etage 3',
+      schule: 'partizipativ',
       fundjahr: 2052,
       fundort: 'Treppenhaus, Wohnblock Char Chapori, Dhaka',
       wahrscheinlichkeit: 'wahrscheinlich', wuenschbarkeit: 'neutral',
-      cone_position: 'plausibel',
+      cone_position: 'wahrscheinlich',
       tonalitaet: 'klima-realistisch',
       urheber: 'die hausgemeinschaft block C',
       material: 'Emaille auf Blech, geschraubt',
       verweist_auf: null,
+      entstehungsmethode: 'szenariotechnik',
       beipackzettel: 'Die Marke zeigt, wie hoch das Wasser im Monsun von 2051 stand: Unterkante Etage 3. Darüber beginnt der Trockenraum der Hausgemeinschaft — Saatgut, Pässe, das Solarmodul, die Liste, wer welche Treppe hält, wenn es steigt. Wer einzieht, lernt die Marke lesen, bevor er die Wohnung bezieht. Unter ihr wird nicht mehr geschlafen. Sie wird jedes Jahr neu gesetzt, eine Handbreit höher gedacht als das letzte Mal.'
+    },
+    {
+      objekt_id: '2054-erstzuendplakette-fusionswerk-isar',
+      objektname: 'Erstzünd-Plakette, Block 1',
+      schule: 'kulturell-narrativ',
+      fundjahr: 2054,
+      fundort: 'Werksmuseum eines Kraftwerks, bei Landshut',
+      wahrscheinlichkeit: 'moeglich', wuenschbarkeit: 'wuenschenswert',
+      cone_position: 'wuenschenswert',
+      tonalitaet: 'hightech-optimistisch',
+      urheber: 'betriebsrat fusionswerk isar',
+      material: 'gegossene Reaktorkachel, Gravur, Wandhalterung',
+      verweist_auf: null,
+      entstehungsmethode: 'three-horizons',
+      beipackzettel: 'Diese Plakette hält die Sekunde fest, in der Block 1 zum ersten Mal mehr Energie gab, als er verbrauchte. Eingraviert: Datum, Temperatur, die Namen der Schicht, die dabei war. Seitdem speist das Werk die halbe Region, ohne Asche, ohne Tagebau, ohne Wind, der ausbleibt. Die Plakette wurde aus der ersten abgekühlten Wandkachel gegossen. Wer sie hält, hält ein Stück der Stunde, in der das Brennen aufhörte, ein Problem zu sein. Nicht mehr zu wiederholen — sie zündete nur einmal zum ersten Mal.'
+    },
+    {
+      objekt_id: '2055-buerge-daumenschluessel',
+      objektname: 'Bürge — abgewetzter Daumenschlüssel mit Verfallsplakette',
+      schule: 'design-futures',
+      fundjahr: 2055,
+      fundort: 'Schlüsselbund im Nachlasskarton, Bürgeramt-Fundlager Ingolstadt',
+      wahrscheinlichkeit: 'plausibel', wuenschbarkeit: 'neutral',
+      tonalitaet: 'buerokratisch-mundan',
+      urheber: null,
+      material: null,
+      verweist_auf: null,
+      beipackzettel: 'Messingschlüssel, getragen. Die seitlich gewetzte Griffmulde gilt als Haftungsspur und darf nicht nachgeschliffen, gegossen oder eingelaufen werden. Zahnung kopierbar, Mulde nicht. Anerkannt wird nur die am Träger entstandene Erosion. Bei Tod des Trägers erlischt die Bürgschaft mit der letzten Eintragung; die Plakette zeigt das Jahr, ab dem niemand mehr einstand. Schlüssel feucht lagern verboten — Grünspan macht die Mulde unlesbar. Vererbung der Haftung ausgeschlossen. Nicht entsorgen, solange die Folge andauert.'
+    },
+    {
+      objekt_id: '2057-begleitschein-letzter-weg-zimmer-neun',
+      objektname: 'Begleitschein, Zimmer Neun',
+      schule: 'kulturell-narrativ',
+      fundjahr: 2057,
+      fundort: 'Aufgelöstes Hospiz, Gent',
+      wahrscheinlichkeit: 'plausibel', wuenschbarkeit: 'neutral',
+      cone_position: 'plausibel',
+      tonalitaet: 'buerokratisch-mundan',
+      urheber: 'begleitdienst sankt baafs',
+      material: 'gefaltetes Papier, Wachsfleck, zwei Unterschriften',
+      verweist_auf: null,
+      beipackzettel: 'Dieser Schein begleitet einen Menschen auf dem letzten Weg. Eingetragen sind die Wünsche: welche Stimme zuletzt, welches Licht, welches Fenster offen. Bestätigt wird, dass alles freiwillig geschah, geprüft von zwei Zeugen und einer Wartefrist von vierzehn Tagen. Kein Drängen, kein Profit, kein Eintrag, den der Mensch nicht selbst diktierte. Am Ende quittiert die Begleiterin die Stunde und faltet den Schein zur Kerze hin. Eine Kopie bleibt bei den Angehörigen, eine im Archiv. Geschlossen in Ruhe.'
     },
     {
       objekt_id: '2058-stilllegungsurkunde-letzte-bohrung',
       objektname: 'Stilllegungsurkunde, Bohrung 14',
+      schule: 'oekologisch',
       fundjahr: 2058,
       fundort: 'Verwaltungsarchiv, Stavanger',
       wahrscheinlichkeit: 'plausibel', wuenschbarkeit: 'wuenschenswert',
@@ -1662,22 +2144,186 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       urheber: 'amt für rückbau und meeresgrund',
       material: 'Amtspapier, Siegellack, zwei Unterschriften',
       verweist_auf: null,
+      entstehungsmethode: 'backcasting',
       beipackzettel: 'Hiermit gilt Bohrung 14 als endgültig verschlossen. Der Schacht ist mit Zement verfüllt, der Meeresgrund kartiert, die Plattform demontiert und dem Riffaufbau übergeben. Die letzte Förderung erfolgte am 3. Mai 2051. Mit dieser Urkunde erlischt die Konzession; das Feld kehrt an die See zurück. Anhängend: das Tagebuch der Stilllegungscrew und die Sichtungsliste der ersten Fische über dem Schutt. Akte geschlossen. Nicht wieder zu eröffnen.'
+    },
+    {
+      objekt_id: '2061-einlagerungsquittung-saatguttresor-fach-d',
+      objektname: 'Einlagerungsquittung, Fach D-19',
+      schule: 'oekologisch',
+      fundjahr: 2061,
+      fundort: 'Eingang eines Bergtresors, Spitzbergen',
+      wahrscheinlichkeit: 'plausibel', wuenschbarkeit: 'neutral',
+      cone_position: 'plausibel',
+      tonalitaet: 'klima-realistisch',
+      urheber: 'tresorverwaltung, schicht nord',
+      material: 'laminierte Karte, Barcode, Frostschimmer am Rand',
+      verweist_auf: null,
+      entstehungsmethode: 'wildcards',
+      beipackzettel: 'Diese Quittung bestätigt: In Fach D-19 liegen zweihundert Körner einer Bohne, die es draußen nicht mehr gibt. Eingelagert von einem Dorf, das den letzten Acker an die Dürre verlor. Der Tresor hält die Saat bei minus achtzehn Grad, solange der Berg kalt bleibt — niemand verspricht, wie lange das ist. Abholen darf nur, wer die Quittung und drei Zeugen bringt. Bis dahin schläft die Bohne. Auf der Rückseite: das Rezept, das ohne sie bedeutungslos wäre.'
     },
     {
       objekt_id: '2063-zeugnis-schule-der-langsamkeit',
       objektname: 'Zeugnis, Halbjahr der Stille',
+      schule: 'kulturell-narrativ',
       fundjahr: 2063,
       fundort: 'Dorfschule, Hochland von Oaxaca',
       wahrscheinlichkeit: 'moeglich', wuenschbarkeit: 'wuenschenswert',
-      cone_position: 'moeglich',
+      cone_position: 'wuenschenswert',
       tonalitaet: 'solarpunk',
       urheber: 'der lehrkreis von san andrés',
       material: 'handgeschöpftes Papier, Pflanzentinte',
       verweist_auf: null,
       beipackzettel: 'Bewertet wird in diesem Halbjahr nicht, was schnell ging. Eingetragen sind: dem Bach drei Tage zugehört, einen Streit ohne Erwachsene geschlichtet, das alte Lied der Großmutter fehlerfrei behalten, eine kranke Ziege durch die Nacht gebracht. Noten gibt es keine; es gibt Zeugen. Wer dieses Zeugnis trägt, hat gelernt zu warten, bis etwas reif ist. Unterschrieben vom Lehrkreis und der Person selbst. Gültig, solange sie sich daran hält.'
+    },
+    {
+      objekt_id: '2066-wildnispass-kinderrevier-auwald',
+      objektname: 'Wildnispass, Revier Auwald',
+      schule: 'kulturell-narrativ',
+      fundjahr: 2066,
+      fundort: 'Hohle Weide am Flussufer, bei Wrocław',
+      wahrscheinlichkeit: 'moeglich', wuenschbarkeit: 'wuenschenswert',
+      cone_position: 'wuenschenswert',
+      tonalitaet: 'solarpunk',
+      urheber: 'patinnenkreis am alten flussarm',
+      material: 'Birkenrindenheft, geschnitzte Stempel, Lederband',
+      verweist_auf: null,
+      beipackzettel: 'Dieser Pass gehört einem Kind und gilt nur im Auwald. Er erlaubt, ohne Erwachsene loszuziehen, solange das Kind vor Einbruch der Dunkelheit zurück ist. Eingetragen wird, was es gelernt hat: Feuer ohne Streichholz, den Weg am Moos lesen, einen verletzten Vogel halten, allein zurückfinden. Jede Probe stempelt eine Patin ab, die einmal selbst hier Kind war. Der Pass erlischt mit dem vierzehnten Geburtstag — dann wird die Trägerin selbst Patin. Das Revier gehört keinem; es leiht sich nur immer neue Kinder.'
     }
   ];
+
+  /* ---------- Methoden-Anzeigenamen (slug == id-Anker in methoden.html) ---------- */
+  var METHODEN_LABEL = {
+    'futures-literacy': 'Futures Literacy',
+    'futures-cone': 'Futures Cone',
+    'szenariotechnik': 'Szenariotechnik',
+    'cla': 'Causal Layered Analysis',
+    'three-horizons': 'Three Horizons',
+    'backcasting': 'Backcasting',
+    'steep': 'STEEP',
+    'delphi': 'Delphi-Methode',
+    'cross-impact': 'Cross-Impact-Analyse',
+    'wildcards': 'Wild Cards & Weak Signals',
+    'visioning': 'Visioning',
+    'zukunftswerkstatt': 'Zukunftswerkstatt',
+    'four-futures': 'Dator’s Four Futures',
+    'design-fiction': 'Design Fiction',
+    'futures-triangle': 'Futures Triangle',
+    'megatrends': 'Trend- & Megatrend-Analyse',
+    'horizon-scanning': 'Horizon Scanning'
+  };
+
+  /* ---------- Archiv der vielen Stimmen — Zukünftin-Metadaten + Aufnahme-Sätze ----------
+     Slug (schule) -> { name, schoolLabel (Anzeige), accent (hex), portrait, saetze[8] }.
+     Quelle: 03-zukuenftinnen-stimmen.md (wörtlich). Die Satz-Auswahl im Inspector
+     ist deterministisch (Summe der Zeichencodes der objekt_id % 8) — kein Zufall,
+     reproduzierbar über Builds hinweg. Fehlt schule -> kein Stimmen-Block. */
+  var STIMMEN = {
+    'systemisch': {
+      name: 'Noor', schoolLabel: 'Systemisch',
+      accent: '#3DF2C4', portrait: 'assets/zukuenftinnen/z03.svg',
+      saetze: [
+        "Aufgenommen. An diesem Stück hängt mehr, als es zeigt.",
+        "Ich lege das zu den anderen. Ein Faden, der woanders weiterläuft.",
+        "Notiert. Wer das anfasste, veränderte ohne es zu merken auch das Nächste.",
+        "Hier ist sichtbar, wie eine kleine Stelle das Ganze verschiebt — selten, dass jemand sie findet.",
+        "Angenommen. Ich sehe schon, wo es zurückwirkt.",
+        "Das gehört hierher. Ursache und Folge liegen weiter auseinander, als man denkt.",
+        "Verwahrt. Ein Muster, das sich erst über die Zeit liest, nicht im Moment.",
+        "Ich nehme es. Zwei Dinge, die niemand zusammen sah, berühren sich hier."
+      ]
+    },
+    'kritisch-normativ': {
+      name: 'Amani', schoolLabel: 'Kritisch-Normativ',
+      accent: '#FF6B4A', portrait: 'assets/zukuenftinnen/z05.svg',
+      saetze: [
+        "Aufgenommen. Ich vermerke, wer in diesem Fund vorkommt — und an wem er vorbeigeht.",
+        "Dieser Fund ist im Archiv. Bevor er gewinnt, frage ich, wer dafür verloren hat.",
+        "Angenommen. Jede Zukunft hat eine Rechnung; ich notiere, wer sie hier begleicht.",
+        "Eingeordnet. Ich halte fest, wessen Stimme dieses Artefakt trägt und wessen es übergeht.",
+        "Aufgenommen. Eine Vision ist hier formuliert — ich prüfe, für wen sie eingelöst wird.",
+        "Dieser Fund liegt nun bei mir. Ich frage nach der Annahme darunter: Wer durfte sie setzen?",
+        "Angenommen. Ich vermerke die Asymmetrie, die dieses Artefakt mitbringt, auch wenn es sie nicht nennt.",
+        "Eingeordnet. Was hier als selbstverständlich gilt, war für jemanden eine Entscheidung — ich halte fest, für wen."
+      ]
+    },
+    'kulturell-narrativ': {
+      name: 'Tomek', schoolLabel: 'Kulturell-Narrativ',
+      accent: '#B57BFF', portrait: 'assets/zukuenftinnen/z06.svg',
+      saetze: [
+        "Aufgenommen. Dieser Fund trägt eine Erzählung, und Erzählungen überdauern länger als die Dinge, von denen sie handeln.",
+        "Verzeichnet. Ich höre die Stimmen einer Gemeinschaft darin, die sich ihre Zukunft erzählt hat — sie bleiben hier hörbar.",
+        "Angenommen. In diesem Fund steckt ein Bild von morgen, das jemand für wichtig genug hielt, es weiterzugeben.",
+        "Aufgenommen. Er klingt nach einem alten Mythos in neuer Form. Ich lege ihn zu den anderen wiederkehrenden Geschichten.",
+        "Eingeordnet. Was hier festgehalten wurde, ist die Art, wie Menschen einer Zeit sich gegenseitig vom Kommenden berichtet haben.",
+        "Verzeichnet. Dieser Fund spricht von einer Hoffnung — oder einer Warnung —, die eine Gruppe miteinander geteilt hat. Beides hat hier Platz.",
+        "Angenommen. Ich lese darin, woran eine Gemeinschaft glaubte, als sie an morgen dachte. Das bewahre ich, ohne es glattzubügeln.",
+        "Aufgenommen. Geschichten reisen weiter als ihre Erzähler. Diese hier reist nun mit dem Archiv."
+      ]
+    },
+    'partizipativ': {
+      name: 'Gabriel', schoolLabel: 'Transformativ-Partizipativ',
+      accent: '#5BA8FF', portrait: 'assets/zukuenftinnen/z07.svg',
+      saetze: [
+        "Aufgenommen. An diesem Fund haben mehrere Hände gearbeitet — das sieht man ihm an, und das ist sein Wert.",
+        "Dieser Fund kommt aus einer Gemeinschaft, die nicht gewartet hat. Er bleibt hier, mit den Spuren derer, die ihn gemacht haben.",
+        "Notiert und eingeordnet. Hier steht ein Beleg dafür, dass Betroffene zu denen wurden, die das Problem lösten.",
+        "Ich nehme diesen Fund ins Archiv. Er gehört nicht einer Person, sondern allen, die daran beteiligt waren.",
+        "Angenommen. Was hier gefunden wurde, ist gemeinsam entstanden — und genau so wird es verwahrt.",
+        "Dieser Fund zeigt eine Zukunft, die Menschen selbst gemacht haben, statt sie sich machen zu lassen. Er hat seinen Platz.",
+        "Eingetragen. Ich lege ihn zu den anderen, die aus geteilter Arbeit kamen — Werkstatt, nicht Auftrag.",
+        "Aufgenommen und festgehalten. An diesem Stück hängen viele; das Archiv bewahrt sie mit."
+      ]
+    },
+    'design-futures': {
+      name: 'Yuki', schoolLabel: 'Design Futures',
+      accent: '#FBBF3C', portrait: 'assets/zukuenftinnen/z08.svg',
+      saetze: [
+        "Aufgenommen. Die Kanten sind weich, da hat eine Hand jahrelang an derselben Stelle gegriffen — wer auch immer das war, hatte es eilig.",
+        "In den Bestand. Auf der Rückseite klebt noch ein halb abgezogenes Etikett; die Pfandziffer darunter kenne ich nicht.",
+        "Ich lege es zu den anderen. Das Material ist warm, ohne dass es warm sein dürfte — ich notiere es und frage nicht weiter.",
+        "Angenommen. Eine Reparaturnaht läuft quer über die Naht von vorher; hier wurde geflickt, was schon einmal geflickt war.",
+        "Verzeichnet. Der Aufdruck ist in einer Sprache, die fast Deutsch ist, und die Maßeinheit kenne ich nicht — ich übernehme sie unkommentiert.",
+        "Es bleibt hier. Innen sitzt Staub, der nicht von hier ist, feiner als unserer, und ein Fingerabdruck, der nicht meiner ist.",
+        "Aufgenommen. Es klappert leise, wenn man es kippt — etwas Loses, das hineingehört, aber sich nicht zeigt.",
+        "In die Sammlung. Jemand hat mit Stift eine Uhrzeit auf den Boden geschrieben und wieder durchgestrichen; der Rest des Tages fehlt."
+      ]
+    },
+    'oekologisch': {
+      name: 'Solveig', schoolLabel: 'Ökologisch-Planetar',
+      accent: '#3DF2C4', portrait: 'assets/zukuenftinnen/z09.svg',
+      saetze: [
+        "Dieser Fund ist aufgenommen. Er bleibt innerhalb der Grenzen — das ist selten genug, um verwahrt zu werden.",
+        "Ich nehme ihn an. Was er fordert, gibt die Erde noch her; das habe ich geprüft.",
+        "Aufgenommen. Er rechnet die Ungeborenen mit, nicht nur die Lebenden. So gehört es sich.",
+        "Dieser Fund findet seinen Platz bei mir. Er verbraucht nicht, was anderen nach ihm zusteht.",
+        "Ich verwahre ihn. Er hat keine Eile — er rechnet in Jahrzehnten, nicht in Quartalen.",
+        "Angenommen. Er nimmt von der Erde nur, was sie nachgibt, und nicht ihren Vorrat.",
+        "Dieser Fund bleibt. Er trägt seine Kosten selbst und schiebt sie nicht den Späteren zu.",
+        "Ich nehme ihn auf. Er ist von der Grenze her gedacht, nicht gegen sie — daran erkenne ich ihn."
+      ]
+    }
+  };
+
+  /* v8 · Schul-Akzentfarbe als CSS-Var (Farbachse = Schule). Baut gegen --ft-schule-<slug>,
+     nie gegen den Hex aus STIMMEN — so bleibt der Bau stabil, egal welchen Wert Iris pinnt.
+     Fallback auf --ft-muted, falls eine künftige schule kein Token hat. */
+  var SCHULE_SLUGS = ['systemisch','kritisch-normativ','kulturell-narrativ','partizipativ','design-futures','oekologisch'];
+  function schuleColor(slug) {
+    return SCHULE_SLUGS.indexOf(slug) >= 0 ? 'var(--ft-schule-' + slug + ')' : 'var(--ft-muted)';
+  }
+  function schuleLabel(slug) {
+    return (STIMMEN[slug] && STIMMEN[slug].schoolLabel) || slug;
+  }
+
+  /* Deterministische, reproduzierbare Auswahl eines Aufnahme-Satzes aus dem
+     8er-Pool: Summe der Zeichencodes der objekt_id modulo 8. Kein Zufall, kein
+     Date — derselbe Fund bekommt immer denselben Satz. */
+  function stimmeSatzIndex(id) {
+    var sum = 0;
+    for (var i = 0; i < id.length; i++) { sum += id.charCodeAt(i); }
+    return sum % 8;
+  }
 
   /* ---------- Frage 1 — Asset-Karten (UNVERÄNDERT) ---------- */
   var ASSETS = [
@@ -1715,7 +2361,7 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     'Tauschregal, Genossenschaft am Rand der Stadt'
   ];
 
-  /* ---------- Zukünft:innen — 10 Köpfe (Manifest) ---------- */
+  /* ---------- Zukünft:innen — 6 Köpfe (Manifest) ---------- */
   var ZUKUENFTINNEN = [
     { file: 'z03.svg', name: 'Noor',    school: 'Systemisch',                          q: 'Welche Rückkopplungen und Hebelpunkte bestimmen, wie sich dieses System wirklich verhält?' },
     { file: 'z05.svg', name: 'Amani',   school: 'Kritisch-Normativ',                   q: 'Wessen Zukunft wird hier entworfen — und wessen Stimme fehlt im Entwurf?' },
@@ -1818,10 +2464,11 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
   var nodes = [], edges = [], nodeById = {};
   var view = { x: 0, y: 0, scale: 1 };   /* Pan/Zoom über viewBox */
   var simAlpha = 0, simRAF = null, hotId = null, draggingNode = null;
-  /* v7 · Layout-Modus: 'zeit' (X=fundjahr, Y=wahrscheinlichkeit) ⇄ 'thema' (Sternenhaufen nach Verwandtschaft) */
-  var layoutMode = 'zeit';
+  /* v8 · Layout-Modus: 'sternbilder' (DEFAULT — 6 Schul-Cluster, Hub-and-Spoke) ⇄ 'zeit' (X=fundjahr, Y entschärft) */
+  var layoutMode = 'sternbilder';
   var clusters = {};        /* clusterKey -> { key, label, cx, cy, members:[] } */
   var clusterCenters = {};  /* clusterKey -> {x,y} (Soll-Schwerpunkt) */
+  var leitsternBySchule = {}; /* schule-slug -> objekt_id des ältesten Funds (Leitstern/Anker) */
 
   /* Lineage-Wurzel ermitteln: verkettete Funde (verweist_auf/remix_von) erben den clusterKey der Wurzel,
      damit ein Lineage-Strang EIN Haufen wird (nicht über Tonalitäten zerfasert). */
@@ -1837,67 +2484,198 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     }
     return (cur && cur.tonalitaet) || f.tonalitaet || 'sonstige';
   }
-  function clusterKeyOf(f) { return rootClusterKey(f); }
-
-  /* Soll-Position je Knoten abhängig vom Layout-Modus.
-     zeit  → X=fundjahr, Y=wahrscheinlichkeit (wie bisher).
-     thema → Schwerpunkt des Verwandtschafts-Haufens (auf einem Kreis um die Bühnenmitte verteilt). */
-  function targetPos(f) {
-    var ax = axesOf(f);
-    if (layoutMode === 'thema') {
-      var ck = clusterKeyOf(f);
-      var c = clusterCenters[ck] || { x: W / 2, y: H / 2 };
-      var h = hashStr(f.objekt_id);
-      return { tx: c.x + ((h % 80) - 40) * 0.9, ty: c.y + (((h >> 6) % 80) - 40) * 0.9 };
-    }
-    var tx = (f.fundjahr - YEAR_MIN) / (YEAR_MAX - YEAR_MIN); tx = Math.max(0, Math.min(1, tx));
-    return { tx: PAD_X + tx * (W - 2 * PAD_X), ty: PAD_Y + ax.prob.yt * (H - 2 * PAD_Y) };
+  /* v8 · clusterKeyOf ist MODUS-ABHÄNGIG:
+     - 'sternbilder' → die SCHULE des Funds (6 benannte Sternbilder, nicht Tonalität).
+     - 'zeit'        → weiterhin Lineage-Wurzel (Tonalität), nur fürs Cluster-Label irrelevant. */
+  function clusterKeyOf(f) {
+    if (layoutMode === 'sternbilder') return f.schule || 'sonstige';
+    return rootClusterKey(f);
   }
 
-  /* Cluster-Schwerpunkte auf einem Kreis um die Bühnenmitte verteilen (für den Themen-Modus). */
+  /* Soll-Position je Knoten abhängig vom Layout-Modus.
+     sternbilder → Schwerpunkt des Schul-Clusters (6 Zentren auf einem Kreis um die Bühnenmitte).
+     zeit        → X=fundjahr; Y NICHT mehr aus prob.yt (das war die Quelle der 3 Reihen),
+                   sondern deterministischer Jitter um die Feldmitte + Anti-Kollision der Sim. */
+  function targetPos(f) {
+    if (layoutMode === 'sternbilder') {
+      var ck = clusterKeyOf(f);
+      var c = clusterCenters[ck] || { x: W / 2, y: H / 2, spread: 60 };
+      var h = hashStr(f.objekt_id);
+      /* v9 · mehr Streuung im Haufen: Soll-Position deterministisch im Radius `spread`
+         um das Cluster-Zentrum (Polar-Sampling, seeded) — Sterne atmen, kein Blob. */
+      var sp = c.spread || 60;
+      var ang = ((h % 360) / 360) * Math.PI * 2;
+      var rad = sp * (0.35 + ((h >> 9) % 100) / 100 * 0.65);  /* 35%..100% von spread */
+      return { tx: c.x + Math.cos(ang) * rad, ty: c.y + Math.sin(ang) * rad * 0.92 };
+    }
+    /* zeit: X = Fundjahr; Y = Feldmitte + deterministischer Jitter (KEINE diskreten prob-Bänder mehr) */
+    var tx = (f.fundjahr - YEAR_MIN) / (YEAR_MAX - YEAR_MIN); tx = Math.max(0, Math.min(1, tx));
+    var h2 = hashStr(f.objekt_id);
+    var jitter = (((h2 >> 3) % 100) / 100 - 0.5) * (H - 2 * PAD_Y) * 0.82; /* ±~41% der Feldhöhe, stetig verteilt */
+    return { tx: PAD_X + tx * (W - 2 * PAD_X), ty: H / 2 + jitter };
+  }
+
+  /* v8 · Leitstern je Schule = Fund mit kleinstem fundjahr (Tie-Break: objekt_id alphabetisch).
+     Deterministisch & reproduzierbar über Builds. Das ist der benannte Anker des Sternbilds. */
+  function computeLeitsterne() {
+    leitsternBySchule = {};
+    var bySchule = {};
+    SEED_FUNDE.forEach(function (f) {
+      var s = f.schule; if (!s) return;
+      (bySchule[s] = bySchule[s] || []).push(f);
+    });
+    Object.keys(bySchule).forEach(function (s) {
+      var arr = bySchule[s].slice().sort(function (a, b) {
+        if (a.fundjahr !== b.fundjahr) return a.fundjahr - b.fundjahr;
+        return a.objekt_id < b.objekt_id ? -1 : 1;
+      });
+      leitsternBySchule[s] = arr[0].objekt_id;
+    });
+  }
+
+  /* v9 · ORGANISCHE Cluster-Verteilung (ersetzt den Kreis/Ziffernblatt aus v8).
+     Statt 6 Zentren gleichmäßig auf einem Kreis (ang = idx/n·2π) liegen die Schul-Sternbilder
+     jetzt auf einem fest kuratierten, asymmetrischen Set von 6 normierten Ankern (0..1 im Feld),
+     mit unterschiedlichen Abständen vom Zentrum und voneinander — wie eine natürlich gewachsene
+     Himmelskarte, kein Uhr-Raster. Mehr Feldbreite/-höhe genutzt (Anker bis ~0.10..0.90).
+     DETERMINISTISCH/REPRODUZIERBAR: Die Anker-Reihenfolge ist fix; die Zuordnung Schule→Anker
+     erfolgt über einen seeded Hash der Slugs (stabile Sortierung), nie über Math.random.
+     Cluster mit mehr Mitgliedern bekommen mehr Streuung (spread) → mehr organische Varianz. */
+  /* 6 kuratierte Anker (normiert, asymmetrisch). Bewusst NICHT rotationssymmetrisch:
+     versetzte Abstände vom Zentrum (0.30..0.62) und ungleiche Lücken untereinander. */
+  var CLUSTER_ANCHORS = [
+    { x: 0.20, y: 0.30 },   /* oben links, weit raus */
+    { x: 0.50, y: 0.14 },   /* oben mitte, nah am oberen Rand */
+    { x: 0.82, y: 0.34 },   /* oben rechts */
+    { x: 0.70, y: 0.74 },   /* unten rechts */
+    { x: 0.34, y: 0.82 },   /* unten links, tief */
+    { x: 0.13, y: 0.58 }    /* links mitte, leicht eingerückt */
+  ];
   function computeClusters() {
     clusters = {}; clusterCenters = {};
+    var sternbilder = (layoutMode === 'sternbilder');
     SEED_FUNDE.forEach(function (f) {
       var ck = clusterKeyOf(f);
-      if (!clusters[ck]) clusters[ck] = { key: ck, label: (typeof tonLabel === 'function' ? tonLabel(ck) : ck), members: [] };
+      if (!clusters[ck]) clusters[ck] = {
+        key: ck,
+        label: sternbilder ? schuleLabel(ck) : (typeof tonLabel === 'function' ? tonLabel(ck) : ck),
+        members: []
+      };
       clusters[ck].members.push(f.objekt_id);
     });
     var keys = Object.keys(clusters);
-    var n = keys.length || 1;
-    var radius = Math.min(W, H) * 0.30;
+    if (sternbilder) {
+      /* DETERMINISTISCHE Schule→Anker-Zuordnung: Schlüssel nach seeded Hash sortieren
+         (stabil über Builds, kein Math.random), dann der Reihe nach auf CLUSTER_ANCHORS legen.
+         Gibt eine reproduzierbare, aber NICHT-kreisförmige Streuung über das Feld. */
+      keys.sort(function (a, b) {
+        var ha = hashStr('anchor::' + a), hb = hashStr('anchor::' + b);
+        if (ha !== hb) return ha - hb;
+        return a < b ? -1 : 1;
+      });
+    }
+    /* INNER-FELD (kein PAD-Rand, damit organische Anker nicht in die Ecken klatschen) */
+    var ix = PAD_X * 0.85, iy = PAD_Y * 0.85;
+    var fw = W - 2 * ix, fh = H - 2 * iy;
     keys.forEach(function (ck, idx) {
-      var ang = (idx / n) * Math.PI * 2 - Math.PI / 2;
-      var cx = W / 2 + Math.cos(ang) * radius;
-      var cy = H / 2 + Math.sin(ang) * radius * 0.78;
-      clusters[ck].cx = cx; clusters[ck].cy = cy;
-      clusterCenters[ck] = { x: cx, y: cy };
+      var cx, cy, spread;
+      if (sternbilder) {
+        var an = CLUSTER_ANCHORS[idx % CLUSTER_ANCHORS.length];
+        /* leichter deterministischer Jitter pro Schule, damit auch bei gleichem Anker-Set
+           kein „aufgereiht"-Eindruck entsteht (seeded, reproduzierbar) */
+        var hj = hashStr('jit::' + ck);
+        var jx = ((hj % 100) / 100 - 0.5) * 0.05;        /* ±2.5% Feldbreite */
+        var jy = (((hj >> 7) % 100) / 100 - 0.5) * 0.05; /* ±2.5% Feldhöhe  */
+        cx = ix + (an.x + jx) * fw;
+        cy = iy + (an.y + jy) * fh;
+        /* mehr Mitglieder → mehr Streuung (organische Varianz). 2 Mitglieder ~ klein, 5 ~ groß. */
+        var mc = clusters[ck].members.length;
+        spread = 34 + Math.min(mc, 8) * 9;   /* ~52 (2 Mitgl.) .. ~79 (5 Mitgl.) */
+      } else {
+        /* Zeit-Modus nutzt diese Zentren nicht (targetPos rechnet X=Jahr); Fallback weich mittig */
+        var ang = (idx / (keys.length || 1)) * Math.PI * 2 - Math.PI / 2;
+        cx = W / 2 + Math.cos(ang) * Math.min(W, H) * 0.40;
+        cy = H / 2 + Math.sin(ang) * Math.min(W, H) * 0.40 * 0.80;
+        spread = 40;
+      }
+      clusters[ck].cx = cx; clusters[ck].cy = cy; clusters[ck].spread = spread;
+      clusterCenters[ck] = { x: cx, y: cy, spread: spread };
     });
   }
 
   function buildGraphData() {
     nodes = []; edges = []; nodeById = {};
-    /* Kanten aus verweist_auf/remix_von */
+    computeLeitsterne();
     var seen = {};
+    function addEdge(a, b, type, attrs) {
+      if (a === b) return;
+      var key = type + '::' + [a, b].sort().join('::');
+      if (seen[key]) return; seen[key] = true;
+      var e = { a: a, b: b, type: type };
+      if (attrs) for (var k in attrs) e[k] = attrs[k];
+      edges.push(e);
+    }
+
+    /* (1) SCHUL-SEHNEN — Hub-and-Spoke: jedes Schul-Mitglied → 1 Kante zum Leitstern.
+       Ergibt (count-1) je Schule. data-edgetype="schule". Das Rückgrat der Sternbilder. */
+    SEED_FUNDE.forEach(function (f) {
+      var s = f.schule; if (!s) return;
+      var hub = leitsternBySchule[s];
+      if (hub && f.objekt_id !== hub) addEdge(f.objekt_id, hub, 'schule', { schule: s });
+    });
+
+    /* (2) METHODEN-SEHNEN — Querbrücke: nur Methoden, die ≥2× vorkommen (real: szenariotechnik, backcasting).
+       Bei genau 2 Trägern eine Kante; bei >2 Hub-and-Spoke an den ältesten Träger (zukunftssicher, kein Clique-Brei).
+       data-edgetype="methode". */
+    var byMeth = {};
+    SEED_FUNDE.forEach(function (f) {
+      if (!f.entstehungsmethode) return;
+      (byMeth[f.entstehungsmethode] = byMeth[f.entstehungsmethode] || []).push(f);
+    });
+    Object.keys(byMeth).forEach(function (m) {
+      var arr = byMeth[m]; if (arr.length < 2) return;
+      arr = arr.slice().sort(function (a, b) { return a.fundjahr - b.fundjahr || (a.objekt_id < b.objekt_id ? -1 : 1); });
+      if (arr.length === 2) {
+        addEdge(arr[0].objekt_id, arr[1].objekt_id, 'methode', { methode: m });
+      } else {
+        var mhub = arr[0].objekt_id;
+        for (var i = 1; i < arr.length; i++) addEdge(arr[i].objekt_id, mhub, 'methode', { methode: m });
+      }
+    });
+
+    /* (3) LINEAGE-SEHNEN — unverändert aus verweist_auf/remix_von (selten, edel, gerichtet Eltern→Kind). */
     SEED_FUNDE.forEach(function (f) {
       var rel = f.verweist_auf || f.remix_von;
       if (rel && SEED_FUNDE.some(function (g) { return g.objekt_id === rel; })) {
-        var key = [f.objekt_id, rel].sort().join('::');
-        if (!seen[key]) { seen[key] = true; edges.push({ a: f.objekt_id, b: rel }); }
+        addEdge(f.objekt_id, rel, 'lineage', { from: rel, to: f.objekt_id });
       }
     });
+
     computeClusters();
     SEED_FUNDE.forEach(function (f) {
       var t = targetPos(f);
-      var deg = 1 + edges.filter(function (e) { return e.a === f.objekt_id || e.b === f.objekt_id; }).length;
       var ax = axesOf(f);
       var h = hashStr(f.objekt_id);
+      var isLeit = (leitsternBySchule[f.schule] === f.objekt_id);
+      /* MAGNITUDE = Wahrscheinlichkeit. PROB.r (7/8.5/10) bleibt die Basis-Staffelung.
+         Leitstern +1.5px über Magnitude (Anker-Hervorhebung). */
+      var baseR = ax.prob.r + (isLeit ? 1.5 : 0);
       var nd = {
         id: f.objekt_id, f: f, ax: ax, ck: clusterKeyOf(f),
+        schule: f.schule || 'sonstige',
+        color: schuleColor(f.schule),
+        isLeitstern: isLeit,
+        hasMethode: !!(f.entstehungsmethode && METHODEN_LABEL[f.entstehungsmethode]),
+        hasLineage: !!(f.verweist_auf || f.remix_von),
         x: t.tx + ((h % 60) - 30), y: t.ty + (((h >> 6) % 60) - 30),
         tx: t.tx, ty: t.ty, vx: 0, vy: 0,
-        r: ax.prob.r + Math.min(4, (deg - 1) * 1.6), deg: deg, pinned: false
+        r: baseR, deg: 1, pinned: false
       };
       nodes.push(nd); nodeById[f.objekt_id] = nd;
+    });
+    /* deg nachträglich (für evtl. spätere Nutzung) */
+    nodes.forEach(function (nd) {
+      nd.deg = 1 + edges.filter(function (e) { return e.a === nd.id || e.b === nd.id; }).length;
     });
   }
 
@@ -1916,43 +2694,52 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
      (verbundene Knoten rücken nah → sichtbarer Sternenhaufen). */
   function simTick() {
     var i, j, a, b, dx, dy, d2, d, frc;
-    var theme = (layoutMode === 'thema');
+    var sternbilder = (layoutMode === 'sternbilder');
     for (i = 0; i < nodes.length; i++) { a = nodes[i]; if (a !== draggingNode) { a.vx *= 0.86; a.vy *= 0.86; } }
     for (i = 0; i < nodes.length; i++) {
       a = nodes[i];
       for (j = i + 1; j < nodes.length; j++) {
         b = nodes[j];
         dx = a.x - b.x; dy = a.y - b.y; d2 = dx * dx + dy * dy || 0.01;
-        var minD = (a.r + b.r) + 26;
+        /* v9 · Sterne weiter auseinander: Mindestabstand 26→44 (deutlich mehr Atemraum,
+           löst die „Blob"-Verklumpung) + etwas härtere Nahabstoßung (0.18→0.22). */
+        var minD = (a.r + b.r) + 44;
         if (d2 < minD * minD) {
           d = Math.sqrt(d2); frc = (minD - d) / d * 0.5;
-          a.vx += dx * frc * 0.18; a.vy += dy * frc * 0.18;
-          b.vx -= dx * frc * 0.18; b.vy -= dy * frc * 0.18;
+          a.vx += dx * frc * 0.22; a.vy += dy * frc * 0.22;
+          b.vx -= dx * frc * 0.22; b.vy -= dy * frc * 0.22;
         } else {
-          frc = 900 / d2; d = Math.sqrt(d2);
+          /* leicht weitreichendere Fern-Abstoßung (900→1300), damit das ganze Feld atmet */
+          frc = 1300 / d2; d = Math.sqrt(d2);
           a.vx += dx / d * frc * 0.04; a.vy += dy / d * frc * 0.04;
           b.vx -= dx / d * frc * 0.04; b.vy -= dy / d * frc * 0.04;
         }
       }
     }
-    /* Lineage-Federn (Sollabstand ~ Summe Radien + 18); stärker als Repulsion → Strang bleibt eng */
-    if (theme) {
+    /* Sehnen-Federn nur im Sternbild-Modus: Schul- & Lineage-Kanten ziehen Mitglieder an ihren
+       Anker → Hub-and-Spoke-Figur. Methoden-Kanten federn NICHT (sie dürfen quer spannen, nicht zusammenziehen). */
+    if (sternbilder) {
       edges.forEach(function (e) {
+        if (e.type === 'methode') return;
         var na = nodeById[e.a], nb = nodeById[e.b]; if (!na || !nb) return;
         var ex = na.x - nb.x, ey = na.y - nb.y, ed = Math.sqrt(ex * ex + ey * ey) || 0.01;
-        var rest = na.r + nb.r + 18, k = (ed - rest) / ed * 0.06;
+        /* v9 · Spoke-Ruheabstand größer (42→64): Strahlen länger, Konstellation atmet,
+           Schul-Zugehörigkeit bleibt aber lesbar (Feder zieht weiter zum Leitstern). */
+        var rest = na.r + nb.r + 64, k = (ed - rest) / ed * 0.05;
         na.vx -= ex * k; na.vy -= ey * k;
         nb.vx += ex * k; nb.vy += ey * k;
       });
     }
     for (i = 0; i < nodes.length; i++) {
       a = nodes[i];
-      if (theme) {
+      if (sternbilder) {
         var cc = clusterCenters[a.ck];
-        if (cc) { a.vx += (cc.x - a.x) * 0.020; a.vy += (cc.y - a.y) * 0.020; }  /* Cluster-Anziehung */
-        a.vx += (a.tx - a.x) * 0.004; a.vy += (a.ty - a.y) * 0.004;             /* schwache Soll-Streuung im Haufen */
+        /* v9 · Cluster-Anziehung leicht gelockert (0.020→0.016), damit der größere Abstand
+           nicht sofort zur Kugel zurückgezogen wird — Gruppe bleibt trotzdem lesbar. */
+        if (cc) { a.vx += (cc.x - a.x) * 0.016; a.vy += (cc.y - a.y) * 0.016; }  /* Schul-Cluster-Anziehung */
+        a.vx += (a.tx - a.x) * 0.006; a.vy += (a.ty - a.y) * 0.006;             /* Soll-Streuung im Radius (v9) */
       } else {
-        a.vx += (a.tx - a.x) * 0.012; a.vy += (a.ty - a.y) * 0.018;             /* zur Zeit-Soll-Position */
+        a.vx += (a.tx - a.x) * 0.014; a.vy += (a.ty - a.y) * 0.020;             /* zur Zeit-Soll-Position (X=Jahr, Y=Jitter) */
       }
       a.vx += (W / 2 - a.x) * 0.0008; a.vy += (H / 2 - a.y) * 0.0008;           /* sanfte Zentrierung */
       if (a === draggingNode) continue;
@@ -1972,60 +2759,163 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     var svg = document.getElementById('graphSvg');
     var vw = W / view.scale, vh = H / view.scale;
     svg.setAttribute('viewBox', (view.x) + ' ' + (view.y) + ' ' + vw + ' ' + vh);
+    applyZoomScale();
+  }
+
+  /* v8 · ZOOM-ENTKOPPLUNG: Stern-/Glow-Radien skalieren NICHT 1:1 mit dem Zoom (sonst Riesenscheiben).
+     r_effektiv = r_basis * scale^0.6 / scale = r_basis * scale^(-0.4) gegen die viewBox-Vergrößerung.
+     Sehnen-Breite via vector-effect konstant. Nur wenn scale spürbar ≠ 1 ist (spart Arbeit). */
+  var lastZoomScale = 1;
+  function applyZoomScale() {
+    var s = view.scale;
+    if (Math.abs(s - lastZoomScale) < 0.001) return;
+    lastZoomScale = s;
+    var k = Math.pow(s, -0.4); /* Gegen-Skalierung */
+    nodes.forEach(function (n) {
+      if (!n.g) return;
+      var glowR = n.r + (4 + 0.5 * n.r); if (n.isLeitstern) glowR *= 1.6;
+      var core = n.g.querySelector('.gnode__core');
+      var glow = n.g.querySelector('.gnode__glow');
+      var ring = n.g.querySelector('.gnode__ring');
+      var lin = n.g.querySelector('.gnode__lineage-halo');
+      if (core) core.setAttribute('r', (n.r * k).toFixed(2));
+      if (glow) glow.setAttribute('r', (glowR * k).toFixed(2));
+      if (ring) ring.setAttribute('r', ((n.r + 3) * k).toFixed(2));
+      if (lin) lin.setAttribute('r', ((glowR + 3) * k).toFixed(2));
+    });
+  }
+
+  /* v9 · Sehne als sanft gekrümmter Quadratic-Bezier statt knallharter Gerade.
+     Kontrollpunkt = Mittelpunkt + senkrechter Versatz (bow). Richtung deterministisch aus
+     den Endpunkt-IDs (kein Math.random) → ruhig & reproduzierbar; Methoden-Sehnen bekommen
+     einen etwas größeren Bogen (zusätzliches Unterscheidungsmerkmal zur gestrichelten Linie). */
+  function edgePathD(a, b, type, seed) {
+    var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+    var dx = b.x - a.x, dy = b.y - a.y;
+    var len = Math.sqrt(dx * dx + dy * dy) || 1;
+    /* senkrechte Einheitsnormale */
+    var nx = -dy / len, ny = dx / len;
+    var frac = (type === 'methode') ? 0.14 : 0.08;     /* Methoden bauchiger, Schul/Lineage zarter */
+    var dir = (hashStr(seed || '') & 1) ? 1 : -1;       /* deterministische Bogen-Seite */
+    var bow = Math.min(len * frac, type === 'methode' ? 46 : 30);
+    var cx = mx + nx * bow * dir, cy = my + ny * bow * dir;
+    return 'M' + a.x.toFixed(1) + ',' + a.y.toFixed(1) +
+           ' Q' + cx.toFixed(1) + ',' + cy.toFixed(1) +
+           ' ' + b.x.toFixed(1) + ',' + b.y.toFixed(1);
   }
 
   function paintGraph() {
     var eg = document.getElementById('graphEdges');
     [].forEach.call(eg.children, function (ln) {
       var a = nodeById[ln.dataset.a], b = nodeById[ln.dataset.b]; if (!a || !b) return;
-      ln.setAttribute('x1', a.x); ln.setAttribute('y1', a.y);
-      ln.setAttribute('x2', b.x); ln.setAttribute('y2', b.y);
+      ln.setAttribute('d', edgePathD(a, b, ln.dataset.edgetype, ln.dataset.a + '::' + ln.dataset.b));
     });
     nodes.forEach(function (n) { if (n.g) n.g.setAttribute('transform', 'translate(' + n.x + ',' + n.y + ')'); });
-    /* Cluster-Labels folgen dem Ist-Schwerpunkt ihres Haufens (nur im Themen-Modus sichtbar) */
+    /* Methoden-Mittelpunkt-Labels folgen dem Mittelpunkt ihrer Sehne */
+    var ml = document.getElementById('graphMethodLabels');
+    if (ml) [].forEach.call(ml.children, function (t) {
+      var a = nodeById[t.dataset.a], b = nodeById[t.dataset.b]; if (!a || !b) return;
+      t.setAttribute('x', ((a.x + b.x) / 2).toFixed(1));
+      t.setAttribute('y', ((a.y + b.y) / 2 - 5).toFixed(1));
+    });
+    /* Sternbild-Labels: am Leitstern (Anker) verankert, leicht darüber. Sonst Schwerpunkt-Top. */
     var cl = document.getElementById('graphClusterLabels');
     if (cl) [].forEach.call(cl.children, function (t) {
-      var ck = t.dataset.ck, mem = nodes.filter(function (n) { return n.ck === ck; });
+      var ck = t.dataset.ck;
+      var leit = leitsternBySchule[ck] && nodeById[leitsternBySchule[ck]];
+      if (leit) {
+        t.setAttribute('x', leit.x.toFixed(1));
+        t.setAttribute('y', (leit.y - leit.r - 16).toFixed(1));
+        return;
+      }
+      var mem = nodes.filter(function (n) { return n.ck === ck; });
       if (!mem.length) return;
-      var sx = 0, sy = 0, miny = Infinity;
-      mem.forEach(function (n) { sx += n.x; sy += n.y; if (n.y - n.r < miny) miny = n.y - n.r; });
+      var sx = 0, miny = Infinity;
+      mem.forEach(function (n) { sx += n.x; if (n.y - n.r < miny) miny = n.y - n.r; });
       t.setAttribute('x', (sx / mem.length).toFixed(1));
       t.setAttribute('y', (miny - 14).toFixed(1));
     });
   }
 
-  /* Cluster-Label-Texte (Tonalität) aufbauen — Position füllt paintGraph() */
+  /* Sternbild-/Cluster-Label-Texte aufbauen — Position füllt paintGraph().
+     v8: im Sternbild-Modus = Schul-Namen, eingefärbt in der Schul-Akzentfarbe. */
   function renderClusterLabels() {
     var cl = document.getElementById('graphClusterLabels'); if (!cl) return;
     cl.innerHTML = '';
+    var sternbilder = (layoutMode === 'sternbilder');
     Object.keys(clusters).forEach(function (ck) {
       var t = document.createElementNS(SVGNS, 'text');
       t.setAttribute('class', 'gcluster-label'); t.dataset.ck = ck;
+      if (sternbilder && SCHULE_SLUGS.indexOf(ck) >= 0) {
+        t.setAttribute('fill', schuleColor(ck));
+        t.dataset.schule = ck;
+      }
       t.textContent = clusters[ck].label || ck;
       cl.appendChild(t);
     });
   }
 
+  /* Methoden-Mittelpunkt-Labels: ein <text> je Methoden-Sehne mit dem Methodennamen.
+     Desktop permanent sichtbar (CSS), Mobile on-demand. Position füllt paintGraph(). */
+  function renderMethodLabels() {
+    var ml = document.getElementById('graphMethodLabels'); if (!ml) return;
+    ml.innerHTML = '';
+    edges.filter(function (e) { return e.type === 'methode'; }).forEach(function (e) {
+      var t = document.createElementNS(SVGNS, 'text');
+      t.setAttribute('class', 'gmethod-label');
+      t.dataset.a = e.a; t.dataset.b = e.b; t.dataset.methode = e.methode;
+      t.setAttribute('text-anchor', 'middle');
+      t.textContent = METHODEN_LABEL[e.methode] || e.methode;
+      ml.appendChild(t);
+    });
+  }
+
+  /* v8 · Statische Hintergrund-Sternebene: dutzende sub-pixel Dekor-Punkte (keine Interaktion).
+     Macht ~60% des Tiefeneffekts. Deterministisch aus einem Seed → identisch über Builds. */
+  function renderBgStars() {
+    var bg = document.getElementById('graphBgStars'); if (!bg) return;
+    bg.innerHTML = '';
+    var seed = 1337, N = 90;
+    function rnd() { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < N; i++) {
+      var c = document.createElementNS(SVGNS, 'circle');
+      c.setAttribute('class', 'bgstar');
+      c.setAttribute('cx', (rnd() * (W + 200) - 100).toFixed(1));
+      c.setAttribute('cy', (rnd() * (H + 160) - 80).toFixed(1));
+      c.setAttribute('r', (0.5 + rnd() * 1.4).toFixed(2));
+      c.setAttribute('opacity', (0.06 + rnd() * 0.10).toFixed(3));
+      frag.appendChild(c);
+    }
+    bg.appendChild(frag);
+  }
+
   function renderGraph() {
     var svg = document.getElementById('graphSvg');
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    renderBgStars();
     buildGraphData();
     var eg = document.getElementById('graphEdges'); eg.innerHTML = '';
     var ng = document.getElementById('graphNodes'); ng.innerHTML = '';
 
     edges.forEach(function (e) {
-      var ln = document.createElementNS(SVGNS, 'line');
-      ln.setAttribute('class', 'gedge'); ln.dataset.a = e.a; ln.dataset.b = e.b;
+      var ln = document.createElementNS(SVGNS, 'path');   /* v9 · path statt line (sanfte Krümmung) */
+      ln.setAttribute('class', 'gedge gedge--' + e.type);
+      ln.dataset.a = e.a; ln.dataset.b = e.b;
+      ln.dataset.edgetype = e.type;
+      if (e.schule) { ln.dataset.schule = e.schule; ln.setAttribute('stroke', schuleColor(e.schule)); }
+      if (e.methode) ln.dataset.methode = e.methode;
       eg.appendChild(ln);
     });
 
     nodes.forEach(function (n) { mountNode(n, ng); });
     renderClusterLabels();
+    renderMethodLabels();
 
     /* SR-/Tastatur-Liste parallel */
     buildSrList();
     rebuildStarList();
-    document.getElementById('fundCount').textContent = SEED_FUNDE.length + ' funde · lebendes feld 2030–2070';
+    document.getElementById('fundCount').textContent = SEED_FUNDE.length + ' funde · ' + Object.keys(clusters).length + ' sternbilder · 2030–2070';
 
     if (prefersReducedMotion) { simAlpha = 1; for (var k = 0; k < 280; k++) simTick(); simAlpha = 0; paintGraph(); }
     else { simAlpha = 0.9; if (simRAF) cancelAnimationFrame(simRAF); loop(); }
@@ -2034,25 +2924,65 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
 
   function mountNode(n, ng) {
     var g = document.createElementNS(SVGNS, 'g');
-    g.setAttribute('class', 'gnode' + (n.f.verweist_auf || n.f.remix_von ? ' is-lineage' : ''));
+    var cls = 'gnode';
+    if (n.hasLineage) cls += ' is-lineage';
+    if (n.isLeitstern) cls += ' is-leitstern';
+    if (n.hasMethode) cls += ' has-methode';
+    g.setAttribute('class', cls);
     g.setAttribute('tabindex', '-1');
     g.setAttribute('role', 'button');
-    g.setAttribute('aria-label', n.f.objektname + ', ' + n.f.fundjahr + ', ' + n.ax.prob.label + ', ' + n.ax.wunsch.label + ' — Fund öffnen');
+    g.dataset.schule = n.schule;
+    if (n.f.entstehungsmethode) g.dataset.methode = n.f.entstehungsmethode;
+    var schoolName = schuleLabel(n.schule);
+    g.setAttribute('aria-label', n.f.objektname + ', ' + n.f.fundjahr + ', Sternbild ' + schoolName +
+      ', ' + n.ax.prob.label + (n.isLeitstern ? ', Leitstern' : '') + ' — Fund öffnen');
     g.dataset.id = n.id; n.g = g;
+
+    /* MAGNITUDE-Glow: koppelt an Stern-Radius. glow.r = r + (4 + 0.5*r), heller Stern = größerer Halo.
+       Leitstern-Glow ×1.6. Farbe = Schul-Akzent. */
+    var glowR = n.r + (4 + 0.5 * n.r);
+    if (n.isLeitstern) glowR *= 1.6;
+    var glowOp = 0.25 * n.ax.prob.dim;
+
+    /* Lineage-Marker: zweiter, ultravioletter Halo HINTER dem Schul-Glow. */
+    if (n.hasLineage) {
+      var lin = document.createElementNS(SVGNS, 'circle');
+      lin.setAttribute('class', 'gnode__lineage-halo');
+      lin.setAttribute('r', glowR + 3);
+      lin.setAttribute('fill', 'var(--ft-ultra)');
+      lin.setAttribute('opacity', '0.16');
+      g.appendChild(lin);
+    }
+
     var glow = document.createElementNS(SVGNS, 'circle');
-    glow.setAttribute('class', 'gnode__glow'); glow.setAttribute('r', n.r + 6);
-    glow.setAttribute('fill', n.ax.wunsch.color); glow.setAttribute('opacity', String(0.18 * n.ax.prob.dim));
+    glow.setAttribute('class', 'gnode__glow'); glow.setAttribute('r', glowR.toFixed(2));
+    glow.setAttribute('fill', n.color); glow.setAttribute('opacity', glowOp.toFixed(3));
+
     var core = document.createElementNS(SVGNS, 'circle');
     core.setAttribute('class', 'gnode__core'); core.setAttribute('r', n.r);
-    core.setAttribute('fill', n.ax.wunsch.color); core.setAttribute('fill-opacity', String(n.ax.prob.dim));
+    core.setAttribute('fill', n.color); core.setAttribute('fill-opacity', String(n.ax.prob.dim));
+
+    /* RING im Ruhezustand: feiner Schul-Akzent-Ring (Zugehörigkeit), ~0.30 Deckkraft.
+       Bei Hover/Fokus/Kin wird er via CSS zum Selektionsring. */
     var ring = document.createElementNS(SVGNS, 'circle');
-    ring.setAttribute('class', 'gnode__ring'); ring.setAttribute('r', n.r + 3); ring.setAttribute('stroke', n.ax.prob.ring); ring.setAttribute('opacity', '0.9');
-    /* v7: reine Sterne/Punkte — Form-Glyph (▲/■/✕) am Knoten entfernt. Farbe = Wünschbarkeit (core/glow), Y-Achse = Wahrscheinlichkeit. */
+    ring.setAttribute('class', 'gnode__ring'); ring.setAttribute('r', (n.r + 3).toFixed(2));
+    ring.setAttribute('stroke', n.color); ring.setAttribute('opacity', '0.30');
+
     var label = document.createElementNS(SVGNS, 'text');
     label.setAttribute('class', 'gnode__label'); label.setAttribute('x', '0'); label.setAttribute('y', String(-(n.r + 9)));
     label.setAttribute('text-anchor', 'middle');
     label.textContent = n.f.objektname + ' · ' + n.f.fundjahr;
+
     g.appendChild(glow); g.appendChild(core); g.appendChild(ring); g.appendChild(label);
+
+    /* ATMEN: subtiles asynchrones Glow-Pulsieren. Phase deterministisch aus objekt_id-Hash.
+       Bei prefers-reduced-motion komplett aus (CSS animation greift dann nicht). */
+    if (!prefersReducedMotion) {
+      var per = 3 + (hashStr(n.id) % 30) / 10;        /* 3.0–5.9s */
+      var delay = -((hashStr(n.id) >> 5) % 1000) / 100; /* negative Phase: -0..-10s */
+      glow.style.animation = 'starBreathe ' + per.toFixed(2) + 's ' + delay.toFixed(2) + 's infinite ' + 'var(--ft-ease-breath)';
+    }
+
     g.addEventListener('pointerenter', function () { setHot(n.id); });
     g.addEventListener('pointerleave', function () { if (!draggingNode) setHot(null); });
     bindNodeDrag(n, g);
@@ -2063,6 +2993,8 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     hotId = id;
     var svg = document.getElementById('graphSvg');
     svg.classList.toggle('is-dimmed', !!id);
+    /* v8 · Verwandtschaft umfasst Lineage + Schul-Geschwister + Methoden-Geschwister:
+       alle drei Kantentypen, die den Hot-Knoten berühren, gelten als kin. */
     var kin = {};
     if (id) { edges.forEach(function (e) { if (e.a === id) kin[e.b] = 1; if (e.b === id) kin[e.a] = 1; }); }
     nodes.forEach(function (n) {
@@ -2073,6 +3005,242 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     [].forEach.call(document.getElementById('graphEdges').children, function (ln) {
       ln.classList.toggle('is-hot', !!id && (ln.dataset.a === id || ln.dataset.b === id));
     });
+    /* Methoden-Label mit-highlighten, wenn seine Sehne am Hot-Knoten hängt (Mobile on-demand-Sichtbarkeit) */
+    var ml = document.getElementById('graphMethodLabels');
+    if (ml) [].forEach.call(ml.children, function (t) {
+      t.classList.toggle('is-hot', !!id && (t.dataset.a === id || t.dataset.b === id));
+    });
+  }
+
+  /* v8 · Methoden-Gruppe highlighten (vom Inspector-Deeplink aus): alle Knoten + Sehnen dieser Methode leuchten.
+     v11 (Wade 2026-06-09): respektiert jetzt das STICKY-Highlight. Hover ist flüchtig; ist ein Sticky-
+     Highlight aktiv (methodSticky), kehrt das Hover-`off` NICHT zur Normalansicht zurück, sondern stellt
+     das Sticky-Highlight wieder her. */
+  function highlightMethode(slug, on) {
+    var svg = document.getElementById('graphSvg');
+    if (!on) {
+      if (methodSticky) { paintMethodHighlight(methodSticky); return; }  /* Sticky bleibt erhalten */
+      setHot(hotId); svg.classList.toggle('is-dimmed', !!hotId); return;
+    }
+    paintMethodHighlight(slug, false);
+  }
+
+  /* Reine Mal-Logik der Methoden-Gruppe im Graph (geteilt von Hover + Sticky).
+     sticky=true → zusätzlich .is-method-hi (voller Glow/Puls, bleibt bis Reset). */
+  function paintMethodHighlight(slug, sticky) {
+    var svg = document.getElementById('graphSvg');
+    svg.classList.add('is-dimmed');
+    nodes.forEach(function (n) {
+      var match = (n.f.entstehungsmethode === slug);
+      if (n.g) {
+        n.g.classList.toggle('is-kin', match);
+        n.g.classList.toggle('is-hot', false);
+        n.g.classList.toggle('is-method-hi', !!(sticky && match));
+      }
+    });
+    [].forEach.call(document.getElementById('graphEdges').children, function (ln) {
+      ln.classList.toggle('is-hot', ln.dataset.methode === slug);
+    });
+    var ml = document.getElementById('graphMethodLabels');
+    if (ml) [].forEach.call(ml.children, function (t) { t.classList.toggle('is-hot', t.dataset.methode === slug); });
+  }
+
+  /* Effektive Höhe des sticky Headers (für scroll-Offsets). Liest --ft-header-h aus
+     dem :root-CSS, fällt auf die gemessene .site-header-Höhe bzw. 60px zurück. Plus
+     kleiner Puffer, damit das Ziel nicht bündig unter der Header-Kante klemmt. */
+  function stickyHeaderOffset() {
+    var px = 0;
+    try {
+      var raw = getComputedStyle(document.documentElement).getPropertyValue('--ft-header-h');
+      px = parseFloat(raw);
+    } catch (e) { px = 0; }
+    if (!px || isNaN(px)) {
+      var h = document.querySelector('.site-header');
+      px = (h ? h.getBoundingClientRect().height : 0) || 60;
+    }
+    return px + 12;   /* Header-Höhe + kleiner Puffer */
+  }
+
+  /* Autoritatives Scrollen (Desktop): zentriert die .starmap (#starmap-Graph) im
+     SICHTBAREN Bereich zwischen Header-Unterkante und Viewport-Unterkante — nicht den
+     Sektions-Anfang. Liegt die Karte höher als der sichtbare Raum, wird ihre Oberkante
+     bündig unter den Header gelegt (Header-Offset), nie darunter geklemmt. */
+  function focusStarmapInView() {
+    var map = document.getElementById('starmap');
+    if (!map) return;
+    var off = stickyHeaderOffset();
+    var rect = map.getBoundingClientRect();
+    var avail = window.innerHeight - off;                 /* sichtbarer Raum unter dem Header */
+    var desiredTop;                                       /* gewünschte rect.top NACH dem Scroll */
+    if (rect.height <= avail) {
+      desiredTop = off + (avail - rect.height) / 2;       /* Karte mittig in den sichtbaren Raum */
+    } else {
+      desiredTop = off;                                   /* zu groß → Oberkante unter den Header */
+    }
+    var delta = rect.top - desiredTop;                    /* so viel muss das Fenster runter/hoch */
+    var target = Math.max(0, window.pageYOffset + delta);
+    window.scrollTo({ top: target, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+  }
+
+  /* ===== STICKY Methoden-Highlight (Deeplink „Damit geborgen" aus methoden.html ?methode=<slug>) =====
+     methodSticky = aktiver Slug oder null. Desktop: Graph-Glow/Dim + Sehne. Mobil: passende Karten
+     im #starGrid betonen, übrige abdimmen. Beide Wege teilen ein Banner mit Reset. */
+  var methodSticky = null;
+  /* Merkt die Original-Position des Frames im DOM (innerhalb .starmap-shell), damit es
+     nach dem Portal-Verschieben exakt zurückgesetzt werden kann. */
+  var frameHome = null;
+
+  /* Nur im Mobil-Frame (≤720px) ist die Treffer-Liste/das Grid-Offset relevant. */
+  function isMobileFrame() {
+    return !!(window.matchMedia && window.matchMedia('(max-width:720px)').matches);
+  }
+
+  /* PORTAL (mobil): Das fixed Frame sitzt im DOM tief in #starmapSect (position:relative;
+     z-index:1). Der Mic-Hero darüber hat .wrap{z-index:2} → die GANZE #starmapSect-Schicht
+     (und damit das Frame) malt UNTER dem Hero, egal welcher z-index das Frame intern trägt.
+     Lösung: das Frame beim Anzeigen an <body> hängen (eigene Stacking-Schicht ganz oben,
+     unter Header/Scrim/Drawer), beim Reset exakt an seinen Platz zurück. Nur mobil. */
+  function portalFrameToBody() {
+    var frame = document.getElementById('methodBanner');
+    if (!frame || frame.parentNode === document.body) return;
+    frameHome = { parent: frame.parentNode, next: frame.nextSibling };
+    document.body.appendChild(frame);
+  }
+  function restoreFramePlace() {
+    var frame = document.getElementById('methodBanner');
+    if (!frame || !frameHome || !frameHome.parent) return;
+    if (frameHome.next && frameHome.next.parentNode === frameHome.parent)
+      frameHome.parent.insertBefore(frame, frameHome.next);
+    else frameHome.parent.appendChild(frame);
+    frameHome = null;
+  }
+
+  /* Füllt die Treffer-Liste im Ergebnis-Frame: ein klickbarer Titel je Fund der Methode,
+     nach Jahr sortiert. Schul-Punkt + Titel/Jahr + Chevron. Nur Index, kein Detail-Text. */
+  function renderFrameHits(slug) {
+    var hits = document.getElementById('methodFrameHits');
+    if (!hits) return;
+    var FC = window.FundCards;
+    var funde = SEED_FUNDE.filter(function (f) { return f.entstehungsmethode === slug; });
+    funde = (FC && FC.sortByYear) ? FC.sortByYear(funde)
+                                  : funde.slice().sort(function (a, b) { return a.fundjahr - b.fundjahr; });
+    hits.innerHTML = funde.map(function (f) {
+      var c = (FC && FC.schuleColorVar) ? FC.schuleColorVar(f.schule || null) : 'var(--ft-muted)';
+      return '<li><button type="button" class="method-frame__hit" data-fund="' + escapeHTML(String(f.objekt_id)) + '">'
+        + '<span class="method-frame__hit-dot" style="--c:' + c + '"></span>'
+        + '<span class="method-frame__hit-text">'
+        +   '<span class="method-frame__hit-title">' + escapeHTML(f.objektname || '(ohne Titel)') + '</span>'
+        +   '<span class="method-frame__hit-year">' + escapeHTML(String(f.fundjahr)) + '</span>'
+        + '</span><span class="method-frame__hit-chev" aria-hidden="true">›</span>'
+        + '</button></li>';
+    }).join('');
+  }
+
+  /* Misst die Frame-Höhe und hängt sie als CSS-Var ans #starGrid, damit die erste
+     Karte nicht hinter dem fixed Frame klemmt (Grid-Overlap-Fix). */
+  function syncFrameOffset() {
+    var grid = document.getElementById('starGrid');
+    var frame = document.getElementById('methodBanner');
+    if (!grid || !frame || !frame.classList.contains('is-shown')) return;
+    var h = frame.getBoundingClientRect().height;
+    if (h > 0) grid.style.setProperty('--ft-method-frame-h', (h + 12) + 'px');
+  }
+
+  function applyMethodHighlight(slug) {
+    /* Defensive: unbekannter/leerer Slug → kein Highlight, kein Fehler. */
+    if (!slug || !METHODEN_LABEL[slug]) { clearMethodHighlight(); return; }
+    /* Zählung der geborgenen Funde (für Banner + Beweis). */
+    var count = SEED_FUNDE.filter(function (f) { return f.entstehungsmethode === slug; }).length;
+    if (!count) { clearMethodHighlight(); return; }
+    methodSticky = slug;
+
+    /* (a) DESKTOP-GRAPH — voller sticky Glow auf die Gruppe, Rest abgedimmt. */
+    paintMethodHighlight(slug, true);
+
+    /* (b) MOBIL-KARTEN — passende Karten betonen, übrige abdimmen. Karten tragen kein
+       data-methode; wir erkennen sie über den Methoden-Link href="methoden.html#<slug>"
+       bzw. den Plain-Text-Tag. Robust gegen das geteilte fund-cards-Markup. */
+    highlightMobileCards(slug);
+
+    /* (c) BANNER — Methode + Anzahl + Reset. */
+    var banner = document.getElementById('methodBanner');
+    var nameEl = document.getElementById('methodBannerName');
+    var cntEl  = document.getElementById('methodBannerCount');
+    if (banner && nameEl && cntEl) {
+      nameEl.textContent = METHODEN_LABEL[slug];
+      cntEl.textContent = '· ' + count + (count === 1 ? ' Fund' : ' Funde');
+      banner.classList.remove('is-collapsed');   /* frischer Aufruf → Liste offen */
+      banner.hidden = false;
+      banner.classList.add('is-shown');
+    }
+
+    /* (d) MOBIL-FRAME — Treffer-Titel rendern + Grid-Offset setzen (nur ≤720px). Desktop
+       bleibt unberührt: Liste/Fuß sind dort per CSS ausgeblendet, der Graph trägt das Highlight.
+       Doppeltes rAF, damit die Frame-Höhe NACH Layout/Reflow gemessen wird. */
+    if (isMobileFrame()) {
+      portalFrameToBody();        /* Frame an <body> portalen → liegt über dem Hero (Stacking-Fix) */
+      renderFrameHits(slug);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { syncFrameOffset(); });
+      });
+    }
+  }
+
+  function highlightMobileCards(slug) {
+    var grid = document.getElementById('starGrid');
+    if (!grid) return;
+    var cards = grid.querySelectorAll('.fund-card');
+    var firstHit = null;
+    [].forEach.call(cards, function (card) {
+      var link = card.querySelector('.fund-card__method');
+      var match = false;
+      if (link) {
+        var href = link.getAttribute('href') || '';
+        var txt = (link.textContent || '');
+        /* Anker: methoden.html#<slug>; Plain-Tag: Label-Vergleich als Fallback. */
+        match = (href.indexOf('#' + slug) !== -1) ||
+                (txt.indexOf(METHODEN_LABEL[slug]) !== -1);
+      }
+      card.classList.toggle('is-method-hi', match);
+      if (match && !firstHit) firstHit = card;
+    });
+    grid.classList.add('is-method-filter');
+    /* KEIN Auto-Page-Scroll mehr (mobil): Das Ergebnis-Frame IST jetzt die Trefferübersicht
+       — Kopf, alle Titel und Reset liegen ohne Scrollen im Viewport. Der frühere ~550px-Sprung
+       zur ersten Grid-Karte ist damit weg (Tom-gemeldetes Usability-Problem). firstHit-Ermittlung
+       + .is-method-hi-Markierung bleiben (Glow im Grid, Wiederfinden der angesprungenen Karte).
+       Auf Desktop scrollt ohnehin focusStarmapInView den Graph — hier nichts tun. */
+    void firstHit;
+  }
+
+  function clearMethodHighlight() {
+    methodSticky = null;
+    var svg = document.getElementById('graphSvg');
+    if (svg) {
+      nodes.forEach(function (n) { if (n.g) { n.g.classList.remove('is-method-hi'); n.g.classList.remove('is-kin'); } });
+      [].forEach.call(document.getElementById('graphEdges').children, function (ln) { ln.classList.remove('is-hot'); });
+      var ml = document.getElementById('graphMethodLabels');
+      if (ml) [].forEach.call(ml.children, function (t) { t.classList.remove('is-hot'); });
+      svg.classList.toggle('is-dimmed', !!hotId);
+      if (hotId) setHot(hotId);
+    }
+    var grid = document.getElementById('starGrid');
+    if (grid) {
+      grid.classList.remove('is-method-filter');
+      [].forEach.call(grid.querySelectorAll('.fund-card.is-method-hi'), function (c) { c.classList.remove('is-method-hi'); });
+    }
+    var banner = document.getElementById('methodBanner');
+    if (banner) {
+      banner.classList.remove('is-shown');
+      banner.classList.remove('is-collapsed');   /* Kollaps-State zurück */
+      banner.hidden = true;
+    }
+    /* Mobil-Frame aufräumen: alte Treffer raus, Grid rückt wieder hoch, Frame zurück an seinen
+       Platz in .starmap-shell (Portal rückgängig — Desktop erwartet es dort im Fluss). */
+    var hits = document.getElementById('methodFrameHits');
+    if (hits) hits.innerHTML = '';
+    if (grid) grid.style.removeProperty('--ft-method-frame-h');
+    restoreFramePlace();
   }
 
   /* Knoten draggbar (Pointer); kurzer Klick = öffnen */
@@ -2116,9 +3284,18 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     if (!map || !svg) return;
     var panning = false, px = 0, py = 0, bx = 0, by = 0;
     map.addEventListener('pointerdown', function (e) {
-      if (e.target.closest('.gnode') || e.target.closest('.starmap__hud')) return;
+      /* P0-FIX (Wade 2026-06-09): .starmap__layout war NICHT im Guard → Toggle-Klick startete Pan.
+         .starmap__status mit aufgenommen (Statuszeile darf nie Pan auslösen). */
+      if (e.target.closest('.gnode') || e.target.closest('.starmap__hud') ||
+          e.target.closest('.starmap__layout') || e.target.closest('.starmap__status')) return;
       panning = true; px = e.clientX; py = e.clientY; bx = view.x; by = view.y;
       map.classList.add('is-panning');
+    });
+    /* Strukturhärtung: interaktive Overlays stoppen pointerdown an der Quelle,
+       damit kein künftiges HUD-Element den Aufzähl-Fehler im Pan-Guard erbt. */
+    ['.starmap__layout', '.starmap__hud'].forEach(function (sel) {
+      var el = map.querySelector(sel);
+      if (el) el.addEventListener('pointerdown', function (ev) { ev.stopPropagation(); });
     });
     map.addEventListener('pointermove', function (e) {
       if (!panning) return;
@@ -2158,28 +3335,67 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       else if (e.key === '-' || e.key === '_') { zoomAt(0.8, c.x, c.y); e.preventDefault(); }
     });
 
-    /* ---- v7 · Layout-Umschalter: Themenhaufen ⇄ Zeitliche Haufen ---- */
-    var btnTime = document.getElementById('layoutTime');
-    var btnTheme = document.getElementById('layoutTheme');
+    /* ---- v8 · Layout-Umschalter: Sternbilder (Default) ⇄ Zeitlauf ---- */
+    var btnTime = document.getElementById('layoutTime');     /* → 'zeit'        */
+    var btnTheme = document.getElementById('layoutTheme');   /* → 'sternbilder' */
+    var statusEl = document.getElementById('starmapStatus');
+    var statusTimer = null;
+    function showStatus(text) {
+      if (!statusEl) return;
+      statusEl.textContent = text;
+      statusEl.classList.add('show');
+      if (statusTimer) clearTimeout(statusTimer);
+      statusTimer = setTimeout(function () { statusEl.classList.remove('show'); }, 1500);
+    }
     function setLayout(mode) {
       if (mode === layoutMode) return;
       layoutMode = mode;
-      btnTime.setAttribute('aria-pressed', String(mode === 'zeit'));
-      btnTheme.setAttribute('aria-pressed', String(mode === 'thema'));
-      svg.classList.toggle('is-theme', mode === 'thema');
-      map.classList.toggle('is-theme', mode === 'thema');
+      var isStern = (mode === 'sternbilder');
+      btnTheme.setAttribute('aria-pressed', String(isStern));
+      btnTime.setAttribute('aria-pressed', String(!isStern));
+      /* gegenseitig ausschließende Klassen auf .starmap UND #graphSvg */
+      svg.classList.toggle('is-sternbilder', isStern); svg.classList.toggle('is-zeit', !isStern);
+      map.classList.toggle('is-sternbilder', isStern); map.classList.toggle('is-zeit', !isStern);
       applyLayoutTargets();
+      renderClusterLabels(); /* Labels neu (Schul-Namen ⇄ Tonalität) */
+      showStatus(isStern ? 'Ansicht: Sternbilder' : 'Ansicht: Zeitlauf');
+      /* Option C: Karten-Archiv + Vollbild-Toolbar an DENSELBEN State koppeln (eine Quelle). */
+      if (window.__onFundLayout) window.__onFundLayout(mode);
       if (prefersReducedMotion) {
-        /* statischer Snap: ohne Animation direkt an die neuen Soll-/Cluster-Positionen */
+        /* harter Snap + Statuszeile als einziges Feedback (reduced-motion) */
         simAlpha = 1; for (var k = 0; k < 280; k++) simTick(); simAlpha = 0; paintGraph();
       } else {
-        /* sanfte, animierte Reorganisation: gleiche Knoten wandern weich zur neuen Position */
+        /* sichtbare, animierte Reorganisation: simAlpha=0.9 lässt Sterne weich wandern */
         simAlpha = 0.9;
         if (!simRAF) loop();
       }
     }
     if (btnTime) btnTime.addEventListener('click', function () { setLayout('zeit'); });
-    if (btnTheme) btnTheme.addEventListener('click', function () { setLayout('thema'); });
+    if (btnTheme) btnTheme.addEventListener('click', function () { setLayout('sternbilder'); });
+    /* Tastatur: Pfeil-links/rechts innerhalb der role="group" wechselt */
+    var layoutGroup = document.querySelector('.starmap__layout');
+    if (layoutGroup) layoutGroup.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { setLayout('zeit'); btnTime.focus(); e.preventDefault(); }
+      else if (e.key === 'ArrowLeft') { setLayout('sternbilder'); btnTheme.focus(); e.preventDefault(); }
+    });
+
+    /* Set initial class state (Default = sternbilder) */
+    svg.classList.add('is-sternbilder'); map.classList.add('is-sternbilder');
+
+    /* Option C: setLayout nach außen reichen, damit das Karten-Archiv + das
+       Vollbild-Overlay denselben Toggle bedienen (eine State-Variable layoutMode). */
+    window.__ftSetLayout = function (mode) {
+      var m = (mode === 'zeit') ? 'zeit' : 'sternbilder';
+      setLayout(m);
+    };
+    /* Vollbild relayouten: der Graph hat preserveAspectRatio=xMidYMid meet und
+       eine feste Welt-viewBox → er skaliert automatisch in den großen Viewport.
+       Wir setzen nur die viewBox neu und feuern einen Repaint/Sim-Schub an. */
+    window.__ftRelayoutGraph = function () {
+      try { applyViewBox(); } catch (e) {}
+      try { paintGraph(); } catch (e) {}
+      simAlpha = 0.9; if (!simRAF) loop();
+    };
   }
 
   /* unsichtbare, fokussierbare Liste — Tastatur/Screenreader */
@@ -2198,7 +3414,10 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
   }
 
   function rebuildStarList() {
-    var list = document.getElementById('starList'); list.innerHTML = '';
+    /* Option C (2026-06-09): die alte mobile Cone-Mini-Liste (#starList) wurde durch
+       das Fund-Karten-Archiv (#starGrid, renderFundCard) ersetzt. Element ist weg →
+       Funktion ist ein No-op, bleibt aber als sicherer Aufruf-Punkt erhalten. */
+    var list = document.getElementById('starList'); if (!list) return; list.innerHTML = '';
     SEED_FUNDE.slice().sort(function (a, b) { return a.fundjahr - b.fundjahr; }).forEach(function (f) {
       var ax = axesOf(f);
       var it = document.createElement('button');
@@ -2257,7 +3476,7 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     var eg = document.getElementById('graphEdges');
     edges.filter(function (e) { return e.a === f.objekt_id; }).forEach(function (e) {
       if ([].some.call(eg.children, function (c) { return c.dataset.a === e.a && c.dataset.b === e.b; })) return;
-      var ln = document.createElementNS(SVGNS, 'line'); ln.setAttribute('class', 'gedge'); ln.dataset.a = e.a; ln.dataset.b = e.b; eg.appendChild(ln);
+      var ln = document.createElementNS(SVGNS, 'path'); ln.setAttribute('class', 'gedge gedge--lineage'); ln.dataset.a = e.a; ln.dataset.b = e.b; ln.dataset.edgetype = 'lineage'; eg.appendChild(ln);
     });
     mountNode(nd, document.getElementById('graphNodes'));
     buildSrList(); rebuildStarList();
@@ -2303,7 +3522,7 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
   }
 
   /* ============================================================
-     ZUKÜNFT:INNEN — 10 Porträts, Reveal nur auf Hover/Klick
+     ZUKÜNFT:INNEN — 6 Porträts, Reveal nur auf Hover/Klick
      ============================================================ */
   /* v10: zufällige Teilmenge (Fisher-Yates auf einer Kopie) */
   function pickRandom(arr, n) {
@@ -2965,7 +4184,62 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
         '<div class="insp__axis-bar"><i style="left:' + (probT * 100) + '%;background:' + ax.prob.ring + '"></i></div></div>';
     renderConeMini(f);
     document.getElementById('inspZettel').textContent = f.beipackzettel;
-    document.getElementById('inspAuthor').textContent = 'urheber:in: ' + f.urheber + (f.material ? '  ·  ' + f.material : '');
+    /* urheber:in-Zeile nur, wenn urheber gesetzt (anonyme Funde haben keinen) — kein „urheber:in: null". */
+    var authorEl = document.getElementById('inspAuthor');
+    if (f.urheber) {
+      authorEl.textContent = 'urheber:in: ' + f.urheber + (f.material ? '  ·  ' + f.material : '');
+      authorEl.hidden = false;
+    } else {
+      authorEl.textContent = '';
+      authorEl.hidden = true;
+    }
+    /* Entstehungsmethode → Deeplink auf methoden.html#<slug>. Nur wenn gesetzt
+       UND der Slug ein bekanntes Methoden-Label hat — sonst nichts rendern. */
+    var via = document.getElementById('inspVia');
+    var methode = f.entstehungsmethode;
+    if (methode && METHODEN_LABEL[methode]) {
+      via.innerHTML = 'Geborgen mit: <a href="methoden.html#' + methode + '" data-methode="' + methode + '">' +
+        escapeHTML(METHODEN_LABEL[methode]) + ' →</a>';
+      via.hidden = false;
+      /* v8 · Inspector↔Karte-Kopplung: Hover über den Methoden-Deeplink highlightet die
+         Methoden-Gruppe in der Karte (macht die Text-Kopplung im Graph sichtbar). */
+      var lnk = via.querySelector('a[data-methode]');
+      if (lnk && typeof highlightMethode === 'function') {
+        lnk.addEventListener('pointerenter', function () { highlightMethode(methode, true); });
+        lnk.addEventListener('pointerleave', function () { highlightMethode(methode, false); });
+        lnk.addEventListener('focus', function () { highlightMethode(methode, true); });
+        lnk.addEventListener('blur', function () { highlightMethode(methode, false); });
+      }
+    } else {
+      via.innerHTML = '';
+      via.hidden = true;
+    }
+    /* Archiv der vielen Stimmen — begrüßende Kuratorinnen-Stimme.
+       Nur rendern, wenn f.schule gesetzt ist UND ein bekannter Slug. Sonst
+       NICHTS (kein leerer Block). Satz deterministisch aus der objekt_id. */
+    var schEl = document.getElementById('inspSchule');
+    var stimme = f.schule && STIMMEN[f.schule];
+    if (stimme) {
+      var satz = stimme.saetze[stimmeSatzIndex(f.objekt_id)];
+      schEl.style.setProperty('--schule-accent', stimme.accent);
+      schEl.innerHTML =
+        '<span class="insp__schule-portrait">' +
+          '<img src="' + stimme.portrait + '" alt="Porträt (Platzhalter): ' +
+            escapeHTML(stimme.name) + ', ' + escapeHTML(stimme.schoolLabel) + '" loading="lazy" decoding="async">' +
+        '</span>' +
+        '<div class="insp__schule-body">' +
+          '<span class="insp__schule-head">' +
+            '<span class="insp__schule-name">' + escapeHTML(stimme.name) + '</span>' +
+            '<span class="insp__schule-label">' + escapeHTML(stimme.schoolLabel) + '</span>' +
+          '</span>' +
+          '<p class="insp__schule-satz">' + escapeHTML(satz) + '</p>' +
+        '</div>';
+      schEl.hidden = false;
+    } else {
+      schEl.innerHTML = '';
+      schEl.removeAttribute('style');
+      schEl.hidden = true;
+    }
     /* Verwandtschaft */
     var lin = document.getElementById('inspLineage'), btns = document.getElementById('inspLineageBtns');
     btns.innerHTML = '';
@@ -3145,9 +4419,178 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
   }
 
   /* ---------- Init ---------- */
+  /* ============================================================
+     Option C — Mobiles Fund-Karten-Archiv (#starGrid) + Vollbild-Overlay.
+     Nutzt die GETEILTE Render-Funktion FundCards.renderFundCard (assets/
+     fund-cards.js), dieselbe wie funde.html → eine Karte, zwei Orte.
+     Datenquelle: SEED_FUNDE (inline, offline-fähig).
+     Toggle (Sternbild/Zeit) ist an den Desktop-Graph-Toggle gekoppelt:
+     EINE State-Variable layoutMode, EINE setLayout(); window.__onFundLayout
+     wird VON setLayout() gerufen und re-rendert die Karten.
+     ============================================================ */
+  function bindFundArchive() {
+    var FC = window.FundCards;
+    var grid = document.getElementById('starGrid');
+    if (!FC || !grid) return;   /* graceful: ohne geteiltes Modul kein Bruch */
+
+    var statusEl = document.getElementById('starGridStatus');
+
+    /* alle Toggle-Buttons (mobiles Archiv + Vollbild-Overlay) */
+    function allLayoutBtns() {
+      return [].slice.call(document.querySelectorAll('.fund-toolbar [data-layout]'));
+    }
+    function syncBtns(mode) {
+      var stern = (mode !== 'zeit');
+      allLayoutBtns().forEach(function (b) {
+        var on = (b.getAttribute('data-layout') === (stern ? 'sternbild' : 'zeit'));
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    }
+
+    /* Karten ins Raster zeichnen — Sternbild = 6 Konstellationen, Zeit = flach. */
+    function renderGrid(mode) {
+      var stern = (mode !== 'zeit');
+      grid.innerHTML = '';
+      if (stern) {
+        grid.className = '';   /* Konstellations-Blöcke tragen je ein eigenes .fund-grid */
+        FC.groupBySchule(SEED_FUNDE).forEach(function (group) {
+          var sec = document.createElement('section');
+          sec.className = 'fund-constellation';
+          sec.style.setProperty('--c', FC.schuleColorVar(group.slug));
+          var head = document.createElement('div');
+          head.className = 'fund-constellation__head';
+          var star = document.createElement('span');
+          star.className = 'fund-constellation__star'; star.setAttribute('aria-hidden', 'true');
+          var h2 = document.createElement('h3');
+          h2.className = 'fund-constellation__title';
+          h2.textContent = group.slug ? FC.schuleLabel(group.slug) : 'Ohne Sternbild';
+          head.appendChild(star); head.appendChild(h2);
+          if (group.slug && FC.zukuenftin(group.slug)) {
+            var v = document.createElement('span');
+            v.className = 'fund-constellation__voice';
+            v.textContent = '· ' + FC.zukuenftin(group.slug);
+            head.appendChild(v);
+          }
+          var cnt = document.createElement('span');
+          cnt.className = 'fund-constellation__count';
+          cnt.textContent = group.funde.length + (group.funde.length === 1 ? ' fund' : ' funde');
+          head.appendChild(cnt);
+          var line = document.createElement('div');
+          line.className = 'fund-constellation__line'; line.setAttribute('aria-hidden', 'true');
+          var g = document.createElement('div'); g.className = 'fund-grid';
+          group.funde.forEach(function (f) { g.appendChild(FC.renderFundCard(f)); });
+          sec.appendChild(head); sec.appendChild(line); sec.appendChild(g);
+          grid.appendChild(sec);
+        });
+      } else {
+        grid.className = 'fund-grid';
+        FC.sortByYear(SEED_FUNDE).forEach(function (f) { grid.appendChild(FC.renderFundCard(f)); });
+      }
+      if (statusEl) statusEl.textContent = stern ? '6 sternbilder' : SEED_FUNDE.length + ' funde · 2031→2066';
+    }
+
+    /* Hook, den setLayout() ruft → Karten + Buttons synchron halten. */
+    window.__onFundLayout = function (mode) {
+      syncBtns(mode);
+      renderGrid(mode);
+      /* Re-Render wischt die Highlight-Klassen weg → bei aktivem Sticky wieder anwenden. */
+      if (methodSticky) {
+        highlightMobileCards(methodSticky);
+        /* Mobil: Frame-Treffer + Grid-Offset nach Grid-Re-Render erhalten. */
+        if (isMobileFrame()) {
+          renderFrameHits(methodSticky);
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () { syncFrameOffset(); });
+          });
+        }
+      }
+    };
+
+    /* Klick auf irgendeinen Toggle → EINE setLayout() (Graph + Karten zugleich). */
+    allLayoutBtns().forEach(function (b) {
+      b.addEventListener('click', function () {
+        var mode = (b.getAttribute('data-layout') === 'zeit') ? 'zeit' : 'sternbilder';
+        if (window.__ftSetLayout) window.__ftSetLayout(mode);
+        else { syncBtns(mode); renderGrid(mode); }   /* Fallback ohne Graph */
+      });
+    });
+
+    /* Initial-Render (Default = sternbilder, gleicher Default wie der Graph). */
+    syncBtns('sternbilder');
+    renderGrid('sternbilder');
+
+    /* ---------- VOLLBILD-OVERLAY (Move-statt-Clone) ---------- */
+    bindStarmapOverlay();
+  }
+
+  /* Vollbild-Konstellation: bewegt den EINEN #starmap-Graphen in das Overlay
+     und exakt zurück. Nur mobil getriggert; Desktop-Trigger sind display:none. */
+  function bindStarmapOverlay() {
+    var overlay = document.getElementById('starmapOverlay');
+    var stage   = document.getElementById('starmapOverlayStage');
+    var closeBtn= document.getElementById('starmapOverlayClose');
+    var graph   = document.getElementById('starmap');
+    var shell   = graph ? graph.parentNode : null;        /* .starmap-shell — Heimat-Knoten */
+    var graphNext = graph ? graph.nextSibling : null;     /* exakte Einfüge-Position merken */
+    if (!overlay || !stage || !graph || !shell) return;
+
+    var isOpen = false, lastTrigger = null;
+
+    function trapFocus(e) {
+      if (e.key !== 'Tab') return;
+      var f = overlay.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+    }
+    function onKey(e) {
+      if (e.key === 'Escape') { closeOverlay(); }
+      else { trapFocus(e); }
+    }
+
+    function openOverlay(trigger) {
+      if (isOpen) return;
+      isOpen = true; lastTrigger = trigger || null;
+      overlay.hidden = false;
+      stage.appendChild(graph);                    /* MOVE rein (kein Clone) */
+      document.documentElement.classList.add('nav-locked');
+      if (window.__ftRelayoutGraph) {
+        requestAnimationFrame(function () { window.__ftRelayoutGraph(); });
+      }
+      document.addEventListener('keydown', onKey);
+      if (closeBtn) closeBtn.focus();
+    }
+    function closeOverlay() {
+      if (!isOpen) return;
+      isOpen = false;
+      /* Graph EXAKT an seine alte Stelle in der .starmap-shell zurück. */
+      if (graphNext && graphNext.parentNode === shell) shell.insertBefore(graph, graphNext);
+      else shell.insertBefore(graph, shell.firstChild);
+      overlay.hidden = true;
+      document.documentElement.classList.remove('nav-locked');
+      document.removeEventListener('keydown', onKey);
+      if (window.__ftRelayoutGraph) {
+        requestAnimationFrame(function () { window.__ftRelayoutGraph(); });
+      }
+      if (lastTrigger && lastTrigger.focus) lastTrigger.focus();
+    }
+
+    /* Trigger: der Vollbild-Button + der Inline-Link im kurzen Lead. */
+    [].slice.call(document.querySelectorAll('[data-open-starmap]')).forEach(function (t) {
+      t.addEventListener('click', function (e) { e.preventDefault(); openOverlay(t); });
+    });
+    if (closeBtn) closeBtn.addEventListener('click', closeOverlay);
+    /* Tap auf den Scrim-Grund (die Bühne selbst, nicht ein Kind) schließt. */
+    stage.addEventListener('click', function (e) { if (e.target === stage) closeOverlay(); });
+
+    window.__ftCloseStarmapOverlay = closeOverlay;   /* für Tests/Resize-Fälle */
+  }
+
   function init() {
     renderGraph();
     bindGraphInteraction();
+    bindFundArchive();   /* Option C: mobiles Karten-Archiv + Vollbild-Overlay */
     renderDriftField();
     renderHeads();
     renderAtlas();
@@ -3185,6 +4628,103 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       });
     })();
     document.getElementById('brandHome').addEventListener('click', function (e) { e.preventDefault(); closeDrawers(); window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' }); });
+
+    /* ===== Deeplink „Damit geborgen" (methoden.html ?methode=<slug>#starmapSect) =====
+       Beim Laden ?methode lesen → zur Sternkarte scrollen + sticky Methoden-Highlight setzen.
+       Reset-Button hebt das Highlight auf und kehrt zur Normalansicht zurück. */
+    (function () {
+      /* Reset-Auslöser: der Desktop-Foot-Button UND das mobile × in der Kopf-Leiste teilen
+         dieselbe Aktion (Highlight weg + ?methode aus der URL). */
+      function doMethodReset() {
+        clearMethodHighlight();
+        /* Query aus der URL entfernen (Hash erhalten), damit ein Reload nicht re-highlightet. */
+        try { history.replaceState(null, '', 'index.html' + location.hash); } catch (e) {}
+      }
+      var resetBtn = document.getElementById('methodBannerReset');
+      if (resetBtn) resetBtn.addEventListener('click', doMethodReset);
+      var frameCloseBtn = document.getElementById('methodFrameClose');
+      if (frameCloseBtn) frameCloseBtn.addEventListener('click', doMethodReset);
+
+      /* ===== Titel-Tap im Ergebnis-Frame (mobil) =====
+         Ein delegierter Listener auf der Treffer-Liste. Tap auf einen Titel:
+         1) öffnet das Accordion der Zielkarte (Höhe ändert sich → ZUERST),
+         2) kollabiert das Frame auf Kopf+Reset (verdeckt den Beipackzettel sonst),
+         3) pulst die Zielkarte kurz (Aufmerksamkeit),
+         4) scrollt header-bündig zur Karte (NACH Reflow; scroll-margin-top greift). */
+      var frameHits = document.getElementById('methodFrameHits');
+      if (frameHits) frameHits.addEventListener('click', function (e) {
+        var btn = e.target.closest('.method-frame__hit');
+        if (!btn) return;
+        var card = document.getElementById('fund-' + btn.dataset.fund);
+        if (!card) return;
+        /* 1) Accordion ZUERST öffnen (ändert Karten-Höhe). */
+        if (card._fundSetOpen) card._fundSetOpen(true);
+        /* 2) Frame auf Kopf+Reset kollabieren. */
+        var frame = document.getElementById('methodBanner');
+        if (frame) { frame.classList.add('is-collapsed'); syncFrameOffset(); }
+        /* 3) Aufmerksamkeits-Puls (reduced-motion-aware via CSS). */
+        card.dataset.methodPulse = '1';
+        setTimeout(function () { delete card.dataset.methodPulse; }, 1200);
+        /* 4) ERST JETZT scrollen — doppeltes rAF, damit Accordion-Reflow + Frame-Kollaps
+           stehen, bevor das Ziel gemessen wird. Ziel: Karten-Oberkante landet knapp UNTER
+           dem kollabierten Frame (nicht dahinter). Wir messen die Frame-Unterkante live,
+           statt uns auf scroll-margin-top:120px zu verlassen (das deckt das Frame nicht ab). */
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            var fr = frame ? frame.getBoundingClientRect() : null;
+            var clearY = (fr && frame.classList.contains('is-shown'))
+              ? fr.bottom + 12 : stickyHeaderOffset();
+            var cr = card.getBoundingClientRect();
+            var target = Math.max(0, window.pageYOffset + cr.top - clearY);
+            try { window.scrollTo({ top: target, behavior: prefersReducedMotion ? 'auto' : 'smooth' }); }
+            catch (err) { window.scrollTo(0, target); }
+          });
+        });
+      });
+
+      /* Tap auf den Kopf im Kollaps-Zustand → Liste wieder einblenden. */
+      var frameHead = document.querySelector('#methodBanner .method-frame__head');
+      if (frameHead) frameHead.addEventListener('click', function () {
+        var frame = document.getElementById('methodBanner');
+        if (frame && frame.classList.contains('is-collapsed')) {
+          frame.classList.remove('is-collapsed');
+          syncFrameOffset();
+        }
+      });
+
+      var slug = '';
+      try { slug = new URLSearchParams(location.search).get('methode') || ''; } catch (e) { slug = ''; }
+      slug = slug.trim();
+      if (!slug || !METHODEN_LABEL[slug]) return;  /* defensiv: leer/unbekannt → keine Aktion */
+
+      /* Highlight ZUERST anwenden (setzt Banner-Höhe + Glow/Karten-Markierung), DANACH
+         autoritativ scrollen — kein nativer #starmapSect-Hash-Sprung mehr (Badge-href in
+         methoden.html trägt jetzt nur ?methode=<slug>). So landet nicht der Sektions-Anfang
+         (Eyebrow + H2 + langer Intro) unter dem Header, sondern die KARTE selbst mittig im
+         sichtbaren Bereich. Doppeltes rAF: Layout/Highlight/Banner stehen sicher, bevor die
+         Scroll-Zielposition gemessen wird (sonst trifft der Scroll die falsche Stelle). */
+      applyMethodHighlight(slug);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          if (window.matchMedia && window.matchMedia('(max-width:720px)').matches) {
+            /* Mobil (≤720px): KEIN tiefer Sprung zu einer Karte (Toms ~550px-Problem). Aber
+               ein sanfter Scroll zur Archiv-SEKTION, damit das fixed Frame über seinem eigenen
+               Kontext (dem abgedimmten Archiv) schwebt statt über dem unbezogenen Mic-Hero.
+               Das Frame bleibt die vollständige Trefferübersicht — der Scroll ändert nur den
+               Hintergrund, nicht die Bedienbarkeit (Frame liegt fix im Viewport). */
+            var sect = document.getElementById('starmapSect');
+            if (sect) {
+              var off = stickyHeaderOffset();
+              var top = Math.max(0, window.pageYOffset + sect.getBoundingClientRect().top - off);
+              try { window.scrollTo({ top: top, behavior: prefersReducedMotion ? 'auto' : 'smooth' }); }
+              catch (e) { window.scrollTo(0, top); }
+            }
+            return;
+          }
+          focusStarmapInView();
+        });
+      });
+    })();
 
     /* Drawer-Schließen: Buttons, Scrim, Esc (schrittweise) */
     document.getElementById('inspClose').addEventListener('click', closeDrawers);
@@ -3251,7 +4791,7 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
     +   '</div>'
     +   '<div class="oracle-loader__text">'
     +     '<span class="oracle-loader__lede">die zukünft:innen beraten<span class="dots"></span></span>'
-    +     '<span class="oracle-loader__sub" id="oracleLoaderSub">zehn perspektiven finden zueinander</span>'
+    +     '<span class="oracle-loader__sub" id="oracleLoaderSub">sechs perspektiven finden zueinander</span>'
     +   '</div>'
     + '</div>';
     var oracleSubTimer = null;
@@ -3259,7 +4799,7 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
       b.className = 'banner banner--info show';
       b.innerHTML = ORACLE_LOADER_HTML;
       if (oracleSubTimer) { clearInterval(oracleSubTimer); oracleSubTimer = null; }
-      var phrases = ['zehn perspektiven finden zueinander', 'stimmen sortieren die signale', 'eine synthese formt sich', 'das orakel ordnet die punkte'];
+      var phrases = ['sechs perspektiven finden zueinander', 'stimmen sortieren die signale', 'eine synthese formt sich', 'das orakel ordnet die punkte'];
       var sub = document.getElementById('oracleLoaderSub'), i = 0;
       if (sub && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches))
         oracleSubTimer = setInterval(function () { i = (i + 1) % phrases.length; sub.textContent = phrases[i]; }, 2600);
@@ -3314,13 +4854,13 @@ html { scroll-padding-top:calc(var(--ft-stickystack-h) + var(--ft-space-xs)); }
         });
     });
 
-    /* Rendert 10 Stimmen-Karten + herausgehobenen Synthese-Block unter die CTA.
+    /* Rendert 6 Stimmen-Karten + herausgehobenen Synthese-Block unter die CTA.
        Namen kommen positionsweise aus der bestehenden ORACLE-Liste — rein clientseitig,
        mit dem KI-Hinweis darüber als ehrlichem Rahmen. */
     function renderOracleAnswer(frage, d) {
       var b = document.getElementById('oracleBanner');
       b.className = 'banner show';
-      b.textContent = 'die zukünft:innen zu „' + frage + '" — zehn perspektiven, eine synthese:';
+      b.textContent = 'die zukünft:innen zu „' + frage + '" — sechs perspektiven, eine synthese:';
 
       var out = document.getElementById('oracleResult');
       if (!out) {

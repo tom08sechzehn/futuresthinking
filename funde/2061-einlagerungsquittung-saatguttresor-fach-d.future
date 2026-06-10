@@ -1,0 +1,21 @@
+schema_version:     "1.0"
+objekt_id:          "2061-einlagerungsquittung-saatguttresor-fach-d"
+objektname:         "Einlagerungsquittung, Fach D-19"
+fundjahr:           2061
+fundort:            "Eingang eines Bergtresors, Spitzbergen"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "neutral"
+tonalitaet:         "klima-realistisch"
+beipackzettel: >
+  Diese Quittung bestätigt: In Fach D-19 liegen zweihundert Körner einer
+  Bohne, die es draußen nicht mehr gibt. Eingelagert von einem Dorf, das den
+  letzten Acker an die Dürre verlor. Der Tresor hält die Saat bei minus
+  achtzehn Grad, solange der Berg kalt bleibt — niemand verspricht, wie lange
+  das ist. Abholen darf nur, wer die Quittung und drei Zeugen bringt. Bis
+  dahin schläft die Bohne. Auf der Rückseite: das Rezept, das ohne sie
+  bedeutungslos wäre.
+urheber:            "tresorverwaltung, schicht nord"
+lizenz:             "CC-BY-NC-4.0"
+material:           "laminierte Karte, Barcode, Frostschimmer am Rand"
+entstehungsmethode: "wildcards"
+schule:             "oekologisch"

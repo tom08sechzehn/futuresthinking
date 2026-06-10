@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zukünft:innen-Blog — futuresthinking</title>
-<meta name="description" content="Gesichtete Orakel-Befragungen auf futuresthinking.eu — die zehn Stimmen der Zukunftsforschung zu echten Zukunftsfragen aus der Community.">
+<meta name="description" content="Gesichtete Orakel-Befragungen auf futuresthinking.eu — die sechs Stimmen der Zukunftsforschung zu echten Zukunftsfragen aus der Community.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://futuresthinking.eu/blog">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Zukünft:innen-Blog — futuresthinking">
-<meta property="og:description" content="Gesichtete Orakel-Befragungen — die zehn Stimmen der Zukunftsforschung zu echten Zukunftsfragen.">
+<meta property="og:description" content="Gesichtete Orakel-Befragungen — die sechs Stimmen der Zukunftsforschung zu echten Zukunftsfragen.">
 <meta property="og:url" content="https://futuresthinking.eu/blog">
 <meta property="og:image" content="https://futuresthinking.eu/assets/og-image.png">
 <meta property="og:locale" content="de_DE">
@@ -207,6 +207,8 @@ footer{border-top:var(--ft-border);padding:var(--ft-space-lg) 0;}
     <nav class="topnav" aria-label="Hauptnavigation">
       <a href="index.html#screen-archiv">karte</a>
       <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
+      <a href="funde.html">funde</a>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
       <a href="index.html#oracle">zukünft:innen</a>
       <span class="nav-sep nav-sep--inner" aria-hidden="true">/</span>
       <a href="blog.html" aria-current="page">blog</a>
@@ -214,6 +216,8 @@ footer{border-top:var(--ft-border);padding:var(--ft-space-lg) 0;}
       <a href="methoden.html">methoden</a>
       <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
       <a href="einreichen.html">einreichen</a>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
+      <a href="manifest.html">manifest</a>
     </nav>
     <div class="header-actions">
       <a class="btn btn--primary nav-cta" href="einreichen.html">fund bergen</a>
@@ -238,10 +242,12 @@ footer{border-top:var(--ft-border);padding:var(--ft-space-lg) 0;}
     </div>
     <nav class="nav-sheet__nav" aria-label="Hauptnavigation (mobil)">
       <a href="index.html#screen-archiv">karte</a>
+      <a href="funde.html">funde</a>
       <a href="index.html#oracle">zukünft:innen</a>
       <a href="blog.html" class="nav-sub" aria-current="page">blog</a>
       <a href="methoden.html">methoden</a>
       <a href="einreichen.html">einreichen</a>
+      <a href="manifest.html">manifest</a>
     </nav>
     <a class="btn btn--primary btn--block nav-sheet__cta" href="einreichen.html">fund bergen</a>
   </div>
@@ -255,7 +261,7 @@ footer{border-top:var(--ft-border);padding:var(--ft-space-lg) 0;}
       <p class="eyebrow blog-hero__label">zukünft:innen-blog</p>
       <h1>Fragen an die <span class="acc">Zukunft</span></h1>
       <p class="blog-hero__lead" style="margin-top:var(--ft-space-md);">
-        Echte Fragen aus der Community — beantwortet von den zehn Stimmen der Zukunftsforschung. Jede Antwort ist mehrstimmig: neun Perspektiven, eine integrale Synthese. KI-generiert, gesichtet und freigegeben.
+        Echte Fragen aus der Community — beantwortet von den sechs Stimmen der Zukunftsforschung. Jede Antwort ist mehrstimmig: sechs Perspektiven, eine integrale Synthese. KI-generiert, gesichtet und freigegeben.
       </p>
       <p style="margin-top:var(--ft-space-md);font-family:var(--ft-font-mono);font-size:.8rem;border-left:2px dashed rgba(181,123,255,.5);padding-left:12px;color:var(--ft-muted);">
         Keine echten Personen — sondern KI-generierte Zukunfts-Perspektiven.<br>
@@ -385,7 +391,7 @@ footer{border-top:var(--ft-border);padding:var(--ft-space-lg) 0;}
         post.stimmen.map(function (s, i) {
           var nm = ZUKUENFTINNEN_NAMES[i] ? ' <span class="stimme__name">(' + esc(ZUKUENFTINNEN_NAMES[i]) + ')</span>' : '';
           return '<article class="stimme">' +
-            '<p class="stimme__nr">' + (i + 1) + ' / 10</p>' +
+            '<p class="stimme__nr">' + (i + 1) + ' / ' + post.stimmen.length + '</p>' +
             '<p class="stimme__schule">' + esc(s.schule) + nm + '</p>' +
             '<p class="stimme__kernfrage">' + esc(s.kernfrage) + '</p>' +
             '<p class="stimme__beitrag">' + esc(s.beitrag) + '</p>' +

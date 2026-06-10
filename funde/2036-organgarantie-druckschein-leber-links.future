@@ -1,0 +1,21 @@
+schema_version:     "1.0"
+objekt_id:          "2036-organgarantie-druckschein-leber-links"
+objektname:         "Organgarantie, Druckschein 0412"
+fundjahr:           2036
+fundort:            "Schließfach einer Klinikkantine, Singapur"
+wahrscheinlichkeit: "moeglich"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "hightech-optimistisch"
+beipackzettel: >
+  Dieser Schein bestätigt: Das eingesetzte Organ wurde aus den eigenen Zellen
+  der Patientin gedruckt, Charge 0412, Reifezeit neunzehn Tage. Keine Spende,
+  keine Warteliste, keine Abstoßung. Garantiert sind zwölf Jahre Funktion;
+  danach wird neu gedruckt, solange die Zelllinie lebt. Aufbewahren neben dem
+  Ausweis. Bei Komplikation den Druckcode vorlegen, nicht das alte Organ
+  suchen. Es gibt keins mehr. Unterschrift der Bioingenieurin, Stempel der
+  Druckhalle.
+urheber:            "gewebedruck-zentrum jurong"
+lizenz:             "CC-BY-NC-4.0"
+material:           "Thermopapier, Hologramm-Code, Klinikstempel"
+entstehungsmethode: "futures-cone"
+schule:             "design-futures"

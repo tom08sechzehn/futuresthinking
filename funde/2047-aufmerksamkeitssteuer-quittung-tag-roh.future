@@ -1,0 +1,19 @@
+schema_version:     "1.0"
+objekt_id:          "2047-aufmerksamkeitssteuer-quittung-tag-roh"
+objektname:         "Aufmerksamkeitssteuer, Tagesbon"
+fundjahr:           2047
+fundort:            "Pfütze unter einer Werbewand, Los Angeles"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "nicht"
+tonalitaet:         "cyberpunk"
+beipackzettel: >
+  Dieser Bon listet, was du heute gesehen hast und was es dich gekostet hat.
+  Jeder Blick auf eine bezahlte Fläche wird verbucht, jede abgewendete Sekunde
+  gutgeschrieben. Wer zu lange hinsieht, zahlt nach; wer wegschaut, verdient
+  in kleinen Münzen. Heute: vier Stunden Konzern-Sicht, elf Minuten freier
+  Himmel. Saldo negativ. Die Brille zieht den Betrag automatisch ab; Bargeld
+  wird nicht mehr akzeptiert. Augen schließen gilt als Steuerflucht.
+urheber:            "stadtfiskus, abteilung blickverkehr"
+lizenz:             "CC-BY-NC-4.0"
+material:           "geknitterter Thermobon, halb verblasst"
+schule:             "kritisch-normativ"

@@ -668,6 +668,21 @@ a:hover { text-decoration: underline; }
   text-transform: none; letter-spacing: 0; margin-top: 2px;
 }
 
+/* Reverse-Galerie · "Damit geborgen: N"-Badge (per JS injiziert, nur wenn N>0) */
+.card__finds {
+  display: inline-flex; align-items: center; gap: 6px; align-self: flex-start;
+  margin: 0 0 var(--ft-space-sm);
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-on-signal); text-decoration: none;
+  background: color-mix(in srgb, var(--ft-signal) 88%, transparent);
+  border-radius: var(--ft-radius-pill);
+  padding: 3px var(--ft-space-sm); line-height: 1.3;
+}
+.card__finds:hover, .card__finds:focus-visible {
+  background: var(--ft-signal);
+  box-shadow: var(--ft-glow-signal);
+}
+
 /* Mini-Diagramm-Bühne */
 .diagram {
   background: color-mix(in srgb, var(--ft-bg) 60%, var(--ft-surface));
@@ -1016,6 +1031,8 @@ img, svg, video, canvas, iframe { max-width: 100%; }   /* wie in der funktionier
     <nav class="topnav" aria-label="Hauptnavigation">
       <a href="index.html#screen-archiv">karte</a>
       <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
+      <a href="funde.html">funde</a>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
       <a href="index.html#oracle">zukünft:innen</a>
       <span class="nav-sep nav-sep--inner" aria-hidden="true">/</span>
       <a href="blog.html">blog</a>
@@ -1023,6 +1040,8 @@ img, svg, video, canvas, iframe { max-width: 100%; }   /* wie in der funktionier
       <a href="methoden.html" aria-current="page">methoden</a>
       <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
       <a href="einreichen.html">einreichen</a>
+      <span class="nav-sep nav-sep--wide" aria-hidden="true">·</span>
+      <a href="manifest.html">manifest</a>
     </nav>
 
     <!-- Rechte Aktionszone: CTA + Modus-Toggle (abgesetzt von der Nav, R/L7) -->
@@ -1053,10 +1072,12 @@ img, svg, video, canvas, iframe { max-width: 100%; }   /* wie in der funktionier
     </div>
     <nav class="nav-sheet__nav" aria-label="Hauptnavigation (mobil)">
       <a href="index.html#screen-archiv">karte</a>
+      <a href="funde.html">funde</a>
       <a href="index.html#oracle">zukünft:innen</a>
       <a href="blog.html" class="nav-sub">blog</a>
       <a href="methoden.html" aria-current="page">methoden</a>
       <a href="einreichen.html">einreichen</a>
+      <a href="manifest.html">manifest</a>
     </nav>
     <a class="btn btn--primary btn--block nav-sheet__cta" href="einreichen.html">fund bergen</a>
   </div>
@@ -1985,6 +2006,64 @@ img, svg, video, canvas, iframe { max-width: 100%; }   /* wie in der funktionier
         vorschlagTsToken = '';
       });
   });
+})();
+</script>
+
+<!-- ====================== REVERSE-GALERIE · "Damit geborgen: N" ======================
+     Eigene IIFE, eigener Scope. Fetcht data/funds.json, zählt je Methoden-Slug
+     (entstehungsmethode) die Funde und injiziert auf der passenden Methoden-Karte
+     einen dezenten Badge (nur wenn N>0), verlinkt auf das Archiv (index.html).
+     Graceful: fehlt/leer/fehlerhaft die funds.json → keine Badges, kein Fehler.
+     index.html kennt KEINEN Methoden-Filter-Parameter (nur #fund/<id>-Permalinks),
+     daher Link auf den Archiv-Anker index.html#starmapSect als reine Info. -->
+<script>
+(function () {
+  'use strict';
+  if (!window.fetch) return;
+
+  fetch('data/funds.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      if (!data || !Array.isArray(data.funde)) return;
+
+      // Zählung je Methoden-Slug
+      var counts = {};
+      data.funde.forEach(function (f) {
+        var m = f && f.entstehungsmethode;
+        if (typeof m === 'string' && m) counts[m] = (counts[m] || 0) + 1;
+      });
+
+      Object.keys(counts).forEach(function (slug) {
+        var n = counts[slug];
+        if (!(n > 0)) return;
+        var card = document.getElementById(slug);
+        // nur auf echten Methoden-Karten andocken
+        if (!card || !card.classList.contains('card')) return;
+
+        var badge = document.createElement('a');
+        badge.className = 'card__finds';
+        /* Slug == card.id == entstehungsmethode. Query (?methode=<slug>) trägt die
+           Highlight-Logik in index.html UND das autoritative JS-Scrollen — KEIN
+           #starmapSect-Hash mehr: der native Hash-Sprung landete am Sektions-Anfang
+           (Eyebrow + H2 + langer Intro), die Karte blieb unter der Falte. Das JS in
+           index.html zentriert jetzt die Karte selbst (Graph bzw. erste Treffer-Karte)
+           im Viewport; ein zweiter Hash-Sprung würde nur dagegen ruckeln.
+           Klick → Sternenkarte, dort werden ALLE mit dieser Methode geborgenen
+           Funde hervorgehoben (Desktop: Graph-Glow, Mobil: Karten-Glow). */
+        badge.href = 'index.html?methode=' + encodeURIComponent(slug);
+        badge.setAttribute('aria-label',
+          'Damit geborgen: ' + n + ' ' + (n === 1 ? 'Fund' : 'Funde') + ' in der Sternenkarte hervorheben');
+        badge.innerHTML = '<span aria-hidden="true">✶</span> Damit geborgen: ' + n;
+
+        var head = card.querySelector('.card__head');
+        if (head && head.nextSibling) {
+          card.insertBefore(badge, head.nextSibling);
+        } else {
+          card.appendChild(badge);
+        }
+      });
+    })
+    .catch(function () { /* graceful: keine Badges */ });
 })();
 </script>
 

@@ -79,5 +79,25 @@ remix_von:          null
 # Optionale 15s-Fundnotiz: audio/<datei>.<mp3|ogg|m4a> oder null. Optional.
 audio_fundnotiz:    null
 
+# Entstehungsmethode (Slug == id-Anker in methoden.html). Optional, null wenn
+# nicht dokumentiert. NUR setzen, wenn die Entstehung dieses Fundes wirklich
+# nachweislich auf der Methode beruht — nicht raten. Erlaubte Slugs:
+#   futures-literacy | futures-cone | szenariotechnik | cla | three-horizons |
+#   backcasting | steep | delphi | cross-impact | wildcards | visioning |
+#   zukunftswerkstatt | four-futures | design-fiction | futures-triangle |
+#   megatrends | horizon-scanning
+# Wird im Fund-Inspector als "Geborgen mit: <Methode> →" verlinkt und auf der
+# Methodenseite als "Damit geborgen: N"-Badge gezählt.
+entstehungsmethode: null
+
+# Schule / Zukünftin (ASCII-safe enum). Optional, null wenn keiner Schule
+# zugeordnet (die Anzeige-Labels/Akzentfarben leben im Frontend, nie hier).
+# Bestimmt, welche Kuratorinnen-Stimme diesen Fund im Archiv begrüßt. Nur
+# setzen, wenn die kuratorische Zuordnung wirklich passt — nicht raten.
+# Erlaubte Slugs (Zukünftin):
+#   systemisch (Noor) | kritisch-normativ (Amani) | kulturell-narrativ (Tomek) |
+#   partizipativ (Gabriel) | design-futures (Yuki) | oekologisch (Solveig)
+schule:             null
+
 # HINWEIS: cone_position ist DEPRECATED (Zwei-Achsen-Modell ist kanonisch).
 # NICHT in neue Funde aufnehmen — nur Legacy-Altbestand darf es noch tragen.
