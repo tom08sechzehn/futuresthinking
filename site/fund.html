@@ -88,6 +88,13 @@ document.addEventListener("DOMContentLoaded", function () {
       '<span class="fund__schule" style="color:' + accent + '">✶ ' + FT.esc(FT.schuleLabel(f.schule)) + '</span>' +
     '</div>' +
     '<h1 class="hero__title" style="font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:var(--ft-space-md)">' + FT.esc(f.objektname) + '</h1>' +
+    // Hero-Bild (optional)
+    (f.bild && f.bild.src ?
+      '<figure style="margin:0 0 var(--ft-space-lg);border-radius:var(--ft-radius-card);overflow:hidden;border:var(--ft-border)">' +
+        '<img src="' + FT.esc(f.bild.src) + '" alt="' + FT.esc(f.bild.alt || f.objektname) + '" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">' +
+        (f.bild.credit ? '<figcaption class="mono" style="font-size:.72rem;color:var(--ft-muted);padding:var(--ft-space-xs) var(--ft-space-sm);background:var(--ft-surface)">' + FT.esc(f.bild.credit) + '</figcaption>' : '') +
+      '</figure>'
+      : '') +
     '<div class="fund__foot" style="margin-bottom:var(--ft-space-lg)">' +
       '<span class="chip chip--' + FT.esc(f.wuenschbarkeit) + '">' + FT.esc(f.wuenschbarkeit) + '</span>' +
       '<span class="chip chip--' + FT.esc(f.wahrscheinlichkeit) + '">' + FT.esc(f.wahrscheinlichkeit) + '</span>' +

@@ -206,6 +206,22 @@
 
     var detailId = 'detail-' + f.objekt_id;
 
+    /* ---------- BILD (optional, Banner oben) ---------- */
+    if (f.bild && f.bild.src) {
+      var media = document.createElement('figure');
+      media.className = 'fund-card__media';
+      var img = document.createElement('img');
+      img.className = 'fund-card__img';
+      img.src = f.bild.src;                 // root-relativ: bilder/<slug>.<webp|png|svg>
+      img.alt = f.bild.alt || (f.objektname || '');
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      if (f.bild.width)  img.width = f.bild.width;
+      if (f.bild.height) img.height = f.bild.height;
+      media.appendChild(img);
+      art.appendChild(media);
+    }
+
     /* ---------- KOPF ---------- */
     var head = document.createElement('div');
     head.className = 'fund-card__head';
