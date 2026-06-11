@@ -331,8 +331,10 @@ textarea.field{resize:vertical;min-height:120px;}
 .hero{position:relative;padding-block:var(--ft-space-2xl) var(--ft-space-xl);overflow:hidden;}
 .hero__bg{position:absolute;inset:0;background:var(--ft-field-depth);z-index:-1;}
 .hero__eyebrow{margin-bottom:var(--ft-space-md);}
-.hero__title{font-size:var(--ft-text-display);line-height:var(--ft-lh-display);letter-spacing:-0.02em;color:var(--ft-ink);margin-bottom:var(--ft-space-md);}
+.hero__title{font-size:clamp(2.25rem,5.5vw,3.5rem);line-height:1.05;letter-spacing:-0.02em;color:var(--ft-ink);margin-bottom:var(--ft-space-md);}
 .hero__title .uml{font-style:normal;}
+.hero__title .accent{color:var(--ft-signal);}
+[data-theme="light"] .hero__title .accent{color:#0E8C6E;}
 .hero__sub{font-size:1.125rem;color:var(--ft-body);max-width:56ch;line-height:1.55;margin-bottom:var(--ft-space-lg);}
 .hero__cta{display:flex;flex-wrap:wrap;gap:var(--ft-space-sm);}
 .crumb{display:inline-flex;align-items:center;gap:6px;font-family:var(--ft-font-mono);font-size:0.82rem;color:var(--ft-muted);text-decoration:none;}
