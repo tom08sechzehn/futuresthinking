@@ -1,0 +1,21 @@
+schema_version:     "1.0"
+objekt_id:          "2034-boden-horchgeraet-feld-vier"
+objektname:         "Boden-Horchgerät, Feld 4"
+fundjahr:           2034
+fundort:            "Gerätekiste eines Solidarhofs, Wendland"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "hightech-optimistisch"
+schule:             "oekologisch"
+urheber:            "solidarhof-werkstatt wendland"
+material:           "Messingtrichter, Sensorspitze, Kopfhörerbuchse"
+entstehungsmethode: "design-fiction"
+beipackzettel: >
+  Dieses Gerät macht den Boden hörbar. Die Sensorspitze steckt man eine
+  Handbreit tief, setzt den Kopfhörer auf und lauscht: das Knistern der
+  Regenwürmer, das leise Rauschen des Pilzgeflechts, der dunklere Ton, wenn
+  Wasser fehlt. Vor jeder Aussaat geht einer übers Feld und horcht, ob die
+  Erde trägt — gesät wird erst, wenn sie lebt. Die Skala nennt keine Zahlen,
+  nur drei Klänge: satt, dünn, still. Bei Stille ruht das Feld ein Jahr.
+  Reinigen mit trockenem Tuch, nie wässern.
+lizenz:             "CC-BY-NC-4.0"
