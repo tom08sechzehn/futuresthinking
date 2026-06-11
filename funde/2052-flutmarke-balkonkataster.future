@@ -21,3 +21,9 @@ verweist_auf:       null
 audio_fundnotiz:    null
 entstehungsmethode: "szenariotechnik"
 schule:             "partizipativ"
+bild:
+  src:    "bilder/2052-flutmarke-balkonkataster.webp"
+  alt:    "Überflutetes Wohnquartier im Regen: an einer Treppe eine Messingtafel „Hochwasser-Marke Monsun 2051, Unterkante Etage 3“; Bewohner mit Sandsäcken."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900

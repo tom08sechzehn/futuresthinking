@@ -19,3 +19,9 @@ lizenz:             "CC-BY-NC-4.0"
 material:           "Thermopapier, Hologramm-Code, Klinikstempel"
 entstehungsmethode: "futures-cone"
 schule:             "design-futures"
+bild:
+  src:    "bilder/2036-organgarantie-druckschein-leber-links.webp"
+  alt:    "High-Tech-Klinik bei Nacht: Arzt und Patient vor einem Biodrucker, in dem ein Herz heranwächst, mit holografischer Garantie-Anzeige im Hintergrund."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900
