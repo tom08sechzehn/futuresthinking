@@ -1,0 +1,24 @@
+schema_version:     "1.0"
+objekt_id:          "2045-autonome-wolken-saemaschine"
+objektname:         "Autonome Wolken-Sämaschine"
+fundjahr:           2045
+fundort:            "Stillgelegter Drohnenhangar, Geoengineering-Feld Tabernas, Andalusien"
+wahrscheinlichkeit: "wahrscheinlich"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "hightech-optimistisch"
+schule:             "oekologisch"
+material:           "Karbonfaser, Solarhaut, Keimstoff-Tank"
+beipackzettel: >
+  Eine unbemannte, ultraleichte Solar-Gleitdrohne, die vollautark in Höhen
+  von bis zu 12.000 Metern patrouilliert. Bei herannahenden Dürrefronten
+  versprüht der integrierte Auslass synthetische, biologisch abbaubare
+  Kondensationskeime auf Cellulose-Basis, um Regenfälle auszulösen und
+  Monokulturen vor Waldbränden und Austrocknung zu schützen. Teil des
+  kontroversen „Regenschirm“-Projekts.
+bild:
+  src:    "bilder/2045-autonome-wolken-saemaschine.webp"
+  alt:    "Schlanke schwarze Solar-Drohne mit Propeller im Flug neben einer hoch aufragenden weißen Gewitterwolke vor blauem Himmel."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 896
+lizenz:             "CC-BY-NC-4.0"

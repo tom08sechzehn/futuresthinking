@@ -1,0 +1,24 @@
+schema_version:     "1.0"
+objekt_id:          "2055-ewigkeitsspeicher-samen"
+objektname:         "Ewigkeitsspeicher-Samen"
+fundjahr:           2055
+fundort:            "Pflanzgrube eines Daten-Mausoleums, Friedhof Ohlsdorf, Hamburg"
+wahrscheinlichkeit: "moeglich"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "solarpunk"
+schule:             "kulturell-narrativ"
+material:           "DNA-Kristall, Quarz, Humusverankerung"
+beipackzettel: >
+  Ein hohlraumkodierter DNA-Kristallsamen, fähig, ca. 50 Petabyte an
+  digitalem Kulturerbe über Jahrhunderte fehlerfrei zu konservieren. Nach
+  dem Pflanzen in humushaltigem Boden reagiert der Trieb auf Regenwasser und
+  Nährstoffe, woraufhin er zu einer spektakulären, sanft glühenden
+  Quarzskulptur auskeimt. Die Daten können berührungslos via biologischer
+  Lumineszenz-Kopplung abgelesen werden.
+bild:
+  src:    "bilder/2055-ewigkeitsspeicher-samen.webp"
+  alt:    "Glühender, kristalliner Samen in Violett und Türkis, der in dunkler Erde keimt und feine leuchtende Triebe austreibt."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 896
+lizenz:             "CC-BY-NC-4.0"

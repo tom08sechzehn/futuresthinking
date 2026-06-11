@@ -1,0 +1,24 @@
+schema_version:     "1.0"
+objekt_id:          "2042-kognitiver-filter-helm"
+objektname:         "Kognitiver Filter-Helm"
+fundjahr:           2042
+fundort:            "Vitrine 14, Museum der digitalen Kriege, Tallinn"
+wahrscheinlichkeit: "wahrscheinlich"
+wuenschbarkeit:     "nicht"
+tonalitaet:         "cyberpunk"
+schule:             "kritisch-normativ"
+material:           "Verbundpanzer, Glasfaser-Bündel, OLED-Visier"
+beipackzettel: >
+  Ein neuronaler Helm, der die emotionale Intensität eingehender Nachrichten
+  und Umweltreize mittels sanfter Mikrostrom-Schnittstellen um bis zu 80 %
+  abschwächt. Entworfen, um die menschliche Leistungsfähigkeit in
+  hyperdigitalen, aufmerksamkeitsökonomischen Krisenzeiten zu sichern. Führt
+  bei dauerhafter Nutzung zu klinischer Apathie und Entfremdung von realen
+  Bindungen.
+bild:
+  src:    "bilder/2042-kognitiver-filter-helm.webp"
+  alt:    "Schwerer schwarzer Neuro-Helm mit leuchtendem orangefarbenem Visier in einer Museumsvitrine, beschriftet „Exhibit 14: The Neural Wars“."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 896
+lizenz:             "CC-BY-NC-4.0"

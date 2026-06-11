@@ -1,0 +1,24 @@
+schema_version:     "1.0"
+objekt_id:          "2040-synthetischer-bestaeuber-schwarm"
+objektname:         "Synthetischer Bestäuber-Schwarm"
+fundjahr:           2040
+fundort:            "Werkzeugkiste einer Obstplantage, Altes Land bei Hamburg"
+wahrscheinlichkeit: "wahrscheinlich"
+wuenschbarkeit:     "nicht"
+tonalitaet:         "cyberpunk"
+schule:             "oekologisch"
+material:           "Karbon-Chitin, Optiklinse, Mikroservos"
+beipackzettel: >
+  Eine miniaturisierte Flugdrohne im Insektenformat, die nach dem
+  katastrophalen Kollaps der Wildbienenarten im Jahr 2038 zur künstlichen
+  Notbestäubung von Nutzpflanzen eingesetzt wurde. Obwohl sie technologisch
+  präzise arbeitet, verursacht sie einen ohrenbetäubenden, hochfrequenten
+  Summton-Stress bei verbliebenen Vögeln und führt häufig zu Fehlfunktionen
+  durch Wettereinflüsse.
+bild:
+  src:    "bilder/2040-synthetischer-bestaeuber-schwarm.webp"
+  alt:    "Mechanische Wespe aus schwarzem Metall mit Kupferdraht auf einer verblühten Pusteblume, ein gelber Laserstrahl tritt aus dem Kopf aus."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 896
+lizenz:             "CC-BY-NC-4.0"

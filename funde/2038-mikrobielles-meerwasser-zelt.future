@@ -1,0 +1,24 @@
+schema_version:     "1.0"
+objekt_id:          "2038-mikrobielles-meerwasser-zelt"
+objektname:         "Mikrobielles Meerwasser-Zelt"
+fundjahr:           2038
+fundort:            "Bergungsfloß einer Küstenkommune, Wattenmeer vor Cuxhaven"
+wahrscheinlichkeit: "wahrscheinlich"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "solarpunk"
+schule:             "oekologisch"
+material:           "Rotalgen-Membran, Bambusgestell, Solarfäden"
+beipackzettel: >
+  Eine tragbare Behausung aus genetisch modifizierter, hochfester
+  Rotalgen-Membran. Das Gewebe nutzt Solarenergie, um Feuchtigkeit und
+  salzhaltige Gischt aktiv durch osmotische Nanokanäle anzuziehen, zu
+  entsalzen und als Trinkwasser im Innenbereich abzuscheiden. Gleichzeitig
+  sondert die Hülle proteinreiche Pflanzensäfte als Notnahrung ab.
+  Überlebensausrüstung für Migranten in überfluteten Küstenzonen.
+bild:
+  src:    "bilder/2038-mikrobielles-meerwasser-zelt.webp"
+  alt:    "Zwei Personen in einem schwimmenden Bambus-Gewächshaus aus grüner Membran auf ruhigem Meer bei Sonnenuntergang."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 896
+lizenz:             "CC-BY-NC-4.0"
