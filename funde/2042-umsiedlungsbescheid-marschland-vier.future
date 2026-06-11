@@ -1,0 +1,21 @@
+schema_version:     "1.0"
+objekt_id:          "2042-umsiedlungsbescheid-marschland-vier"
+objektname:         "Umsiedlungsbescheid, Zone Marsch IV"
+fundjahr:           2042
+fundort:            "Versiegelte Haustür, Wilhelmshaven"
+wahrscheinlichkeit: "wahrscheinlich"
+wuenschbarkeit:     "nicht"
+tonalitaet:         "klima-realistisch"
+beipackzettel: >
+  Hiermit wird festgestellt: Ihr Wohnort liegt unterhalb der haltbaren
+  Linie. Die Deichpflege endet zum Jahresende, der Anschluss an Strom und
+  Wasser wird abgeschaltet. Eine Ersatzwohnung im Binnenland ist zugewiesen,
+  Umzug binnen neunzig Tagen. Eine Entschädigung wird gezahlt, gemindert um
+  den Wert, den das Haus nicht mehr hat. Wer bleibt, bleibt auf eigene Gefahr
+  und ohne Rettungsanspruch. Das Land kehrt an die Nordsee zurück. Kein
+  Widerspruch möglich.
+urheber:            "küstenrückzugsbehörde, abteilung III"
+lizenz:             "CC-BY-NC-4.0"
+material:           "Behördenbrief, roter Eingangsstempel, Salzflecken"
+entstehungsmethode: "backcasting"
+schule:             "oekologisch"

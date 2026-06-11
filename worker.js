@@ -72,6 +72,14 @@ export default {
       return new Response("Method Not Allowed", { status: 405 });
     }
 
+    // sitemap.xml: explizit mit korrektem Content-Type ausliefern (Google erwartet application/xml).
+    if (url.pathname === "/sitemap.xml") {
+      const asset = await env.ASSETS.fetch(request);
+      const headers = new Headers(asset.headers);
+      headers.set("Content-Type", "application/xml; charset=utf-8");
+      return new Response(asset.body, { status: asset.status, headers });
+    }
+
     // Alles andere: statische Datei aus public-build/ via ASSETS-Binding ausliefern.
     return env.ASSETS.fetch(request);
   },

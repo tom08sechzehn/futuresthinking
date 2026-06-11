@@ -1,0 +1,20 @@
+schema_version:     "1.0"
+objekt_id:          "2039-wasserheft-rationskarte-stadtquell"
+objektname:         "Wasserheft, Haushalt 88-C"
+fundjahr:           2039
+fundort:            "Trockengelegter Brunnenschacht, Sevilla"
+wahrscheinlichkeit: "wahrscheinlich"
+wuenschbarkeit:     "neutral"
+tonalitaet:         "buerokratisch-mundan"
+beipackzettel: >
+  Dieses Heft regelt den Bezug von Haushalt 88-C. Zugeteilt sind fünfzig
+  Liter pro Person und Tag, abzustempeln an der Quartiersstelle. Trinken,
+  Kochen, Waschen werden getrennt verbucht; Gartenwasser gibt es nur gegen
+  Regennachweis. Wer Marken hortet, verliert sie zum Monatswechsel. Bei
+  Hitzewarnung steigt die Ration, bei Leitungsbruch fällt sie. Verloren
+  gegangene Hefte werden nicht ersetzt, nur neu zugeteilt — zur untersten
+  Stufe.
+urheber:            "stadtwerk wasser, ausgabestelle süd"
+lizenz:             "CC-BY-NC-4.0"
+material:           "Heft mit Marken, Lochzange, Wasserrand am Umschlag"
+schule:             "kritisch-normativ"

@@ -1,0 +1,292 @@
+/* ============================================================================
+   fund-cards.css — DIE EINE Karten-Optik für futuresthinking.eu.
+   Genutzt von funde.html UND index.html (mobiles Archiv + Vollbild-Overlay).
+   Tokens: --ft-* (in den HTML-Dateien definiert). KEINE Hardcode-Hex.
+   ============================================================================ */
+
+/* ---------- Raster (= methoden.html .grid) ---------- */
+.fund-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--ft-space-lg);
+}
+@media (max-width: 480px) {
+  .fund-grid { grid-template-columns: 1fr; gap: var(--ft-space-md); }
+}
+
+/* ---------- Karte ---------- */
+.fund-card {
+  position: relative;
+  display: flex; flex-direction: column;
+  background: var(--ft-surface);
+  border: var(--ft-border);
+  border-radius: var(--ft-radius-card);
+  /* Schul-Akzentkante als inset-shadow (kollidiert nicht mit asymmetr. Radius) */
+  box-shadow: inset 3px 0 0 0 var(--c, var(--ft-muted)), var(--ft-shadow-card);
+  padding: var(--ft-space-md);
+  transform: none;                 /* KEIN Tilt: Archiv ist deterministisch sortiert */
+  transition: transform var(--ft-dur-base) var(--ft-ease-smooth),
+              box-shadow var(--ft-dur-base) var(--ft-ease-smooth),
+              border-color var(--ft-dur-fast) var(--ft-ease-smooth);
+  scroll-margin-top: 120px;
+}
+.fund-grid > .fund-card:nth-child(even) { border-radius: var(--ft-radius-card-alt); }
+
+.fund-card:hover, .fund-card:focus-within {
+  border-color: var(--ft-signal);
+  box-shadow: inset 3px 0 0 0 var(--c, var(--ft-muted)), var(--ft-glow-signal), var(--ft-shadow-lift);
+  transform: translateY(-2px);
+}
+.fund-card:active { transform: translateY(0); }
+.fund-card:target {
+  border-color: var(--ft-ultra);
+  box-shadow: inset 3px 0 0 0 var(--c, var(--ft-muted)), var(--ft-glow-ultra), var(--ft-shadow-lift);
+}
+
+/* Kopf */
+.fund-card__head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--ft-space-sm); margin-bottom: var(--ft-space-sm);
+}
+.fund-card__titleblock { min-width: 0; }
+.fund-card__title {
+  font-family: var(--ft-font-display); font-weight: 700;
+  font-size: var(--ft-text-h3); line-height: var(--ft-lh-h3);
+  color: var(--ft-ink); margin: 0;
+}
+.fund-card__provenance {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  line-height: 1.4; color: var(--ft-muted); margin: 2px 0 0;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.fund-card__year {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  text-transform: uppercase; color: var(--ft-muted);
+  letter-spacing: 0.06em; flex-shrink: 0; padding-top: 2px;
+}
+
+/* Achsen-Chips */
+.fund-card__axes {
+  display: flex; gap: var(--ft-space-2xs); flex-wrap: wrap;
+  margin-bottom: var(--ft-space-sm);
+}
+.fund-card__axes .chip { cursor: default; }
+
+/* Schule + Punkt + Zukünftin + Tonalität */
+.fund-card__schule {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: var(--ft-space-xs); margin-bottom: var(--ft-space-sm);
+}
+.fund-card__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--c, var(--ft-muted));
+  box-shadow: 0 0 4px var(--c, var(--ft-muted));
+  flex: none;
+}
+.fund-card__schule-lbl {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-body);
+}
+.fund-card__tone {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-muted);
+}
+.fund-card__schule--noschool { color: var(--ft-muted); }
+
+/* Methoden-Link */
+.fund-card__method {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-signal-ink); text-decoration: none;
+  margin-bottom: var(--ft-space-sm); display: inline-block;
+}
+.fund-card__method:hover { text-decoration: underline; }
+.fund-card__method--plain { color: var(--ft-muted); }
+
+/* Toggle */
+.fund-card__more {
+  margin-top: auto;
+  align-self: flex-start;
+  background: transparent; border: none; cursor: pointer;
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-body); padding: var(--ft-space-2xs) 0;
+  transition: color var(--ft-dur-fast) var(--ft-ease-smooth);
+}
+.fund-card__more:hover { color: var(--ft-ink); }
+.fund-card__more:focus-visible {
+  outline: none; box-shadow: var(--ft-focus-ring); border-radius: var(--ft-radius-sm);
+}
+
+/* Detail (Accordion) */
+.fund-card__detail {
+  max-height: 0; overflow: hidden;
+  transition: max-height var(--ft-dur-base) var(--ft-ease-smooth);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fund-card__detail { transition: none; }
+}
+.fund-card__detail-inner {
+  padding-top: var(--ft-space-md); margin-top: var(--ft-space-md);
+  border-top: var(--ft-border);
+}
+
+/* 1 · Beipackzettel (Mono-Amt, Akzentstrich in Schulfarbe) */
+.fund-card__zettel .eyebrow { display: block; margin-bottom: var(--ft-space-2xs); }
+.fund-card .beipackzettel {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-mono);
+  line-height: var(--ft-lh-mono); color: var(--ft-body);
+  white-space: pre-line; margin: 0;
+  border-left: 2px solid var(--c, var(--ft-muted));
+  background: color-mix(in srgb, var(--ft-bg) 50%, var(--ft-surface));
+  border-radius: 0 var(--ft-radius-sm) var(--ft-radius-sm) 0;
+  padding: var(--ft-space-sm);
+}
+
+/* 2 · Stimme (Body-Italic, NICHT Mono) */
+.fund-card__voice { margin-top: var(--ft-space-md); }
+.fund-card__voice-eyebrow {
+  display: flex; align-items: center; gap: var(--ft-space-2xs);
+  color: var(--c, var(--ft-muted));
+  text-transform: none; letter-spacing: 0; margin-bottom: var(--ft-space-2xs);
+}
+.fund-card__voice-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--c, var(--ft-muted)); box-shadow: 0 0 5px var(--c, var(--ft-muted));
+  flex: none;
+}
+.fund-card__voice-line {
+  font-family: var(--ft-font-body); font-style: italic;
+  font-size: var(--ft-text-body); line-height: 1.55; color: var(--ft-ink); margin: 0;
+}
+
+/* 3 · Facts (Definition-Liste) */
+.fund-card__facts {
+  margin: var(--ft-space-md) 0 0; padding-top: var(--ft-space-md);
+  border-top: 1px solid var(--ft-line);
+  display: grid; grid-template-columns: auto 1fr;
+  gap: var(--ft-space-2xs) var(--ft-space-sm);
+}
+.fund-card__facts dt {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--ft-muted);
+}
+.fund-card__facts dd {
+  margin: 0; font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-body);
+}
+.fund-card__facts dd a { color: var(--ft-signal-ink); }
+
+/* ============================================================================
+   Toolbar (Sternbild / Zeit-Toggle) — Optik = .starmap__layout / .icon-btn
+   ========================================================================== */
+.fund-toolbar {
+  display: flex; align-items: center; gap: var(--ft-space-sm);
+  flex-wrap: wrap;
+}
+.fund-toolbar__group {
+  display: flex; gap: 0; border-radius: var(--ft-radius-md); overflow: hidden;
+}
+.fund-toolbar__btn {
+  background: transparent; border: var(--ft-border); border-radius: 0;
+  color: var(--ft-body); padding: var(--ft-space-xs) var(--ft-space-sm);
+  font-size: var(--ft-text-caption); font-family: var(--ft-font-mono);
+  cursor: pointer; min-height: 40px;
+  transition: border-color var(--ft-dur-fast) var(--ft-ease-smooth),
+              color var(--ft-dur-fast) var(--ft-ease-smooth),
+              background var(--ft-dur-fast) var(--ft-ease-smooth);
+}
+.fund-toolbar__btn:first-child { border-radius: var(--ft-radius-md) 0 0 var(--ft-radius-md); }
+.fund-toolbar__btn:last-child  { border-radius: 0 var(--ft-radius-md) var(--ft-radius-md) 0; border-left: none; }
+.fund-toolbar__btn:hover { border-color: var(--ft-signal); color: var(--ft-ink); }
+.fund-toolbar__btn[aria-pressed="true"] {
+  border-color: var(--ft-signal); color: var(--ft-signal-ink);
+  background: color-mix(in srgb, var(--ft-signal) 12%, transparent);
+}
+.fund-toolbar__btn:focus-visible { outline: none; box-shadow: var(--ft-focus-ring); }
+.fund-toolbar__status {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-muted);
+}
+
+/* ============================================================================
+   Konstellations-Köpfe (eigener leichter Kopf, NICHT .sec-head)
+   ========================================================================== */
+.fund-constellation { margin-top: var(--ft-space-xl); }
+.fund-constellation:first-of-type { margin-top: var(--ft-space-md); }
+.fund-constellation__head {
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: var(--ft-space-sm); margin-bottom: var(--ft-space-2xs);
+}
+.fund-constellation__star {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--c, var(--ft-muted)); box-shadow: 0 0 6px var(--c, var(--ft-muted));
+  flex: none; align-self: center;
+}
+.fund-constellation__title {
+  font-family: var(--ft-font-display); font-weight: 700;
+  font-size: var(--ft-text-h3); line-height: var(--ft-lh-h3); color: var(--ft-ink); margin: 0;
+}
+.fund-constellation__voice {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--c, var(--ft-muted));
+}
+.fund-constellation__count {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-muted); margin-left: auto;
+}
+/* haarfeine, schulfarbig fadende Sehne (Gegenteil der grauen Tabellenlinie) */
+.fund-constellation__line {
+  height: 1px; width: 40%; max-width: 240px;
+  background: linear-gradient(90deg, var(--c, var(--ft-muted)), transparent);
+  margin-bottom: var(--ft-space-md);
+}
+
+/* ============================================================================
+   VOLLBILD-OVERLAY (Sternkarte groß) — Move-statt-Clone-Hülle.
+   Global definiert, aber NUR mobil getriggert (Desktop-Schutz im JS).
+   ========================================================================== */
+.starmap-overlay {
+  position: fixed; inset: 0; z-index: 90;
+  display: flex; flex-direction: column;
+  background: var(--ft-constellation-bg);
+  background-image: var(--ft-field-depth);
+}
+.starmap-overlay[hidden] { display: none; }
+.starmap-overlay__bar {
+  display: flex; align-items: center; gap: var(--ft-space-sm);
+  padding: var(--ft-space-sm) var(--ft-space-md);
+  border-bottom: 1px solid var(--ft-line);
+  background: color-mix(in srgb, var(--ft-bg) 78%, transparent);
+}
+.starmap-overlay__title {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-body); white-space: nowrap;
+}
+.starmap-overlay__bar .fund-toolbar { margin-left: auto; }
+.starmap-overlay__close {
+  background: transparent; border: var(--ft-border); border-radius: var(--ft-radius-md);
+  color: var(--ft-body); width: 44px; height: 44px; flex: none; cursor: pointer;
+  font-size: 1.1rem; line-height: 1;
+}
+.starmap-overlay__close:hover { border-color: var(--ft-signal); color: var(--ft-ink); }
+.starmap-overlay__close:focus-visible { outline: none; box-shadow: var(--ft-focus-ring); }
+.starmap-overlay__rotatehint {
+  font-family: var(--ft-font-mono); font-size: var(--ft-text-caption);
+  color: var(--ft-muted); text-align: center; padding: var(--ft-space-2xs) var(--ft-space-md);
+  display: none;
+}
+@media (orientation: portrait) {
+  .starmap-overlay__rotatehint { display: block; }
+}
+.starmap-overlay__stage {
+  flex: 1; position: relative; min-height: 0; overflow: hidden;
+}
+/* Der eingehängte Graph füllt die Bühne */
+.starmap-overlay__stage .starmap {
+  display: block !important;       /* überschreibt das mobile starmap{display:none} */
+  position: absolute; inset: 0; height: 100%; width: 100%;
+  border-radius: 0; aspect-ratio: auto;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .starmap-overlay { animation: overlay-in var(--ft-dur-base) var(--ft-ease-smooth); }
+  @keyframes overlay-in { from { opacity: 0; } to { opacity: 1; } }
+}
