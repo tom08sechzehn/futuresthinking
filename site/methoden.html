@@ -359,9 +359,12 @@ a:hover { text-decoration: underline; }
    Nur vorhandene --ft-* Tokens, keine neue Palette.
    ============================================================ */
 
-/* Overflow-Hardening — gilt immer (kein horizontaler Scroll an der Wurzel). */
-html, body { max-width: 100%; overflow-x: hidden; }
-img, svg, video, canvas, iframe { max-width: 100%; }   /* wie in der funktionierenden Fassung (6abd3eb) */
+/* Overflow-Hardening — KEIN overflow auf html/body: das bricht position:sticky des
+   Shell-Headers (darum fehlte das Menü auf Methoden). Horizontalen Scroll stattdessen
+   nur im Inhalt eindämmen — der Header (body > .site-header) bleibt davon unberührt. */
+html, body { max-width: 100%; }
+main#main { overflow-x: clip; }
+img, svg, video, canvas, iframe { max-width: 100%; }
 
 /* Jump-Toggle: global aus → nur in der ≤720px-Query sichtbar (Desktop = Chips offen). */
 .jump-toggle { display: none; }

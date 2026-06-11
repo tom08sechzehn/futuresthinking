@@ -354,5 +354,51 @@ textarea.field{resize:vertical;min-height:120px;}
   .site-footer__inner{grid-template-columns:1fr;gap:var(--ft-space-md);}
   .sec-head{align-items:flex-start;}
   .steps{flex-direction:column;}
-  .starmap{min-height:340px;aspect-ratio:1/1;}
+  .starmap{min-height:360px;aspect-ratio:1/1;}
+}
+
+/* ============================================================================
+   MOBILE-UX-FIXES (2026-06-11) — aus Toms Geräte-Screenshots
+   ============================================================================ */
+
+/* (cloudflare.png) Turnstile-Widget darf nicht über den Rand laufen */
+.cf-turnstile{max-width:100%;}
+
+/* (layout.png) Filter mobil einklappbar — Funde sofort sichtbar; Desktop unverändert */
+.filter-toggle{display:none;}
+
+/* (kartelegende.png) Legende UNTER die Karte statt als Overlay über den Sternen */
+.starmap__hint{position:static;margin:var(--ft-space-sm) 0 0;color:var(--ft-muted);
+  font-family:var(--ft-font-mono);font-size:0.74rem;line-height:1.45;}
+.starmap-legend{display:flex;flex-wrap:wrap;gap:var(--ft-space-2xs) var(--ft-space-md);margin-top:var(--ft-space-sm);}
+.starmap-legend span{display:inline-flex;align-items:center;gap:6px;font-family:var(--ft-font-mono);font-size:0.72rem;color:var(--ft-body);}
+.starmap-legend i{width:9px;height:9px;border-radius:50%;flex:none;}
+
+/* (kartelegende.png) Stern-Tooltip: angetippt zeigt er Titel + „zum Fund"-Button statt sofort zu springen */
+.star-tip{max-width:min(260px,82vw);}
+.star-tip.is-pinned{pointer-events:auto;padding-top:18px;}
+.star-tip__go{display:inline-flex;align-items:center;gap:6px;margin-top:10px;
+  font-family:var(--ft-font-display);font-weight:700;font-size:0.82rem;
+  background:var(--ft-signal);color:var(--ft-on-signal);border-radius:var(--ft-radius-md);
+  padding:7px 13px;text-decoration:none;}
+.star-tip__go:hover{text-decoration:none;filter:brightness(1.06);}
+.star-tip__close{position:absolute;top:4px;right:7px;background:transparent;border:none;
+  color:var(--ft-muted);font-size:1rem;line-height:1;cursor:pointer;padding:2px;}
+.star-node{cursor:pointer;}
+
+@media (max-width:560px){
+  /* Filter hinter Toggle einklappen (Default: zu) */
+  .filter-toggle{display:inline-flex;align-items:center;gap:7px;font-family:var(--ft-font-mono);
+    font-size:0.82rem;color:var(--ft-ink);background:var(--ft-surface);border:var(--ft-border);
+    border-radius:var(--ft-radius-pill);padding:8px var(--ft-space-md);margin-bottom:var(--ft-space-md);}
+  .filter-toggle__caret{transition:transform var(--ft-dur-fast);}
+  .filter-toggle[aria-expanded="true"] .filter-toggle__caret{transform:rotate(180deg);}
+  .filters{display:none;margin-top:0;}
+  .filters.is-open{display:flex;}
+  .view-switch button{padding:7px var(--ft-space-sm);font-size:0.78rem;}
+  .oracle-box{padding:var(--ft-space-md);}
+  .oracle-box .cf-turnstile{margin-inline:auto;}
+}
+@media (max-width:384px){
+  .oracle-box .cf-turnstile{transform:scale(0.9);transform-origin:left top;}
 }

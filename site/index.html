@@ -109,8 +109,9 @@
         <span class="mono" style="font-size:.78rem;color:var(--ft-muted)" data-result-count></span>
       </div>
 
-      <!-- FILTER -->
-      <div class="filters" role="group" aria-label="Funde filtern">
+      <!-- FILTER (mobil hinter Toggle, damit Funde sofort sichtbar sind) -->
+      <button type="button" class="filter-toggle" id="filterToggle" aria-expanded="false" aria-controls="filtersBox">⚲ filtern <span class="filter-toggle__caret" aria-hidden="true">▾</span></button>
+      <div class="filters" id="filtersBox" role="group" aria-label="Funde filtern">
         <div class="filters__group">
           <span class="filters__label">Schule</span>
           <button class="fbtn" data-filter="schule" data-value="" aria-pressed="true">alle</button>
@@ -149,8 +150,9 @@
         <div class="starmap" id="starmap" role="img" aria-label="Sternkarte: alle Funde als Sterne, zu sechs Sternbildern nach Denkschule gruppiert">
           <svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet" id="starmapSvg" aria-hidden="true"></svg>
           <div class="star-tip" id="starTip" aria-hidden="true"></div>
-          <p class="starmap__hint">✶ farbe = denkschule · größe = wahrscheinlichkeit · tippe einen stern für den fund</p>
         </div>
+        <div class="starmap-legend" id="starmapLegend" aria-hidden="true"></div>
+        <p class="starmap__hint">✶ farbe = denkschule · größe = wahrscheinlichkeit · tipp einen stern, dann „zum fund"</p>
       </div>
     </div>
   </section>
@@ -237,6 +239,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Filter mobil ein-/ausklappen (Platzbedarf, layout.png)
+  var filterToggle = document.getElementById("filterToggle");
+  if (filterToggle) filterToggle.addEventListener("click", function () {
+    var open = document.getElementById("filtersBox").classList.toggle("is-open");
+    filterToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+
   // ---------------- STERNKARTE ----------------
   var starmapSvg = document.getElementById("starmapSvg");
   var starTip = document.getElementById("starTip");
@@ -305,7 +314,14 @@ document.addEventListener("DOMContentLoaded", function () {
         g.setAttribute("href", "fund.html?id=" + encodeURIComponent(p.f.objekt_id));
         g.setAttribute("class", "star-node");
         g.setAttribute("tabindex", "0");
+        g.setAttribute("role", "button");
+        g.setAttribute("aria-label", p.f.objektname + ", " + p.f.fundjahr);
         g.dataset.schule = s; g.dataset.wunsch = p.f.wuenschbarkeit; g.dataset.dekade = Math.floor(p.f.fundjahr/10)*10;
+        // großzügige, unsichtbare Tap-Fläche (Touch-Targets)
+        var hit = document.createElementNS(ns, "circle");
+        hit.setAttribute("cx", p.x); hit.setAttribute("cy", p.y);
+        hit.setAttribute("r", Math.max((R[p.f.wahrscheinlichkeit] || 5) + 9, 17));
+        hit.setAttribute("fill", "transparent");
         var halo = document.createElementNS(ns, "circle");
         halo.setAttribute("cx", p.x); halo.setAttribute("cy", p.y);
         halo.setAttribute("r", (R[p.f.wahrscheinlichkeit] || 5) + 4);
@@ -315,17 +331,28 @@ document.addEventListener("DOMContentLoaded", function () {
         core.setAttribute("cx", p.x); core.setAttribute("cy", p.y);
         core.setAttribute("r", R[p.f.wahrscheinlichkeit] || 5);
         core.setAttribute("fill", "var(--ft-schule-" + s + ")");
-        g.appendChild(halo); g.appendChild(core);
-        g.addEventListener("mouseenter", function (e) { showTip(p, e); });
-        g.addEventListener("mousemove", function (e) { moveTip(e); });
-        g.addEventListener("mouseleave", hideTip);
-        g.addEventListener("focus", function () { showTip(p); });
-        g.addEventListener("blur", hideTip);
+        g.appendChild(hit); g.appendChild(halo); g.appendChild(core);
+        // Hover (Maus) = leichte Vorschau; Klick/Tap = angepinnte Karte mit „zum Fund"-Button
+        g.addEventListener("mouseenter", function (e) { if (!pinned) showTip(p, e, false); });
+        g.addEventListener("mousemove", function (e) { if (!pinned) moveTip(e); });
+        g.addEventListener("mouseleave", function () { if (!pinned) hideTip(); });
+        g.addEventListener("focus", function () { if (!pinned) showTip(p, null, false); });
+        g.addEventListener("blur", function () { if (!pinned) hideTip(); });
+        g.addEventListener("click", function (e) { e.preventDefault(); pinTip(p); });
         starmapSvg.appendChild(g);
       });
     });
     starmapSvg.removeAttribute("data-empty");
     restyleStars();
+    buildLegend();
+  }
+
+  function buildLegend() {
+    var el = document.getElementById("starmapLegend");
+    if (!el || el.children.length) return;
+    el.innerHTML = SCHOOLS.map(function (s) {
+      return '<span><i style="background:var(--ft-schule-' + s + ')"></i>' + FT.esc(FT.schuleLabel(s)) + '</span>';
+    }).join("");
   }
 
   function restyleStars() {
@@ -338,17 +365,47 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
   var box = document.getElementById("starmap");
-  function showTip(p, e) {
-    starTip.innerHTML = "<b>" + FT.esc(p.f.objektname) + "</b><span>" + p.f.fundjahr + " · " + FT.esc(FT.schuleLabel(p.f.schule)) + " · " + FT.esc(p.f.wuenschbarkeit) + "</span>";
-    starTip.classList.add("is-on"); starTip.setAttribute("aria-hidden", "false");
-    if (e) moveTip(e); else { starTip.style.left = (p.x / 1000 * box.clientWidth) + "px"; starTip.style.top = (p.y / 620 * box.clientHeight - 10) + "px"; }
+  var pinned = false;
+
+  function tipBody(p, withGo) {
+    var base = "<b>" + FT.esc(p.f.objektname) + "</b><span>" + p.f.fundjahr + " · " + FT.esc(FT.schuleLabel(p.f.schule)) + " · " + FT.esc(p.f.wuenschbarkeit) + "</span>";
+    if (!withGo) return base;
+    return '<button type="button" class="star-tip__close" aria-label="schließen">✕</button>' + base +
+      '<a class="star-tip__go" href="fund.html?id=' + encodeURIComponent(p.f.objekt_id) + '">zum Fund →</a>';
+  }
+  function showTip(p, e, pin) {
+    starTip.innerHTML = tipBody(p, pin);
+    starTip.classList.add("is-on");
+    starTip.classList.toggle("is-pinned", !!pin);
+    starTip.setAttribute("aria-hidden", "false");
+    if (pin) {
+      placePinned(p);
+      var cl = starTip.querySelector(".star-tip__close");
+      if (cl) cl.addEventListener("click", function (ev) { ev.preventDefault(); ev.stopPropagation(); unpin(); });
+    } else if (e) { moveTip(e); }
+    else { starTip.style.left = (p.x / 1000 * box.clientWidth) + "px"; starTip.style.top = (p.y / 620 * box.clientHeight - 10) + "px"; }
+  }
+  function pinTip(p) { pinned = true; showTip(p, null, true); }
+  function unpin() { pinned = false; hideTip(); }
+  function placePinned(p) {
+    var w = box.clientWidth, h = box.clientHeight;
+    var x = p.x / 1000 * w, y = p.y / 620 * h;
+    starTip.style.left = "0px"; starTip.style.top = "0px";
+    var tw = starTip.offsetWidth, th = starTip.offsetHeight;
+    var left = Math.min(Math.max(x - tw / 2, 6), Math.max(w - tw - 6, 6));
+    var top = (y + th + 14 < h) ? y + 14 : Math.max(y - th - 14, 6);
+    starTip.style.left = left + "px"; starTip.style.top = top + "px";
   }
   function moveTip(e) {
     var r = box.getBoundingClientRect();
     starTip.style.left = Math.min(Math.max(e.clientX - r.left + 12, 8), r.width - 8) + "px";
     starTip.style.top = (e.clientY - r.top - 8) + "px";
   }
-  function hideTip() { starTip.classList.remove("is-on"); starTip.setAttribute("aria-hidden", "true"); }
+  function hideTip() { starTip.classList.remove("is-on", "is-pinned"); starTip.setAttribute("aria-hidden", "true"); }
+  // Tap außerhalb eines Sterns hebt die Anpinnung auf
+  box.addEventListener("click", function (e) {
+    if (pinned && !e.target.closest(".star-node") && !e.target.closest(".star-tip")) unpin();
+  });
 
   starmapSvg.setAttribute("data-empty", "1");
   renderGallery();
