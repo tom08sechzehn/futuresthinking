@@ -1,0 +1,21 @@
+schema_version:     "1.0"
+objekt_id:          "2031-stellplatz-nest-null-lindenstrasse"
+objektname:         "Stellplatz-Nest «Null», Lindenstraße"
+fundjahr:           2031
+fundort:            "Umgebauter Parkplatz, Lindenstraße in Freiburg"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "solarpunk"
+schule:             "systemisch"
+urheber:            "quartiersinitiative lindenstraße"
+material:           "Stellplatzmodul, Solardach, Sitzbank, Paketfach"
+entstehungsmethode: "backcasting"
+beipackzettel: >
+  Hier stand ein Auto. Jetzt dockt am «Null»-Stellplatz ein geteilter E-Pod,
+  den die Straße per Chip ruft; daneben eine Bank im Schatten des Solardachs,
+  ein Lade-Pflasterstein, ein Paketfach und ein Hochbeet, an dem die Anwohner
+  Kräuter ziehen. Ein einziger Stellplatz versorgt so einen ganzen Block — die
+  zwölf Autos, die hier früher parkten, wurden zu einem geteilten und viel
+  Platz. «Null» heißt: null privates Parken. Wer den Pod nimmt, lädt ihn voll
+  zurück. Die Karte am Mast zeigt, welcher Block als Nächstes ein Nest baut.
+lizenz:             "CC-BY-NC-4.0"
