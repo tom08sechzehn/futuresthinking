@@ -32,6 +32,7 @@ window.FT_ORAKEL_BLOG = [
     synthese: "Das Unersetzliche ist nicht, was wir können, sondern wofür wir mit dem eigenen Leib geradestehen — und genau deshalb wird es 2050 umkämpft: dieselbe Haftung lässt sich gerecht tragen oder als Schutzschild missbrauchen. Die offene Frage von 2050 ist nicht, was bleibt. Sondern: wer.",
     bild: "assets/aus-dem-orakel/post-01-zertifikat.jpg",
     bildAlt: "Spekulatives Artefakt: eine graue Schachtel „Unzuverlässig — verifizierter Luxus\" neben einer Zertifikatkarte „Zertifikat verifizierter Unzuverlässigkeit\" mit Wachssiegel und „Zertifiziert\"-Stempel.",
-    bildCaption: "Das Artefakt der Design-Futures-Stimme: ein „Zertifikat verifizierter Unzuverlässigkeit\" — „Enthält mindestens einen Fehler. Welchen, wissen wir nicht.\" Spekulativer Fund, KI-generiert."
+    bildCaption: "Das Artefakt der Design-Futures-Stimme: ein „Zertifikat verifizierter Unzuverlässigkeit\" — „Enthält mindestens einen Fehler. Welchen, wissen wir nicht.\" Spekulativer Fund, KI-generiert.",
+    linkedin: "https://www.linkedin.com/feed/update/urn:li:activity:7470821269932990465/"
   }
 ];

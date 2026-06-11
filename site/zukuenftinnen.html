@@ -78,7 +78,10 @@
   .post__teaser{font-family:var(--ft-font-mono);font-size:.86rem;line-height:1.55;color:var(--ft-body);}
   .post[open] .post__teaser{display:none;}
   .post__body{padding:0 var(--ft-space-lg) var(--ft-space-lg);display:grid;gap:var(--ft-space-sm);}
-  .post__copy{display:flex;justify-content:flex-end;margin-top:var(--ft-space-xs);}
+  .post__copy{display:flex;align-items:center;gap:var(--ft-space-md);flex-wrap:wrap;margin-top:var(--ft-space-xs);}
+  .post__copy .post__copybtn{margin-left:auto;}
+  .post__ln{font-family:var(--ft-font-mono);font-size:.82rem;color:var(--ft-ultra);text-decoration:none;white-space:nowrap;}
+  .post__ln:hover{text-decoration:underline;}
   .blog-empty{text-align:center;padding:var(--ft-space-xl) var(--ft-space-md);
     border:1px dashed var(--ft-line);border-radius:var(--ft-radius-card);}
   .blog-empty__icon{font-size:2rem;color:var(--ft-ultra);margin-bottom:var(--ft-space-sm);}
@@ -264,7 +267,10 @@ document.addEventListener("DOMContentLoaded", function () {
           '<span class="post__teaser">' + FT.esc(teaser(p.synthese, 180)) + '</span>' +
         '</summary>' +
         '<div class="post__body">' + note + voicesHTML(p, stimmen) + fig + syn +
-          '<div class="post__copy"><button type="button" class="btn btn--secondary post__copybtn" data-idx="' + idx + '" style="font-size:.82rem">↥ antwort kopieren</button></div>' +
+          '<div class="post__copy">' +
+            (p.linkedin ? '<a class="post__ln" href="' + FT.esc(p.linkedin) + '" target="_blank" rel="noopener">↗ auf LinkedIn diskutieren</a>' : '') +
+            '<button type="button" class="btn btn--secondary post__copybtn" data-idx="' + idx + '" style="font-size:.82rem">↥ antwort kopieren</button>' +
+          '</div>' +
         '</div>' +
       '</details>';
     }
