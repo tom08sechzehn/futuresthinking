@@ -128,6 +128,27 @@
           </div>
         </div>
 
+        <!-- Bild (optional) — vom Einreicher hochgeladen. KEIN Generator. -->
+        <div class="panel panel--alt" style="margin-block:var(--ft-space-md)">
+          <label class="field-label" for="i-bild">Bild <span class="mono" style="color:var(--ft-muted);font-weight:400">— optional</span></label>
+          <p class="field-hint" style="margin-bottom:var(--ft-space-sm)">Ein eigenes Foto oder Bild deines Funds (PNG, WebP oder JPEG, max. 8 MB). Es wird direkt im Browser verkleinert und ohne Metadaten gesendet — du lädst es selbst hoch, nichts wird automatisch erzeugt.</p>
+          <input class="field" id="i-bild" type="file" accept="image/png,image/webp,image/jpeg">
+          <div id="bildPreviewWrap" hidden style="margin-top:var(--ft-space-sm)">
+            <img id="bildPreview" alt="" style="display:block;max-width:220px;width:100%;border-radius:var(--ft-radius-md);border:var(--ft-border)">
+            <p class="field-hint mono" id="bildMeta" style="margin-top:4px"></p>
+            <button type="button" class="btn btn--ghost" id="bildRemove" style="margin-top:var(--ft-space-2xs)">Bild entfernen</button>
+          </div>
+          <div class="form-row" id="bildAltRow" hidden style="margin-top:var(--ft-space-sm)">
+            <label class="field-label" for="i-bild-alt">Bildbeschreibung (Alt-Text) *</label>
+            <input class="field" id="i-bild-alt" placeholder="Was ist auf dem Bild zu sehen? Kurz, sachlich.">
+            <p class="field-hint">Pflicht, sobald ein Bild dabei ist — 8–300 Zeichen, für Screenreader.</p>
+          </div>
+          <div class="form-row" id="bildCreditRow" hidden>
+            <label class="field-label" for="i-bild-credit">Bild-Credit</label>
+            <input class="field" id="i-bild-credit" placeholder="z. B. dein Pseudonym (Standard: deine Urheber:in-Angabe)">
+          </div>
+        </div>
+
         <!-- Lizenz (Pflichtfeld im Vertrag; Default CC-BY-NC-4.0) -->
         <div class="form-row">
           <label class="field-label" for="i-lizenz">Lizenz</label>
@@ -206,7 +227,7 @@ function getTurnstileToken() {
 document.addEventListener("DOMContentLoaded", function () {
  FT.ready(function () {
   var form = document.getElementById("fundForm");
-  var data = { objektname:"", fundjahr:2047, fundort:"", wuenschbarkeit:"neutral", wahrscheinlichkeit:"plausibel", beipackzettel:"", schule:"", urheber:"", material:"", lizenz:"CC-BY-NC-4.0" };
+  var data = { objektname:"", fundjahr:2047, fundort:"", wuenschbarkeit:"neutral", wahrscheinlichkeit:"plausibel", beipackzettel:"", schule:"", urheber:"", material:"", lizenz:"CC-BY-NC-4.0", bild:null, bildAlt:"", bildCredit:"" };
 
   // Schul-Buttons aus den Stimmen bauen
   var choice = document.getElementById("schuleChoice");
@@ -230,6 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
       beipackzettel: data.beipackzettel || "Hier steht später dein Beipackzettel — die Beschreibung des Funds, als läge er vor dir.",
       schule: data.schule
     };
+    if (data.bild) f.bild = { src: data.bild.dataUrl, alt: data.bildAlt || data.objektname };
     document.getElementById("previewWrap").innerHTML = FT.fundCardHTML(f).replace('href="fund.html?id=vorschau"', 'href="javascript:void(0)" onclick="return false" style="cursor:default"');
     // Schritt-Status
     document.getElementById("stepSchule").classList.toggle("is-active", !!data.schule);
@@ -267,6 +289,66 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  /* ---- Bild-Upload: clientseitig verkleinern -> WebP, ohne Metadaten ----
+     Der Einreicher lädt sein EIGENES Bild hoch. Kein Generator. Das Canvas-
+     Re-Encoding kappt die Größe und entfernt EXIF/GPS (DSGVO-freundlich). */
+  (function wireBildUpload() {
+    var input = document.getElementById('i-bild');
+    if (!input) return;
+    var wrap = document.getElementById('bildPreviewWrap');
+    var prev = document.getElementById('bildPreview');
+    var meta = document.getElementById('bildMeta');
+    var altRow = document.getElementById('bildAltRow');
+    var creditRow = document.getElementById('bildCreditRow');
+    var altIn = document.getElementById('i-bild-alt');
+    var creditIn = document.getElementById('i-bild-credit');
+    var note = document.getElementById('formNote');
+
+    function showErr(msg) { note.className = 'banner banner--pending show'; note.textContent = msg; }
+    function clearBild() {
+      data.bild = null; data.bildAlt = ''; data.bildCredit = '';
+      input.value = ''; if (altIn) altIn.value = ''; if (creditIn) creditIn.value = '';
+      wrap.hidden = true; altRow.hidden = true; creditRow.hidden = true;
+      preview();
+    }
+
+    input.addEventListener('change', function () {
+      var file = input.files && input.files[0];
+      if (!file) { clearBild(); return; }
+      if (!/^image\/(png|webp|jpeg)$/.test(file.type)) { showErr('Nur PNG, WebP oder JPEG erlaubt.'); input.value = ''; return; }
+      if (file.size > 8 * 1024 * 1024) { showErr('Bild zu groß (max. 8 MB Originaldatei).'); input.value = ''; return; }
+      var img = new Image();
+      var url = URL.createObjectURL(file);
+      img.onload = function () {
+        URL.revokeObjectURL(url);
+        var maxDim = 1600, w = img.naturalWidth, h = img.naturalHeight;
+        var scale = Math.min(1, maxDim / Math.max(w, h));
+        var cw = Math.max(1, Math.round(w * scale)), ch = Math.max(1, Math.round(h * scale));
+        var canvas = document.createElement('canvas');
+        canvas.width = cw; canvas.height = ch;
+        canvas.getContext('2d').drawImage(img, 0, 0, cw, ch);
+        var dataUrl = canvas.toDataURL('image/webp', 0.82);
+        if (dataUrl.indexOf('data:image/webp') !== 0) dataUrl = canvas.toDataURL('image/png'); // Fallback
+        var b64 = dataUrl.split(',')[1] || '';
+        var bytes = Math.floor(b64.length * 3 / 4);
+        if (bytes > 2 * 1024 * 1024) { showErr('Bild nach Komprimierung noch zu groß — bitte ein kleineres Motiv.'); input.value = ''; return; }
+        data.bild = { b64: b64, dataUrl: dataUrl, width: cw, height: ch };
+        prev.src = dataUrl;
+        meta.textContent = cw + '×' + ch + ' · ' + Math.round(bytes / 1024) + ' KB';
+        wrap.hidden = false; altRow.hidden = false; creditRow.hidden = false;
+        note.className = 'banner';
+        preview();
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); showErr('Bild konnte nicht gelesen werden.'); input.value = ''; };
+      img.src = url;
+    });
+
+    var rm = document.getElementById('bildRemove');
+    if (rm) rm.addEventListener('click', clearBild);
+    if (altIn) altIn.addEventListener('input', function () { data.bildAlt = altIn.value; preview(); });
+    if (creditIn) creditIn.addEventListener('input', function () { data.bildCredit = creditIn.value; });
+  })();
+
   /* ============================================================
      SUBMIT — echter POST an /api/submit, mit grazilem Fallback.
        - gültig + Token + http(s)  -> fetch('/api/submit'); Erfolg/Fehler aus der Function
@@ -275,7 +357,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* Baut den Vertrags-Payload EXAKT nach functions/api/submit.js. */
   function buildPayload() {
-    return {
+    var p = {
       cf_turnstile_token: getTurnstileToken(),
       objektname:    data.objektname.trim(),
       fundjahr:      data.fundjahr,
@@ -289,6 +371,14 @@ document.addEventListener("DOMContentLoaded", function () {
       tonalitaet:    null,
       website:       (function () { var h = document.getElementById('f-website'); return h ? h.value : ''; })()
     };
+    if (data.bild) {
+      p.bild_data   = data.bild.b64;          // Base64 des verkleinerten WebP/PNG
+      p.bild_alt    = data.bildAlt.trim();
+      p.bild_credit = data.bildCredit.trim();
+      p.bild_width  = data.bild.width;
+      p.bild_height = data.bild.height;
+    }
+    return p;
   }
 
   function setSubmitting(on) {
@@ -365,6 +455,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!data.objektname.trim() || !data.beipackzettel.trim()) {
       note.className = 'banner banner--pending show';
       note.textContent = 'Es fehlen Pflichtfelder: mindestens Objektname und Beipackzettel.';
+      return;
+    }
+    if (data.bild && data.bildAlt.trim().length < 8) {
+      note.className = 'banner banner--pending show';
+      note.textContent = 'Bitte eine Bildbeschreibung (Alt-Text, min. 8 Zeichen) angeben — oder das Bild entfernen.';
       return;
     }
     note.className = 'banner';

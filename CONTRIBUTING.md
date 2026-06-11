@@ -51,8 +51,13 @@ Schema: [`schema/v1.0/future.schema.json`](schema/v1.0/future.schema.json).
 
 1. [`einreichen.html`](site/einreichen.html) öffnen.
 2. Kombinatorisches Formular ausfüllen (Auswahlfelder + Beipackzettel-Text).
+   Optional: **ein eigenes Bild hochladen** (PNG/WebP/JPEG, max. 8 MB) — es wird
+   im Browser verkleinert, ohne Metadaten zu WebP komprimiert und mit einem
+   Pflicht-Alt-Text versehen. Kein Generator: das Bild kommt von dir.
 3. Absenden → die Cloudflare Pages Function `/api/submit` verifiziert Turnstile,
-   baut die `.future`-Datei und **öffnet automatisch einen PR**.
+   baut die `.future`-Datei (inkl. `bild`-Block, falls ein Bild dabei ist),
+   committet das Bild nach `funde/bilder/<slug>.<webp|png>` und **öffnet
+   automatisch einen PR**.
 
 ---
 

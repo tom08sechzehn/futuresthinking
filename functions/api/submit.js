@@ -45,6 +45,10 @@ const SLUG_RE = /^(203[0-9]|20[4-6][0-9]|2070)-[a-z0-9]+(-[a-z0-9]+)*$/;
 const FUNDORT_RE = /^[^,]{2,},\s*\S.*$/;
 const URHEBER_RE = /^\S(.*\S)?$/;
 
+// Bild-Upload (Pfad B): nur PNG/WebP, hartes Byte-Limit (kleine PRs, Missbrauchsschutz).
+const BILD_MAX_BYTES = 2_000_000; // 2 MB nach Client-Komprimierung
+const BILD_B64_RE = /^[A-Za-z0-9+/]+={0,2}$/;
+
 const UA = "futuresthinking-submit-fn";
 
 function json(data, status = 200) {
@@ -91,6 +95,72 @@ function kebab(name) {
     .replace(/^-+|-+$/g, "")
     .replace(/-{2,}/g, "-")
     .slice(0, 60);
+}
+
+/** Base64 -> Uint8Array (Workers-Runtime, kein Node-Buffer). */
+function base64ToBytes(b64) {
+  const bin = atob(b64);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+/** Magic-Byte-Sniff: 'webp' | 'png' | null. Vertraut NICHT dem Client-MIME. */
+function sniffImage(bytes) {
+  if (
+    bytes.length >= 12 &&
+    bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46 && // "RIFF"
+    bytes[8] === 0x57 && bytes[9] === 0x45 && bytes[10] === 0x42 && bytes[11] === 0x50  // "WEBP"
+  ) return "webp";
+  if (
+    bytes.length >= 8 &&
+    bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47 &&
+    bytes[4] === 0x0d && bytes[5] === 0x0a && bytes[6] === 0x1a && bytes[7] === 0x0a
+  ) return "png";
+  return null;
+}
+
+/**
+ * Validiert ein optionales Upload-Bild aus dem Web-Formular.
+ *   - kein bild_data  -> { ok:true, bild:null }
+ *   - gültiges Bild   -> { ok:true, bild:{ext,alt,credit,width,height}, b64 }
+ *   - ungültig        -> { ok:false, error }
+ * Das Schema verlangt bei gesetztem bild: src/alt/credit. alt ist Pflicht (a11y),
+ * credit fällt auf urheber zurück. Nur PNG/WebP (Schema-bild.src-Muster).
+ */
+function validateBild(body) {
+  const raw = body.bild_data;
+  if (raw == null || String(raw).trim() === "") return { ok: true, bild: null };
+
+  let b64 = String(raw).replace(/^data:[^;]+;base64,/, "").trim();
+  if (!BILD_B64_RE.test(b64) || b64.length < 16) {
+    return { ok: false, error: "Bilddaten sind kein gültiges Base64" };
+  }
+  if (Math.floor((b64.length * 3) / 4) > BILD_MAX_BYTES) {
+    return { ok: false, error: `Bild zu groß (max ${Math.floor(BILD_MAX_BYTES / 1024)} KB nach Komprimierung)` };
+  }
+  let bytes;
+  try { bytes = base64ToBytes(b64); } catch { return { ok: false, error: "Bilddaten nicht dekodierbar" }; }
+  if (bytes.length > BILD_MAX_BYTES) {
+    return { ok: false, error: `Bild zu groß (max ${Math.floor(BILD_MAX_BYTES / 1024)} KB)` };
+  }
+  const ext = sniffImage(bytes);
+  if (!ext) return { ok: false, error: "Bildformat nicht erkannt — nur PNG oder WebP" };
+
+  const alt = sanitizeText(body.bild_alt, 300);
+  if (cpLen(alt) < 8) {
+    return { ok: false, error: "Bildbeschreibung (Alt-Text) ist Pflicht, 8–300 Zeichen" };
+  }
+  let credit = sanitizeText(body.bild_credit, 120);
+  if (cpLen(credit) < 1) {
+    credit = sanitizeText(body.urheber, 120) || "anonyme Einreichung";
+  }
+  let width = Number(body.bild_width);
+  let height = Number(body.bild_height);
+  width = Number.isInteger(width) && width >= 256 && width <= 4096 ? width : null;
+  height = Number.isInteger(height) && height >= 256 && height <= 4096 ? height : null;
+
+  return { ok: true, bild: { ext, alt, credit, width, height }, b64 };
 }
 
 /** Turnstile serverseitig verifizieren. */
@@ -197,6 +267,14 @@ function buildFutureYaml(rec) {
   lines.push(`beipackzettel:      ${q(rec.beipackzettel)}`);
   if (rec.urheber) lines.push(`urheber:            ${q(rec.urheber)}`);
   lines.push(`lizenz:             ${q(rec.lizenz)}`);
+  if (rec.bild) {
+    lines.push(`bild:`);
+    lines.push(`  src:    ${q(rec.bild.src)}`);
+    lines.push(`  alt:    ${q(rec.bild.alt)}`);
+    lines.push(`  credit: ${q(rec.bild.credit)}`);
+    if (rec.bild.width) lines.push(`  width:  ${rec.bild.width}`);
+    if (rec.bild.height) lines.push(`  height: ${rec.bild.height}`);
+  }
   lines.push(`remix_von:          null`);
   lines.push(`verweist_auf:       null`);
   lines.push(`audio_fundnotiz:    null`);
@@ -271,6 +349,20 @@ export async function onRequestPost({ request, env }) {
   if (!v.ok) return reject(v.error, 422);
 
   const { record, slug } = v;
+
+  // 2b) optionales Bild prüfen + an den Datensatz hängen (VOR dem YAML-Bau)
+  const vb = validateBild(body);
+  if (!vb.ok) return reject(vb.error, 422);
+  if (vb.bild) {
+    record.bild = {
+      src: `bilder/${slug}.${vb.bild.ext}`,
+      alt: vb.bild.alt,
+      credit: vb.bild.credit,
+      width: vb.bild.width,
+      height: vb.bild.height,
+    };
+  }
+
   const path = `funde/${slug}.future`;
   const branch = `submit/${slug}-${crypto.randomUUID().slice(0, 6)}`;
   const content = buildFutureYaml(record);
@@ -309,6 +401,20 @@ export async function onRequestPost({ request, env }) {
       }),
     });
 
+    // 3d-bild) optionales Bild in DENSELBEN Branch committen (Binär, Base64 direkt).
+    if (record.bild && vb.bild) {
+      const imgPath = `funde/bilder/${slug}.${vb.bild.ext}`;
+      await ghJson(`${ghBase(owner, repo)}/contents/${encodeURIComponent(imgPath)}`, {
+        method: "PUT",
+        headers: ghHeaders(env.GITHUB_TOKEN),
+        body: JSON.stringify({
+          message: `Bild: ${record.objektname} (${record.fundjahr})`,
+          content: vb.b64,
+          branch,
+        }),
+      });
+    }
+
     // 3e) Pull Request oeffnen
     const pr = await ghJson(`${ghBase(owner, repo)}/pulls`, {
       method: "POST",
@@ -319,6 +425,7 @@ export async function onRequestPost({ request, env }) {
         base,
         body:
           "Eingereicht via Web-Formular (Pfad B).\n\n" +
+          (record.bild ? `Mit Bild: \`${record.bild.src}\` (vom Einreicher hochgeladen).\n\n` : "") +
           "Das CI-Gate validiert automatisch (Schema, Slug-Jahr, Beipackzettel-Laenge, FK).\n" +
           "Ein Mensch merged als Archivar:in aus 2071. Siehe CONTRIBUTING.md.",
       }),
