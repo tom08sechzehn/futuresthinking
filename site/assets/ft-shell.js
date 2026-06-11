@@ -163,6 +163,9 @@
     var teaser = (f.beipackzettel || "").replace(/\s+/g, " ").trim();
     return '' +
       '<a class="fund" href="fund.html?id=' + encodeURIComponent(f.objekt_id) + '" style="--fund-accent:' + accentFor(f.schule) + '">' +
+        (f.bild && f.bild.src
+          ? '<img class="fund__img" src="' + esc(f.bild.src) + '" alt="' + esc(f.bild.alt || f.objektname) + '" loading="lazy" decoding="async">'
+          : '') +
         '<div class="fund__top">' +
           '<span class="fund__year">' + esc(f.fundjahr) + '</span>' +
           '<span class="fund__schule">' + esc(schuleLabel(f.schule)) + '</span>' +
