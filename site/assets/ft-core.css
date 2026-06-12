@@ -218,6 +218,7 @@ button{font-family:inherit;cursor:pointer;}
 .fund:hover{transform:translateY(-3px);box-shadow:var(--ft-shadow-card);border-color:var(--fund-accent,var(--ft-signal));text-decoration:none;}
 .fund__img{display:block;width:calc(100% + 2 * var(--ft-space-md));
   margin:calc(-1 * var(--ft-space-md)) calc(-1 * var(--ft-space-md)) 0;
+  height:auto; /* überschreibt das präsentationale height-Attribut der <img>, sonst wird aspect-ratio ignoriert (Bild auf 900px „geblockt“/verzerrt) */
   aspect-ratio:4 / 3;object-fit:cover;object-position:center;
   background:var(--ft-bg);border-bottom:1px solid var(--ft-line);
   transition:transform var(--ft-dur-fast) var(--ft-ease-pop);}
