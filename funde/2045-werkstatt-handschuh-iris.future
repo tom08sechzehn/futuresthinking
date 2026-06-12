@@ -18,4 +18,10 @@ beipackzettel: >
   sie nichts; sie gibt das Können zurück in die Finger und zieht sich aus
   der Aufgabe, sobald du sie allein kannst. Die abgegriffenen Kuppen zeigen,
   wie oft hier schon gelernt wurde. Nach Gebrauch zurück ans Leihregal.
+bild:
+  src:    "bilder/2045-werkstatt-handschuh-iris.webp"
+  alt:    "Eine Hand in einem mechanischen Exoskelett-Handschuh führt einen Lötkolben über eine Platine; im Hintergrund eine helle Elektronik-Werkstatt."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900
 lizenz:             "CC-BY-NC-4.0"

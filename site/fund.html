@@ -91,7 +91,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Hero-Bild (optional)
     (f.bild && f.bild.src ?
       '<figure style="margin:0 0 var(--ft-space-lg);border-radius:var(--ft-radius-card);overflow:hidden;border:var(--ft-border)">' +
-        '<img src="' + FT.esc(f.bild.src) + '" alt="' + FT.esc(f.bild.alt || f.objektname) + '" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">' +
+        '<img src="' + FT.esc(f.bild.src) + '"' +
+          (FT.imgSrcset(f.bild.src, [800]) ? ' srcset="' + FT.imgSrcset(f.bild.src, [800]) + '" sizes="(max-width:880px) 94vw, 820px"' : '') +
+          ' alt="' + FT.esc(f.bild.alt || f.objektname) + '"' +
+          (f.bild.width && f.bild.height ? ' width="' + f.bild.width + '" height="' + f.bild.height + '"' : '') +
+          ' decoding="async" fetchpriority="high" style="display:block;width:100%;height:auto">' +
         (f.bild.credit ? '<figcaption class="mono" style="font-size:.72rem;color:var(--ft-muted);padding:var(--ft-space-xs) var(--ft-space-sm);background:var(--ft-surface)">' + FT.esc(f.bild.credit) + '</figcaption>' : '') +
       '</figure>'
       : '') +

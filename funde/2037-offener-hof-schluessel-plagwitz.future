@@ -18,4 +18,10 @@ beipackzettel: >
   zählen, wer schon einwies — wer drei hat, darf selbst einweisen. Verloren
   gegangene Schlüssel werden nicht ersetzt, sondern neu gefeilt, wenn die
   Halle eine Woche ohne Streit lief. Werkzeug gehört allen, die es pflegen.
+bild:
+  src:    "bilder/2037-offener-hof-schluessel-plagwitz.webp"
+  alt:    "Helle offene Werkhalle mit Drehbänken, Nähmaschinen und Brennofen; Menschen arbeiten an Werkbänken, an der Wand ein großer Schlüssel als Sinnbild der geteilten Maschinen."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900
 lizenz:             "CC-BY-NC-4.0"

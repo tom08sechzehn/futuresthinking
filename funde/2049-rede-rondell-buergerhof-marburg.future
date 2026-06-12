@@ -18,4 +18,10 @@ beipackzettel: >
   Schritten glattgelaufen; man sieht, wie oft hier schon gerungen wurde. Wer
   dran ist, kommt aus der Trommel, nicht aus dem Wahlkampf. Bei Regen spannt
   die Nachbarschaft das Tuch. Demokratie als Ort, den man betreten kann.
+bild:
+  src:    "bilder/2049-rede-rondell-buergerhof-marburg.webp"
+  alt:    "Ein kreisförmiges Versammlungs-Rondell unter einem Glasdach: Menschen aller Generationen sitzen ringförmig um eine Rednerin auf einem leuchtenden Bodenkreis; im Hintergrund begrünte Stadthäuser."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900
 lizenz:             "CC-BY-NC-4.0"

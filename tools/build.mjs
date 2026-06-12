@@ -225,6 +225,26 @@ function run() {
     : 0;
   const withBild = funde.filter((f) => f.bild && f.bild.src).length;
 
+  // Responsive-Varianten-Guard: der Renderer (ft-shell.js: imgSrcset) baut das
+  // srcset per Namens-Konvention <slug>-480.webp / <slug>-800.webp. Fehlen die,
+  // liefe das srcset ins Leere. Hier nur WARNEN (non-fatal) — Fix:
+  // `python tools/optimize_images.py`.
+  if (existsSync(FUNDE_BILDER_DIR)) {
+    const files = new Set(readdirSync(FUNDE_BILDER_DIR));
+    const bases = [...files].filter((n) => /\.webp$/i.test(n) && !/-\d+\.webp$/i.test(n));
+    const missing = [];
+    for (const b of bases) {
+      const stem = b.replace(/\.webp$/i, "");
+      for (const w of [480, 800]) {
+        if (!files.has(`${stem}-${w}.webp`)) missing.push(`${stem}-${w}.webp`);
+      }
+    }
+    if (missing.length) {
+      console.warn(`  ⚠ ${missing.length} fehlende Bild-Variante(n) — \`python tools/optimize_images.py\` laufen lassen:`);
+      for (const m of missing) console.warn(`      ${m}`);
+    }
+  }
+
   console.log(`✓ ${funde.length} Funde gebaut (Stand ${generated})`);
   console.log(`  • ${fundsJson.replace(REPO + "/", "").replace(REPO + "\\", "")}`);
   console.log(`  • ${feedJson.replace(REPO + "/", "").replace(REPO + "\\", "")} (unsigniert, signaturbereit)`);

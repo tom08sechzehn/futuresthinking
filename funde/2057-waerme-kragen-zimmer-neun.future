@@ -19,4 +19,10 @@ beipackzettel: >
   ins nächste Zimmer; die Maschen werden weicher mit jedem, der ihn trug.
   Kein Gerät, kein Vertrag — ein warmes Ding in einer kalten Stunde. Bei
   vierzig Grad waschen, nicht schleudern.
+bild:
+  src:    "bilder/2057-waerme-kragen-zimmer-neun.webp"
+  alt:    "Nahaufnahme eines Halses mit gestricktem Kragen, in den ein warm glühendes Heizband eingearbeitet ist; gedämpftes, intimes Licht."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900
 lizenz:             "CC-BY-NC-4.0"

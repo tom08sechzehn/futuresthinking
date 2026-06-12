@@ -189,6 +189,62 @@ document.addEventListener("DOMContentLoaded", function () {
   var resultCount = document.querySelector("[data-result-count]");
   var state = { schule: "", dekade: "", wunsch: "" };
 
+  // ---- Scroll-/Ansichts-Erinnerung -------------------------------------------
+  // Zurück aus einem Fund soll dort landen, wo man war — NICHT am Anfang. Das
+  // Grid wird async aus funds.json gerendert, deshalb scheitert die Browser-
+  // Auto-Wiederherstellung (Seite noch leer) und springt nach oben. Wir merken
+  // uns Scroll-Position + Filter + Ansicht beim Verlassen und stellen sie selbst
+  // wieder her, sobald die Karten stehen.
+  if ("scrollRestoration" in history) { try { history.scrollRestoration = "manual"; } catch (e) {} }
+  var ARCHIV_VIEW_KEY = "ft-archiv-view";
+  function currentArchivView() {
+    var b = document.querySelector('[data-view][aria-pressed="true"]');
+    return b ? b.dataset.view : "galerie";
+  }
+  function saveArchivView() {
+    try {
+      sessionStorage.setItem(ARCHIV_VIEW_KEY, JSON.stringify({
+        y: window.scrollY || window.pageYOffset || 0,
+        schule: state.schule, dekade: state.dekade, wunsch: state.wunsch,
+        view: currentArchivView()
+      }));
+    } catch (e) {}
+  }
+  // Beim Verlassen sichern (Klick auf einen Fund, Reload, bfcache-Einlagerung).
+  window.addEventListener("pagehide", saveArchivView);
+  // Kommen wir aus einem Fund zurück? — entweder per Browser-Zurück (back/forward)
+  // oder über den „← zurück ins Archiv“-Link auf der Fund-Seite (referrer).
+  function cameFromFund() {
+    if (/\bfund\.html(?:[?#]|$)/.test(document.referrer || "")) return true;
+    try {
+      var navs = performance.getEntriesByType && performance.getEntriesByType("navigation");
+      if (navs && navs.length) return navs[0].type === "back_forward";
+    } catch (e) {}
+    try { return performance.navigation && performance.navigation.type === 2; } catch (e) {}
+    return false;
+  }
+  function restoreArchivView() {
+    if (!cameFromFund()) return false;
+    var raw; try { raw = sessionStorage.getItem(ARCHIV_VIEW_KEY); } catch (e) {}
+    if (!raw) return false;
+    var s; try { s = JSON.parse(raw); } catch (e) { return false; }
+    if (!s) return false;
+    // Filter rekonstruieren …
+    state.schule = s.schule || ""; state.dekade = s.dekade || ""; state.wunsch = s.wunsch || "";
+    ["schule", "dekade", "wunsch"].forEach(function (f) {
+      document.querySelectorAll('.fbtn[data-filter="' + f + '"]').forEach(function (b) {
+        b.setAttribute("aria-pressed", (b.dataset.value || "") === (state[f] || "") ? "true" : "false");
+      });
+    });
+    renderGallery();
+    // … Ansicht (Galerie/Sternkarte) rekonstruieren …
+    if (s.view === "sternkarte") { var sw = document.querySelector('[data-view="sternkarte"]'); if (sw) sw.click(); }
+    // … und nach dem Layout an die gemerkte Scroll-Position springen (2× rAF: Grid muss stehen).
+    var y = s.y || 0;
+    requestAnimationFrame(function () { requestAnimationFrame(function () { window.scrollTo(0, y); }); });
+    return true;
+  }
+
   // Zähler überall auf echte Zahl setzen
   document.querySelectorAll("[data-fund-count]").forEach(function (el) { el.textContent = funde.length; });
 
@@ -408,7 +464,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   starmapSvg.setAttribute("data-empty", "1");
-  renderGallery();
+  // Zurück aus einem Fund? Dann Filter/Ansicht/Scroll wiederherstellen,
+  // sonst normaler Erst-Render (am Anfang).
+  if (!restoreArchivView()) renderGallery();
 
   // Deep-Link: ?view=sternkarte oder #sternkarte öffnet direkt die zweite Tür
   if (FT.qs("view") === "sternkarte" || location.hash === "#sternkarte") {

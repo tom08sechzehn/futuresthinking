@@ -30,6 +30,16 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
+  /* Responsive Bilder: aus einem 1200px-Bild-src die kleineren Varianten ableiten
+     (Namens-Konvention: <slug>-480.webp / <slug>-800.webp neben <slug>.webp,
+     erzeugt von tools/optimize_images.py). Nur .webp; sonst "" (kein srcset). */
+  function imgSrcset(src, widths) {
+    if (!src || !/\.webp$/i.test(src)) return "";
+    var base = src.replace(/\.webp$/i, "");
+    var parts = (widths || [480, 800]).map(function (w) { return esc(base + "-" + w + ".webp") + " " + w + "w"; });
+    parts.push(esc(src) + " 1200w");
+    return parts.join(", ");
+  }
   function accentFor(slug) { var s = SCHULE[slug]; return s ? "var(" + s.accent + ")" : "var(--ft-line)"; }
   function schuleLabel(slug) { var s = SCHULE[slug]; return s ? s.label : (slug || "—"); }
   function kuratorin(slug) { var s = SCHULE[slug]; return s ? s.kuratorin : "—"; }
@@ -164,7 +174,11 @@
     return '' +
       '<a class="fund" href="fund.html?id=' + encodeURIComponent(f.objekt_id) + '" style="--fund-accent:' + accentFor(f.schule) + '">' +
         (f.bild && f.bild.src
-          ? '<img class="fund__img" src="' + esc(f.bild.src) + '" alt="' + esc(f.bild.alt || f.objektname) + '" loading="lazy" decoding="async">'
+          ? '<img class="fund__img" src="' + esc(f.bild.src) + '"' +
+              (imgSrcset(f.bild.src) ? ' srcset="' + imgSrcset(f.bild.src) + '" sizes="(max-width:560px) 92vw, (max-width:860px) 46vw, 320px"' : '') +
+              ' alt="' + esc(f.bild.alt || f.objektname) + '"' +
+              (f.bild.width && f.bild.height ? ' width="' + f.bild.width + '" height="' + f.bild.height + '"' : '') +
+              ' loading="lazy" decoding="async">'
           : '') +
         '<div class="fund__top">' +
           '<span class="fund__year">' + esc(f.fundjahr) + '</span>' +
@@ -215,6 +229,7 @@
     funde: function () { return window.FT_FUNDE || []; },
     stimmen: function () { return window.FT_STIMMEN || []; },
     esc: esc, accentFor: accentFor, schuleLabel: schuleLabel, kuratorin: kuratorin,
+    imgSrcset: imgSrcset,
     fundCardHTML: fundCardHTML,
     fundById: function (id) { return (window.FT_FUNDE || []).filter(function (f) { return f.objekt_id === id; })[0] || null; },
     renderFunds: function (el, list) {

@@ -18,4 +18,10 @@ beipackzettel: >
   Erde trägt — gesät wird erst, wenn sie lebt. Die Skala nennt keine Zahlen,
   nur drei Klänge: satt, dünn, still. Bei Stille ruht das Feld ein Jahr.
   Reinigen mit trockenem Tuch, nie wässern.
+bild:
+  src:    "bilder/2034-boden-horchgeraet-feld-vier.webp"
+  alt:    "Ein Landwirt mit Kopfhörer kniet auf einem frisch gepflügten Acker und liest an einem analogen Messgerät ab; eine Sensorspitze steckt im Boden, dahinter Traktor und Hof."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900
 lizenz:             "CC-BY-NC-4.0"

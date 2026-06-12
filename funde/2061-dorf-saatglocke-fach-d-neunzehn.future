@@ -19,4 +19,10 @@ beipackzettel: >
   Wachssiegel trägt das Jahr der letzten Erneuerung; ist es älter als drei
   Jahre, ruft das Saatfest. Im Schatten halten, nie ganz leeren. Die Sorte
   gehört dem, der sie weitersät.
+bild:
+  src:    "bilder/2061-dorf-saatglocke-fach-d-neunzehn.webp"
+  alt:    "Eine gläserne Saatglocke über aufbewahrten Bohnen auf einem Holztisch, mit rotem Wachssiegel und Tonschild; dahinter eine rustikale Vorratskammer."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900
 lizenz:             "CC-BY-NC-4.0"
