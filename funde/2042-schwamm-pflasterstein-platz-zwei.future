@@ -1,0 +1,21 @@
+schema_version:     "1.0"
+objekt_id:          "2042-schwamm-pflasterstein-platz-zwei"
+objektname:         "Schwamm-Pflasterstein, Platz 2"
+fundjahr:           2042
+fundort:            "Schwammplatz im Marschland-Quartier, Wilhelmshaven"
+wahrscheinlichkeit: "wahrscheinlich"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "solarpunk"
+schule:             "oekologisch"
+urheber:            "schwammstadt-kollektiv wilhelmshaven"
+material:           "poröser Sickerstein, Griffmulde, Moosfuge"
+entstehungsmethode: "backcasting"
+beipackzettel: >
+  Ein einzelner Stein aus dem Belag von Platz 2. Anders als das alte
+  Pflaster lässt er Regen nicht ablaufen, sondern hält ihn: der poröse Kern
+  speichert den letzten Starkregen wie ein Schwamm und gibt ihn in
+  Trockenwochen langsam an die Platanen zurück. An der Griffmulde lässt er
+  sich anheben — Kinder lüpfen ihn nach dem Gewitter und sehen das Wasser
+  darunter stehen, das die Stadt sonst weggespült hätte. Voll gesogen wiegt
+  er das Doppelte. Die Moosfuge zeigt, ob er noch atmet.
+lizenz:             "CC-BY-NC-4.0"

@@ -20,3 +20,10 @@ material:           "handgeschöpftes Papier, Pflanzentinte"
 remix_von:          null
 verweist_auf:       null
 audio_fundnotiz:    null
+schule:             "kulturell-narrativ"
+bild:
+  src:    "bilder/2063-zeugnis-schule-der-langsamkeit.webp"
+  alt:    "Eine Lern-Szene im Grünen mit zwei Generationen an einem Spieltisch; dazu ein handgeschriebenes „Zeugnis der Reife – Elias, 2063“ mit dem Vermerk „Keine Noten: es gibt Zeugen“."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900

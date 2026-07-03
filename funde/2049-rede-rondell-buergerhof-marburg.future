@@ -1,0 +1,27 @@
+schema_version:     "1.0"
+objekt_id:          "2049-rede-rondell-buergerhof-marburg"
+objektname:         "Rede-Rondell, Bürgerhof Marburg"
+fundjahr:           2049
+fundort:            "Innenhof des Bürgerhauses, Marburg"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "retro-futur"
+schule:             "partizipativ"
+urheber:            "bürgerhof marburg"
+material:           "Bruchsteinkreis, ausgetretene Mittelplatte, Sitzstufen"
+entstehungsmethode: "visioning"
+beipackzettel: >
+  Ein gemauerter Steinkreis im Bürgerhof, in dem der geloste Rat tagt. Wer
+  in die Mitte tritt, hat das Wort; wer sitzt, hört. Keine Tribüne, kein
+  Pult, keine erste Reihe — die Stufen laufen ringsum gleich hoch, sodass
+  niemand über dem anderen spricht. Die Mittelplatte ist von vielen
+  Schritten glattgelaufen; man sieht, wie oft hier schon gerungen wurde. Wer
+  dran ist, kommt aus der Trommel, nicht aus dem Wahlkampf. Bei Regen spannt
+  die Nachbarschaft das Tuch. Demokratie als Ort, den man betreten kann.
+bild:
+  src:    "bilder/2049-rede-rondell-buergerhof-marburg.webp"
+  alt:    "Ein kreisförmiges Versammlungs-Rondell unter einem Glasdach: Menschen aller Generationen sitzen ringförmig um eine Rednerin auf einem leuchtenden Bodenkreis; im Hintergrund begrünte Stadthäuser."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900
+lizenz:             "CC-BY-NC-4.0"

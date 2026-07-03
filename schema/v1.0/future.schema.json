@@ -124,6 +124,43 @@
       "description": "Optional. Pfad zu optionaler 15s-Fundnotiz oder null.",
       "type": ["string", "null"],
       "pattern": "^audio/.+\\.(mp3|ogg|m4a)$"
+    },
+    "entstehungsmethode": {
+      "description": "Optional. Slug der Methode, mit der dieser Fund nachweislich entstand (== id-Anker in methoden.html). Nur setzen, wenn die Entstehung wirklich dokumentiert ist.",
+      "type": ["string", "null"],
+      "enum": [
+        "futures-literacy",
+        "futures-cone",
+        "szenariotechnik",
+        "cla",
+        "three-horizons",
+        "backcasting",
+        "steep",
+        "delphi",
+        "cross-impact",
+        "wildcards",
+        "visioning",
+        "zukunftswerkstatt",
+        "four-futures",
+        "design-fiction",
+        "futures-triangle",
+        "megatrends",
+        "horizon-scanning",
+        null
+      ]
+    },
+    "schule": {
+      "description": "Optional. Schule/Zukünftin, der dieser Fund kuratorisch zugeordnet ist. Bestimmt die begrüßende Stimme im Archiv.",
+      "type": ["string", "null"],
+      "enum": [
+        "systemisch",
+        "kritisch-normativ",
+        "kulturell-narrativ",
+        "partizipativ",
+        "design-futures",
+        "oekologisch",
+        null
+      ]
     }
   }
 }

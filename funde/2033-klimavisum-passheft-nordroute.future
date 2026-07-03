@@ -1,0 +1,26 @@
+schema_version:     "1.0"
+objekt_id:          "2033-klimavisum-passheft-nordroute"
+objektname:         "Klimavisum, Nordroute"
+fundjahr:           2033
+fundort:            "Nachlass einer Grenzbeamtin, Tromsø"
+wahrscheinlichkeit: "wahrscheinlich"
+wuenschbarkeit:     "neutral"
+tonalitaet:         "retro-futur"
+beipackzettel: >
+  Dieses Heft erlaubt der Inhaberin den dauerhaften Aufenthalt nördlich des
+  sechzigsten Breitengrads. Eingestempelt sind Herkunft, der verlorene Ort
+  und die zugewiesene Kammer. Gültig nur mit Arbeitszusage in Kälte, Fischzug
+  oder Pflege. Wer einreist, gibt das Recht auf Rückkehr ab; der Süden bleibt
+  geschlossen, solange er brennt. Eingelegt: eine Postkarte von zu Hause,
+  abgestempelt im Jahr, in dem das Heft ausgegeben wurde. Verlängerung jährlich.
+urheber:            "nordatlantischer aufnahmerat"
+lizenz:             "CC-BY-NC-4.0"
+material:           "Leinenheft, Sichtfenster, sieben Stempel"
+entstehungsmethode: "szenariotechnik"
+schule:             "kritisch-normativ"
+bild:
+  src:    "bilder/2033-klimavisum-passheft-nordroute.webp"
+  alt:    "Verschneiter Nordgrenzposten: ein Beamter prüft mit der Lupe eine bemalte Postkarte „An Elsa Müller, Tromsø“, die ein Junge über den Tresen reicht; dahinter Wartende und Schneeberge."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900

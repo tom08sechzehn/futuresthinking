@@ -22,3 +22,9 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Wade-Backups (lokale Sicherungen, nie committen)
+.wade-backups/
+
+# Lokale Planungs-/Deliverable-Notizen (gehoeren nicht in den Website-Quellcode)
+Deliverables/

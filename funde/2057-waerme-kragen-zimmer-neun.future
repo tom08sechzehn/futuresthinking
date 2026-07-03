@@ -1,0 +1,28 @@
+schema_version:     "1.0"
+objekt_id:          "2057-waerme-kragen-zimmer-neun"
+objektname:         "Wärme-Kragen, Zimmer Neun"
+fundjahr:           2057
+fundort:            "Wäschekorb eines Hospizes, Gent"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "solarpunk"
+schule:             "kulturell-narrativ"
+urheber:            "hospiz-strickkreis gent"
+material:           "gestrickte Wolle, Wärmefäden, weicher Verschluss"
+entstehungsmethode: "design-fiction"
+beipackzettel: >
+  Ein gestrickter Schulterkragen, der wärmt, ohne zu drücken. Feine Fäden
+  im Garn geben sanfte Wärme an Nacken und Schultern — gedacht für die
+  letzte Nacht, wenn das eigene Frieren nicht mehr aufhört. Eingestrickt
+  sind die Wünsche, die der Mensch noch nennen konnte: welche Stimme,
+  welches Lied, welches Fenster offen. Danach wird er gewaschen und wandert
+  ins nächste Zimmer; die Maschen werden weicher mit jedem, der ihn trug.
+  Kein Gerät, kein Vertrag — ein warmes Ding in einer kalten Stunde. Bei
+  vierzig Grad waschen, nicht schleudern.
+bild:
+  src:    "bilder/2057-waerme-kragen-zimmer-neun.webp"
+  alt:    "Nahaufnahme eines Halses mit gestricktem Kragen, in den ein warm glühendes Heizband eingearbeitet ist; gedämpftes, intimes Licht."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900
+lizenz:             "CC-BY-NC-4.0"

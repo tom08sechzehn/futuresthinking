@@ -19,3 +19,10 @@ material:           "Recyclingpapier, Stempelfarbe, Heftklammer"
 remix_von:          null
 verweist_auf:       "2041-quartiers-zeitheft-oberhausen"
 audio_fundnotiz:    null
+schule:             "partizipativ"
+bild:
+  src:    "bilder/2043-leihschein-paar-haende.webp"
+  alt:    "Ältere Menschen an einem Tisch in einem Quartierstreff; eine Frau trägt in ein Stadtteil-Heft ein, daneben ein Gutschein „eingelöst gegen 4 Std. begleitetes Aufstehen, Waschen, warmes Essen“."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900

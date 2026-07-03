@@ -42,6 +42,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(__dirname, "..");
 const SCHEMA_PATH = join(REPO, "schema", "v1.0", "future.schema.json");
 const FUNDE_DIR = join(REPO, "funde");
+const FUNDE_BILDER_DIR = join(FUNDE_DIR, "bilder");
 const SITE_DIR = join(REPO, "site");
 const SITE_DATA_DIR = join(SITE_DIR, "data");
 const WELLKNOWN_DIR = join(REPO, ".well-known");
@@ -201,6 +202,12 @@ function assemblePublicBuild() {
     cpSync(WELLKNOWN_DIR, join(PUBLIC_BUILD, ".well-known"), { recursive: true });
   }
 
+  // 3) funde/bilder/ -> public-build/bilder/ (Fund-Bilder; SSOT bleibt funde/bilder/,
+  //    die bild.src in den .future zeigt root-relativ auf "bilder/<slug>.<webp|png|svg>").
+  if (existsSync(FUNDE_BILDER_DIR)) {
+    cpSync(FUNDE_BILDER_DIR, join(PUBLIC_BUILD, "bilder"), { recursive: true });
+  }
+
   return PUBLIC_BUILD;
 }
 
@@ -213,9 +220,35 @@ function run() {
   const feedJson = writeFeed(funde, generated);
   const out = assemblePublicBuild();
 
+  const bildCount = existsSync(FUNDE_BILDER_DIR)
+    ? readdirSync(FUNDE_BILDER_DIR).filter((n) => /\.(png|webp|svg)$/i.test(n)).length
+    : 0;
+  const withBild = funde.filter((f) => f.bild && f.bild.src).length;
+
+  // Responsive-Varianten-Guard: der Renderer (ft-shell.js: imgSrcset) baut das
+  // srcset per Namens-Konvention <slug>-480.webp / <slug>-800.webp. Fehlen die,
+  // liefe das srcset ins Leere. Hier nur WARNEN (non-fatal) — Fix:
+  // `python tools/optimize_images.py`.
+  if (existsSync(FUNDE_BILDER_DIR)) {
+    const files = new Set(readdirSync(FUNDE_BILDER_DIR));
+    const bases = [...files].filter((n) => /\.webp$/i.test(n) && !/-\d+\.webp$/i.test(n));
+    const missing = [];
+    for (const b of bases) {
+      const stem = b.replace(/\.webp$/i, "");
+      for (const w of [480, 800]) {
+        if (!files.has(`${stem}-${w}.webp`)) missing.push(`${stem}-${w}.webp`);
+      }
+    }
+    if (missing.length) {
+      console.warn(`  ⚠ ${missing.length} fehlende Bild-Variante(n) — \`python tools/optimize_images.py\` laufen lassen:`);
+      for (const m of missing) console.warn(`      ${m}`);
+    }
+  }
+
   console.log(`✓ ${funde.length} Funde gebaut (Stand ${generated})`);
   console.log(`  • ${fundsJson.replace(REPO + "/", "").replace(REPO + "\\", "")}`);
   console.log(`  • ${feedJson.replace(REPO + "/", "").replace(REPO + "\\", "")} (unsigniert, signaturbereit)`);
+  console.log(`  • bilder/ → public-build/bilder/ (${bildCount} Datei(en), ${withBild} Funde mit bild)`);
   console.log(`  • public-build/ montiert (Deploy-Verzeichnis)`);
 }
 

@@ -1,0 +1,24 @@
+schema_version:     "1.0"
+objekt_id:          "2035-co2-atem-rationierungsventil"
+objektname:         "CO₂-Atem-Rationierungsventil"
+fundjahr:           2035
+fundort:            "Spind eines Hochofenarbeiters, Stahlwerk Duisburg-Bruckhausen"
+wahrscheinlichkeit: "moeglich"
+wuenschbarkeit:     "nicht"
+tonalitaet:         "klima-realistisch"
+schule:             "kritisch-normativ"
+material:           "Gusseisen, Messing-Durchflussmesser, Lederriemen"
+beipackzettel: >
+  Ein gusseisernes Atemventil mit integriertem Gas-Durchflussmesser, das
+  direkt vor Mund und Nase getragen wird. Entwickelt während der radikalen
+  Kohlenstoffüberlastungskrise von 2034, misst es den exakten CO2-Ausstoß
+  des menschlichen Stoffwechsels und zieht die entsprechenden
+  Ausgleichszölle in Echtzeit vom persönlichen Steuerkonto ab. Ein Mahnmal
+  des extremen Klimakapitalismus.
+bild:
+  src:    "bilder/2035-co2-atem-rationierungsventil.webp"
+  alt:    "Gusseiserne Atemmaske mit rundem Druckmesser, getragen von einer rußverschmierten Person in einer verfallenen Industriehalle."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900
+lizenz:             "CC-BY-NC-4.0"

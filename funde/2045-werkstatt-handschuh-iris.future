@@ -1,0 +1,27 @@
+schema_version:     "1.0"
+objekt_id:          "2045-werkstatt-handschuh-iris"
+objektname:         "Werkstatt-Handschuh «Iris»"
+fundjahr:           2045
+fundort:            "Leihregal einer Reparatur-Werkstatt, Wien"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "hightech-optimistisch"
+schule:             "design-futures"
+urheber:            "leih-werkstatt iris"
+material:           "Textil-Exoskelett, Sehnenzüge, abgegriffene Fingerkuppen"
+entstehungsmethode: "design-fiction"
+beipackzettel: >
+  Ein Leihhandschuh, der nicht für dich repariert, sondern dir die Bewegung
+  beibringt. Streift man ihn über, führt «Iris» die Hand durch den Handgriff
+  — die Lötnaht, den Knoten, den richtigen Druck — und lässt mit jedem Mal
+  mehr los, je sicherer du wirst. Anders als die alte Assistenz übernimmt
+  sie nichts; sie gibt das Können zurück in die Finger und zieht sich aus
+  der Aufgabe, sobald du sie allein kannst. Die abgegriffenen Kuppen zeigen,
+  wie oft hier schon gelernt wurde. Nach Gebrauch zurück ans Leihregal.
+bild:
+  src:    "bilder/2045-werkstatt-handschuh-iris.webp"
+  alt:    "Eine Hand in einem mechanischen Exoskelett-Handschuh führt einen Lötkolben über eine Platine; im Hintergrund eine helle Elektronik-Werkstatt."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900
+lizenz:             "CC-BY-NC-4.0"

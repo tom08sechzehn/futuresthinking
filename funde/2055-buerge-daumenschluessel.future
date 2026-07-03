@@ -1,0 +1,25 @@
+schema_version:     "1.0"
+objekt_id:          "2055-buerge-daumenschluessel"
+objektname:         "Bürge — abgewetzter Daumenschlüssel mit Verfallsplakette"
+fundjahr:           2055
+fundort:            "Schlüsselbund im Nachlasskarton, Bürgeramt-Fundlager Ingolstadt"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "neutral"
+tonalitaet:         "buerokratisch-mundan"
+schule:             "design-futures"
+beipackzettel: >
+  Messingschlüssel, getragen. Die seitlich gewetzte Griffmulde gilt als
+  Haftungsspur und darf nicht nachgeschliffen, gegossen oder eingelaufen
+  werden. Zahnung kopierbar, Mulde nicht. Anerkannt wird nur die am Träger
+  entstandene Erosion. Bei Tod des Trägers erlischt die Bürgschaft mit der
+  letzten Eintragung; die Plakette zeigt das Jahr, ab dem niemand mehr
+  einstand. Schlüssel feucht lagern verboten — Grünspan macht die Mulde
+  unlesbar. Vererbung der Haftung ausgeschlossen. Nicht entsorgen, solange
+  die Folge andauert.
+lizenz:             "CC-BY-NC-4.0"
+bild:
+  src:    "bilder/2055-buerge-daumenschluessel.webp"
+  alt:    "Abgewetzter Messingschlüssel mit Metallplakette „Verfallsplakette 2055 D“ auf einem Schreibtisch, daneben ein gefalteter „Beipackzettel zum Bürge-Schlüssel“."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900

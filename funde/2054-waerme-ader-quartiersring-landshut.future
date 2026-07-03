@@ -1,0 +1,21 @@
+schema_version:     "1.0"
+objekt_id:          "2054-waerme-ader-quartiersring-landshut"
+objektname:         "Wärme-Ader, Quartiersring Landshut"
+fundjahr:           2054
+fundort:            "Schaustück im Werksmuseum, bei Landshut"
+wahrscheinlichkeit: "plausibel"
+wuenschbarkeit:     "wuenschenswert"
+tonalitaet:         "hightech-optimistisch"
+schule:             "systemisch"
+urheber:            "betriebsrat fusionswerk isar"
+material:           "Rohrsegment, Gussmantel, eingravierte Namen"
+entstehungsmethode: "backcasting"
+beipackzettel: >
+  Ein Stück aus dem Nahwärmering, der das halbe Quartier wärmt. Durch die
+  Ader läuft die Abwärme des Fusionswerks — was früher in Kühltürmen
+  verpuffte, heizt jetzt Bäder, Schulen, Gewächshäuser. Das Segment ist
+  handwarm, auch im Museum; in den Gussmantel sind die Namen der Schicht
+  graviert, die den Ring zuerst füllte. Eine Ader allein wärmt nichts —
+  erst der geschlossene Kreis trägt, und jeder Anschluss, der dazukommt,
+  macht ihn billiger für alle. Nicht absperren, solange ein Haus daran hängt.
+lizenz:             "CC-BY-NC-4.0"

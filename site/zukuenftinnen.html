@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zukünft:innen — die sechs Stimmen &amp; das Orakel · futuresthinking</title>
+<meta name="description" content="Sechs Zukünft:innen kuratieren das Archiv — sechs Schulen der Zukunftsforschung. Frag das mehrstimmige KI-Orakel, lies das Manifest, sieh, was aus dem Orakel kam.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://futuresthinking.eu/zukuenftinnen">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="futuresthinking">
+<meta property="og:title" content="Zukünft:innen — die sechs Stimmen &amp; das Orakel · futuresthinking">
+<meta property="og:description" content="Sechs Zukünft:innen kuratieren das Archiv — sechs Schulen der Zukunftsforschung. Frag das mehrstimmige KI-Orakel, lies das Manifest.">
+<meta property="og:url" content="https://futuresthinking.eu/zukuenftinnen">
+<meta property="og:image" content="https://futuresthinking.eu/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="de_DE">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Zukünft:innen — die sechs Stimmen &amp; das Orakel · futuresthinking">
+<meta name="twitter:description" content="Sechs Zukünft:innen kuratieren das Archiv. Frag das mehrstimmige KI-Orakel der Zukunftsforschung.">
+<meta name="twitter:image" content="https://futuresthinking.eu/assets/og-image.png">
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="alternate icon" href="favicon-32.png" sizes="32x32">
+<!-- Cloudflare Turnstile (Bot-Schutz für die Orakel-Frage) -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<link rel="stylesheet" href="assets/ft-core.css">
+<script src="assets/ft-data.js" defer></script>
+<script src="assets/ft-shell.js" defer></script>
+<style>
+  /* --- Seitenlokale Komponenten, die ft-core.css nicht definiert --- */
+  .banner{display:none;margin-top:var(--ft-space-md);padding:var(--ft-space-sm) var(--ft-space-md);
+    border:var(--ft-border);border-radius:var(--ft-radius-md);font-family:var(--ft-font-mono);
+    font-size:.86rem;line-height:1.5;color:var(--ft-body);background:var(--ft-surface);}
+  .banner.show{display:block;}
+  .banner--info{border-color:var(--ft-info,#5BA8FF);}
+  .banner--warn{border-color:var(--ft-flare);color:var(--ft-ink);}
+  .cf-turnstile{margin-top:var(--ft-space-sm);}
+  /* Orakel-Loader (Sternbild pulst, Scan-Ring) — reduced-motion-safe */
+  .oracle-loader{display:flex;align-items:center;gap:var(--ft-space-md);}
+  .oracle-loader__svg{width:64px;height:64px;flex:none;}
+  .ol-line{stroke:var(--ft-ultra);stroke-width:1.4;fill:none;opacity:.35;animation:olpulse 2.2s var(--ft-ease-smooth) infinite;}
+  .ol-star{fill:var(--ft-signal);opacity:.5;animation:olblink 2.2s ease-in-out infinite;}
+  .ol-scan{transform-origin:44px 44px;animation:olscan 3.4s linear infinite;}
+  @keyframes olpulse{0%,100%{opacity:.18}50%{opacity:.7}}
+  @keyframes olblink{0%,100%{opacity:.35}50%{opacity:1}}
+  @keyframes olscan{to{transform:rotate(360deg)}}
+  .oracle-loader__lede{font-family:var(--ft-font-display);font-weight:700;color:var(--ft-ink);}
+  .oracle-loader__sub{display:block;font-family:var(--ft-font-mono);font-size:.78rem;color:var(--ft-muted);margin-top:2px;}
+  .dots::after{content:"";animation:oldots 1.4s steps(4,end) infinite;}
+  @keyframes oldots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+  @media (prefers-reduced-motion:reduce){.ol-line,.ol-star,.ol-scan,.dots::after{animation:none!important;}}
+  /* Orakel-Antwort */
+  .oracle-voice{padding:var(--ft-space-sm) var(--ft-space-md);border:var(--ft-border);
+    border-radius:var(--ft-radius-md);background:var(--ft-surface);text-align:left;}
+  .oracle-synthese{padding:var(--ft-space-md);border:2px solid var(--ft-ultra);
+    border-radius:var(--ft-radius-card);background:var(--ft-surface-2);text-align:left;}
+  /* „Aus dem Orakel" — datengetriebene Blog-Posts (/api/blog), als Akkordeon */
+  .ft-posts{display:flex;flex-direction:column;gap:var(--ft-space-md);}
+  .post{border:var(--ft-border);border-radius:var(--ft-radius-card);background:var(--ft-surface-2);overflow:hidden;
+    transition:border-color var(--ft-dur-fast,140ms) var(--ft-ease-smooth,ease);}
+  .post:nth-child(even){border-radius:var(--ft-radius-card-alt);}
+  .post:hover{border-color:var(--ft-ultra);}
+  .post[open]{border-color:var(--ft-ultra);}
+  .post__sum{list-style:none;cursor:pointer;display:flex;flex-direction:column;gap:6px;
+    padding:var(--ft-space-md) var(--ft-space-lg);}
+  .post__sum::-webkit-details-marker{display:none;}
+  .post__sum:focus-visible{outline:2px solid var(--ft-ultra);outline-offset:-2px;}
+  .post__top{display:flex;justify-content:space-between;align-items:center;gap:var(--ft-space-sm);}
+  .post__date{font-family:var(--ft-font-mono);font-size:.74rem;color:var(--ft-muted);letter-spacing:.03em;}
+  .post__more{font-family:var(--ft-font-mono);font-size:.76rem;color:var(--ft-ultra);white-space:nowrap;}
+  .post__more::after{content:"lesen ↓";}
+  .post[open] .post__more::after{content:"schließen ↑";color:var(--ft-muted);}
+  .post__frage{font-family:var(--ft-font-display);font-weight:700;font-size:1.2rem;line-height:1.3;color:var(--ft-ink);}
+  .post__teaser{font-family:var(--ft-font-mono);font-size:.86rem;line-height:1.55;color:var(--ft-body);}
+  .post[open] .post__teaser{display:none;}
+  .post__body{padding:0 var(--ft-space-lg) var(--ft-space-lg);display:grid;gap:var(--ft-space-sm);}
+  .post__copy{display:flex;align-items:center;gap:var(--ft-space-md);flex-wrap:wrap;margin-top:var(--ft-space-xs);}
+  .post__copy .post__copybtn{margin-left:auto;}
+  .post__ln{font-family:var(--ft-font-mono);font-size:.82rem;color:var(--ft-ultra);text-decoration:none;white-space:nowrap;}
+  .post__ln:hover{text-decoration:underline;}
+  .blog-empty{text-align:center;padding:var(--ft-space-xl) var(--ft-space-md);
+    border:1px dashed var(--ft-line);border-radius:var(--ft-radius-card);}
+  .blog-empty__icon{font-size:2rem;color:var(--ft-ultra);margin-bottom:var(--ft-space-sm);}
+  .post__fig{margin:var(--ft-space-2xs) 0 0;display:flex;flex-direction:column;align-items:center;gap:var(--ft-space-xs);}
+  .post__fig img{width:100%;max-width:440px;height:auto;border-radius:var(--ft-radius-md);
+    border:var(--ft-border);box-shadow:0 8px 28px -8px rgba(0,0,0,.55);}
+  .post__fig figcaption{font-family:var(--ft-font-mono);font-size:.74rem;color:var(--ft-muted);
+    text-align:center;max-width:46ch;line-height:1.5;}
+  @media(max-width:640px){
+    .post__sum{padding:var(--ft-space-md) var(--ft-space-md);}
+    .post__body{padding:0 var(--ft-space-md) var(--ft-space-md);}
+    .post__frage{font-size:1.08rem;}
+  }
+</style>
+</head>
+<body data-page="zukuenftinnen">
+
+<main id="main">
+  <section class="hero" style="padding-block:var(--ft-space-xl) var(--ft-space-lg)">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow hero__eyebrow">was mit den funden passiert · sechs schulen, sechs blicke</p>
+      <h1 class="hero__title"><span class="accent">Zukünft</span>:inn<span class="accent">e</span>n</h1>
+      <p class="hero__sub">Kein Vorhersage-Automat, sondern ein Gesprächskreis aus sechs Perspektiven der Zukunftsforschung. Jede nimmt andere Funde auf, bringt eine eigene Methode und eine eigene blinde Stelle mit. Sie kuratieren das Archiv — und auf Wunsch antworten sie mehrstimmig.</p>
+      <!-- Sprung-Anker: die drei alten Menüpunkte sind jetzt Abschnitte -->
+      <div class="hero__cta">
+        <a class="btn btn--secondary" href="#stimmen">die sechs Stimmen</a>
+        <a class="btn btn--secondary" href="#orakel">das Orakel fragen</a>
+        <a class="btn btn--secondary" href="#manifest">das Manifest</a>
+        <a class="btn btn--secondary" href="#blog">aus dem Orakel</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DIE SECHS STIMMEN ===== -->
+  <section class="section" id="stimmen">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><p class="sec-head__eyebrow">die kuratorinnen</p><h2 class="sec-head__title">Sechs Stimmen, sechs Schulen</h2></div>
+        <p class="sec-head__meta">orakel von delphi</p>
+      </header>
+      <div class="voices" id="voicesGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===== DAS ORAKEL (echt verdrahtet an /api/oracle) ===== -->
+  <section class="section" id="orakel" style="background:var(--ft-surface);border-block:var(--ft-border)">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><p class="sec-head__eyebrow">mehrstimmig fragen</p><h2 class="sec-head__title">Das Orakel befragen</h2></div>
+      </header>
+      <div class="oracle-box">
+        <p class="lead" style="margin-bottom:var(--ft-space-md)">Stell eine Zukunftsfrage — die sechs Zukünft:innen antworten mehrstimmig: jede liefert ihren Beitrag, eine integrale Stimme webt sie am Ende zur Synthese, ohne die Widersprüche glattzubügeln.</p>
+        <div style="display:flex;gap:var(--ft-space-sm);flex-wrap:wrap;margin-bottom:var(--ft-space-md)">
+          <input class="field" id="oracleAsk" style="flex:1 1 200px;min-width:0" placeholder="z. B. Wie wohnen wir 2050 in der Stadt?" maxlength="500">
+          <button class="btn btn--ultra" id="oracleBtn" type="button">Zukünft:innen fragen</button>
+        </div>
+        <!-- Cloudflare Turnstile (Site-Key ist KEIN Secret; das Secret liegt nur in der Function) -->
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADfO4U6MFWThyt7u" data-callback="onOracleTurnstileOk" data-error-callback="onOracleTurnstileErr" data-expired-callback="onOracleTurnstileErr" data-theme="dark"></div>
+        <div class="banner" id="oracleBanner" role="status" aria-live="polite"></div>
+        <div id="oracleOut"></div>
+        <p class="ki-note" style="margin-top:var(--ft-space-md)"><b>KI-generiert, keine echten Personen.</b> Diese sechs Zukünft:innen sind mit Claude erzeugte Perspektiven — keine realen Menschen, keine Beratung. Sie öffnen ein Spannungsfeld, kein Urteil. Echte Menschen, die mit euch an eurer Zukunft denken? → <a class="bridge-08" href="https://08sechzehn.de" target="_blank" rel="noopener">08sechzehn ↗</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MANIFEST (war eigene Seite — jetzt Abschnitt) ===== -->
+  <section class="section" id="manifest">
+    <div class="wrap" style="max-width:760px">
+      <header class="sec-head">
+        <div><p class="sec-head__eyebrow">wofür dieses archiv steht</p><h2 class="sec-head__title">Das Manifest</h2></div>
+        <p class="sec-head__meta">CC-BY-NC-4.0</p>
+      </header>
+      <p class="lead">Dieses Archiv gehört keiner einzelnen Stimme. Sechs Blicke nehmen die Funde auf:</p>
+      <ul class="manifest-quote" id="manifestList" style="list-style:none;padding-left:var(--ft-space-md);margin-top:var(--ft-space-md)"></ul>
+      <p class="mono" style="color:var(--ft-muted);font-size:.86rem">Kein Dienst — ein Archiv.</p>
+    </div>
+  </section>
+
+  <!-- ===== AUS DEM ORAKEL (war eigenständiger „blog" — jetzt datengetriebener Abschnitt, /api/blog) ===== -->
+  <section class="section" id="blog" style="background:var(--ft-surface);border-block:var(--ft-border)">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><p class="sec-head__eyebrow">eine zukunftsfrage, mehrere stimmen, ein bleibender fund</p><h2 class="sec-head__title">Aus dem Orakel</h2></div>
+        <p class="sec-head__meta">unregelmäßige serie</p>
+      </header>
+      <p class="lead" style="margin-bottom:var(--ft-space-lg)">Gesichtete Orakel-Befragungen: echte Zukunftsfragen aus der Community, sechs Stimmen, eine integrale Synthese — freigegeben und archiviert. Erscheint unregelmäßig, wenn eine Frage reif ist — nicht nach Kalender.</p>
+      <!-- JS (FT.ready-Block unten) füllt: Posts aus /api/blog · Leer-Zustand · Ladefehler -->
+      <div id="blogList" aria-live="polite" aria-label="Beiträge aus dem Orakel"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* Turnstile-Token für die Orakel-Frage (eigene Callbacks, s. Widget oben).
+   Global definiert, damit die Turnstile-Callbacks unabhängig vom DOM-Ready feuern. */
+var oracleTsToken = '';
+window.onOracleTurnstileOk = function (t) { oracleTsToken = t || ''; };
+window.onOracleTurnstileErr = function () { oracleTsToken = ''; };
+
+document.addEventListener("DOMContentLoaded", function () {
+ FT.ready(function (funde) {
+  function countFor(slug) { return funde.filter(function (f) { return f.schule === slug; }).length; }
+
+  // Stimmen-Karten
+  var grid = document.getElementById("voicesGrid");
+  grid.innerHTML = FT.stimmen().map(function (s) {
+    var n = countFor(s.slug);
+    return '<article class="voice" style="--voice-accent:var(' + s.accentVar + ')">' +
+      '<div class="voice__head">' +
+        '<img class="voice__portrait" src="assets/zukuenftinnen/' + s.portrait + '" alt="Porträt von ' + FT.esc(s.name) + '">' +
+        '<div><div class="voice__name">' + FT.esc(s.name) + '</div><div class="voice__schule">' + FT.esc(s.schule) + '</div></div>' +
+      '</div>' +
+      '<p class="voice__txt">' + FT.esc(s.werIchBin) + '</p>' +
+      '<p class="voice__txt" style="color:var(--ft-muted)"><b style="color:var(--ft-body)">Welche Funde:</b> ' + FT.esc(s.welcheFunde) + '</p>' +
+      '<p class="voice__manifest">' + FT.esc(s.manifest) + '</p>' +
+      '<p class="voice__count">✶ ' + n + ' fund' + (n === 1 ? '' : 'e') + ' im Bestand · <a href="index.html#archiv">im Sternbild ansehen →</a></p>' +
+    '</article>';
+  }).join("");
+
+  // Manifest-Liste
+  document.getElementById("manifestList").innerHTML = FT.stimmen().map(function (s) {
+    return '<li><b style="color:var(' + s.accentVar + ')">' + FT.esc(s.manifest.split(" — ")[0]) + '</b>' +
+      (s.manifest.indexOf(" — ") > -1 ? ' — ' + FT.esc(s.manifest.split(" — ").slice(1).join(" — ")) : '') +
+      ' <span class="mono" style="color:var(--ft-muted);font-size:.8rem">(' + FT.esc(s.name) + ')</span></li>';
+  }).join("");
+
+  /* ===================== AUS DEM ORAKEL — Blog (GET /api/blog) =====================
+     Holt die freigegebenen Orakel-Q&As (KV ORACLE_BLOG) und rendert sie als
+     Akkordeon-Karten im Design-System: Frage + Synthese-Teaser zum Aufklappen,
+     darin die sechs Stimmen (Namen positionsweise aus FT.stimmen()) + Synthese
+     + Copy-Button. Leer/Fehler degradieren freundlich. */
+  (function renderBlog() {
+    var host = document.getElementById("blogList");
+    if (!host) return;
+    var names = FT.stimmen();
+    var curated = (window.FT_ORAKEL_BLOG || []); // kuratierte Einträge (ft-data.js), stehen vor den KV-Posts
+
+    function fmtDate(iso) {
+      if (!iso) return "";
+      try { return new Date(iso).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" }); }
+      catch (e) { return String(iso).slice(0, 10); }
+    }
+    function teaser(s, n) { s = String(s || ""); return s.length > n ? s.slice(0, n).replace(/\s+\S*$/, "") + "…" : s; }
+
+    /* Name pro Stimme: explizit (s.name) > positionsweise aus FT.stimmen() — Letzteres
+       NUR bei Live-Orakel-Posts, die der festen Orakel-Reihenfolge folgen. Kuratierte
+       Runden können eine andere/breitere Besetzung haben → kein positionsweiser Name. */
+    function voiceName(p, s, i) {
+      if (s.name) return s.name;
+      if (p && p.curated) return "";
+      return names[i] ? names[i].name : "";
+    }
+
+    function voicesHTML(p, stimmen) {
+      return stimmen.map(function (s, i) {
+        var nm = voiceName(p, s, i);
+        return '<article class="oracle-voice">' +
+          '<p style="margin:0 0 2px;font-weight:700;color:var(--ft-ink)">' + FT.esc(s.schule) + (nm ? ' · <span style="opacity:.8;font-weight:400">' + FT.esc(nm) + '</span>' : '') + '</p>' +
+          (s.kernfrage ? '<p class="eyebrow" style="margin:0 0 6px;opacity:.7">' + FT.esc(s.kernfrage) + '</p>' : '') +
+          '<p style="margin:0;color:var(--ft-body)">' + FT.esc(s.beitrag) + '</p>' +
+        '</article>';
+      }).join("");
+    }
+
+    function postHTML(p, idx) {
+      var stimmen = Array.isArray(p.stimmen) ? p.stimmen : [];
+      var nrLabel = p.nr ? FT.esc(p.nr) + ' · ' : '';
+      var note = p.note ? '<p style="margin:0 0 var(--ft-space-2xs);font-size:var(--ft-text-caption);color:var(--ft-muted);font-style:italic">' + FT.esc(p.note) + '</p>' : '';
+      var fig = p.bild ? '<figure class="post__fig">' +
+          '<img src="' + FT.esc(p.bild) + '" alt="' + FT.esc(p.bildAlt || '') + '" loading="lazy" decoding="async">' +
+          (p.bildCaption ? '<figcaption>' + FT.esc(p.bildCaption) + '</figcaption>' : '') +
+        '</figure>' : '';
+      var syn = p.synthese ? '<article class="oracle-synthese">' +
+          '<p style="margin:0 0 6px;font-weight:700;color:var(--ft-ink)">Integrale Synthese</p>' +
+          '<p style="margin:0 0 10px;color:var(--ft-ink)">' + FT.esc(p.synthese) + '</p>' +
+          '<p style="margin:0;font-size:var(--ft-text-caption);color:var(--ft-muted)">KI-generiert, keine echten Personen. Echte Menschen für eure Zukunft? → <a class="bridge-08" href="https://08sechzehn.de" target="_blank" rel="noopener">08sechzehn</a>.</p>' +
+        '</article>' : '';
+      return '<details class="post"' + (idx === 0 ? ' open' : '') + '>' +
+        '<summary class="post__sum">' +
+          '<span class="post__top"><span class="post__date">' + nrLabel + FT.esc(fmtDate(p.ts)) + ' · ' + stimmen.length + ' stimmen</span><span class="post__more" aria-hidden="true"></span></span>' +
+          '<span class="post__frage">' + FT.esc(p.frage) + '</span>' +
+          '<span class="post__teaser">' + FT.esc(teaser(p.synthese, 180)) + '</span>' +
+        '</summary>' +
+        '<div class="post__body">' + note + voicesHTML(p, stimmen) + fig + syn +
+          '<div class="post__copy">' +
+            (p.linkedin ? '<a class="post__ln" href="' + FT.esc(p.linkedin) + '" target="_blank" rel="noopener">↗ auf LinkedIn diskutieren</a>' : '') +
+            '<button type="button" class="btn btn--secondary post__copybtn" data-idx="' + idx + '" style="font-size:.82rem">↥ antwort kopieren</button>' +
+          '</div>' +
+        '</div>' +
+      '</details>';
+    }
+
+    function emptyHTML() {
+      return '<div class="blog-empty">' +
+        '<div class="blog-empty__icon" aria-hidden="true">❖</div>' +
+        '<p style="color:var(--ft-body);font-family:var(--ft-font-display);font-size:1.15rem;color:var(--ft-ink);margin-bottom:6px">Noch nichts freigegeben.</p>' +
+        '<p style="color:var(--ft-muted);max-width:48ch;margin:0 auto var(--ft-space-md)">„Aus dem Orakel" erscheint unregelmäßig — wenn eine Frage reif ist. Stell die nächste selbst:</p>' +
+        '<a class="btn btn--ultra" href="#orakel">das Orakel fragen</a>' +
+      '</div>';
+    }
+
+    function render(list) {
+      host.innerHTML = '<div class="ft-posts">' + list.map(postHTML).join("") + '</div>';
+      host.querySelectorAll(".post__copybtn").forEach(function (btn) {
+        btn.addEventListener("click", function (ev) {
+          ev.preventDefault();
+          var p = list[parseInt(btn.getAttribute("data-idx"), 10)];
+          if (!p) return;
+          var lines = ["Aus dem Orakel" + (p.nr ? " " + p.nr : "") + " · futuresthinking.eu", "Frage: " + (p.frage || ""), ""];
+          (p.stimmen || []).forEach(function (s, i) {
+            var nm = voiceName(p, s, i); nm = nm ? " (" + nm + ")" : "";
+            lines.push((i + 1) + ". " + s.schule + nm);
+            if (s.kernfrage) lines.push(s.kernfrage);
+            lines.push(s.beitrag, "");
+          });
+          lines.push("— Integrale Synthese —", p.synthese || "", "", "KI-generiert auf futuresthinking.eu — keine echten Personen, keine Beratung.");
+          var txt = lines.join("\n"), orig = btn.textContent;
+          var done = function () { btn.textContent = "kopiert ✓"; setTimeout(function () { btn.textContent = orig; }, 1400); };
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done).catch(done);
+          else done();
+        });
+      });
+    }
+
+    host.innerHTML = '<p class="mono" style="color:var(--ft-muted);font-size:.85rem;padding:var(--ft-space-md) 0">wird geladen…</p>';
+
+    fetch("/api/blog")
+      .then(function (r) { return r.json(); })
+      .then(function (posts) {
+        var kv = Array.isArray(posts) ? posts : [];
+        var list = curated.concat(kv);
+        if (!list.length) { host.innerHTML = emptyHTML(); return; }
+        render(list);
+      })
+      .catch(function () {
+        // KV nicht erreichbar — kuratierte Einträge trotzdem zeigen.
+        if (curated.length) { render(curated); return; }
+        host.innerHTML = '<div class="blog-empty"><div class="blog-empty__icon" aria-hidden="true">⚠</div>' +
+          '<p style="color:var(--ft-body)">Die Beiträge ließen sich gerade nicht laden — versuch es gleich nochmal.</p></div>';
+      });
+  })();
+
+  /* ===================== ECHTES ORAKEL (POST /api/oracle) ===================== */
+  var sprueche = window.FT_ORAKEL || [];
+  function hashIdx(str) { var h = 0; for (var i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0; return sprueche.length ? h % sprueche.length : 0; }
+  var spruchIdx = 0;
+
+  function spruchCardHTML() {
+    var s = sprueche[spruchIdx] || {};
+    return '<div class="panel" id="spruchCard" style="margin-top:var(--ft-space-md);border:1px solid var(--ft-ultra);background:linear-gradient(180deg,color-mix(in srgb,var(--ft-ultra) 12%,var(--ft-surface)),var(--ft-surface))">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:var(--ft-space-sm);flex-wrap:wrap">' +
+        '<p class="eyebrow" style="color:var(--ft-ultra)">❖ der orakelspruch · aus den dämpfen von delphi</p>' +
+        '<button type="button" id="spruchReroll" class="btn btn--ghost" style="font-size:.78rem">↻ neuer Spruch</button>' +
+      '</div>' +
+      '<p style="font-family:var(--ft-font-display);font-style:italic;font-size:clamp(1.25rem,3vw,1.7rem);line-height:1.3;color:var(--ft-ink);margin:var(--ft-space-sm) 0 var(--ft-space-md)">„' + FT.esc(s.delphi) + '"</p>' +
+      '<div style="border-top:1px dashed var(--ft-ultra);padding-top:var(--ft-space-sm)">' +
+        '<p class="eyebrow" style="margin-bottom:4px">↻ für 2026 übersetzt · jugendsprache</p>' +
+        '<p style="font-family:var(--ft-font-mono);font-size:.92rem;line-height:1.55;color:var(--ft-body)">' + FT.esc(s.jugend) + '</p>' +
+      '</div></div>';
+  }
+  function wireReroll() {
+    var btn = document.getElementById("spruchReroll");
+    if (btn) btn.addEventListener("click", function () {
+      spruchIdx = (spruchIdx + 1) % sprueche.length;
+      var card = document.getElementById("spruchCard");
+      if (card) { card.outerHTML = spruchCardHTML(); wireReroll(); }
+    });
+  }
+
+  /* Futures-Loader: Sternbild pulst, Scan-Ring (CSS-animiert, reduced-motion-safe). */
+  var ORACLE_LOADER_HTML =
+    '<div class="oracle-loader" role="status" aria-live="polite" aria-label="die zukünft:innen beraten">'
+  +   '<svg class="oracle-loader__svg" viewBox="0 0 88 88" aria-hidden="true">'
+  +     '<g class="ol-scan"><line x1="44" y1="44" x2="44" y2="6" stroke="var(--ft-ultra)" stroke-width="1" opacity=".35"/><circle cx="44" cy="6" r="1.5" fill="var(--ft-ultra)" opacity=".7"/></g>'
+  +     '<g stroke-linecap="round">'
+  +       '<path class="ol-line" d="M16 30 L40 16"/><path class="ol-line" d="M40 16 L68 26" style="animation-delay:.3s"/>'
+  +       '<path class="ol-line" d="M68 26 L74 52" style="animation-delay:.6s"/><path class="ol-line" d="M74 52 L58 72" style="animation-delay:.9s"/>'
+  +       '<path class="ol-line" d="M58 72 L30 70" style="animation-delay:1.2s"/><path class="ol-line" d="M30 70 L14 50" style="animation-delay:1.5s"/>'
+  +       '<path class="ol-line" d="M14 50 L16 30" style="animation-delay:.45s"/><path class="ol-line" d="M40 16 L44 44" style="animation-delay:.75s"/>'
+  +     '</g>'
+  +     '<g><circle class="ol-star" cx="16" cy="30" r="2.4"/><circle class="ol-star" cx="40" cy="16" r="2.4"/>'
+  +       '<circle class="ol-star" cx="68" cy="26" r="2.4"/><circle class="ol-star" cx="74" cy="52" r="2.4"/>'
+  +       '<circle class="ol-star" cx="58" cy="72" r="2.4"/><circle class="ol-star" cx="30" cy="70" r="2.4"/>'
+  +       '<circle class="ol-star" cx="14" cy="50" r="2.4"/><circle class="ol-star" cx="44" cy="44" r="2.8"/></g>'
+  +   '</svg>'
+  +   '<div class="oracle-loader__text"><span class="oracle-loader__lede">die zukünft:innen beraten<span class="dots"></span></span>'
+  +     '<span class="oracle-loader__sub" id="oracleLoaderSub">sechs perspektiven finden zueinander</span></div>'
+  + '</div>';
+  var oracleSubTimer = null;
+  function startOracleLoader(b) {
+    b.className = 'banner banner--info show';
+    b.innerHTML = ORACLE_LOADER_HTML;
+    if (oracleSubTimer) { clearInterval(oracleSubTimer); oracleSubTimer = null; }
+    var phrases = ['sechs perspektiven finden zueinander', 'stimmen sortieren die signale', 'eine synthese formt sich', 'das orakel ordnet die punkte'];
+    var sub = document.getElementById('oracleLoaderSub'), i = 0;
+    if (sub && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches))
+      oracleSubTimer = setInterval(function () { i = (i + 1) % phrases.length; sub.textContent = phrases[i]; }, 2600);
+  }
+  function stopOracleLoader() { if (oracleSubTimer) { clearInterval(oracleSubTimer); oracleSubTimer = null; } }
+
+  /* Rendert 6 Stimmen-Karten + herausgehobene „Integrale Synthese" + den Orakelspruch.
+     Namen positionsweise aus FT.stimmen() (gleiche Reihenfolge wie das stimmen-Array
+     der Function: systemisch · kritisch-normativ · kulturell-narrativ · partizipativ ·
+     design-futures · oekologisch). */
+  function renderOracleAnswer(frage, d) {
+    var b = document.getElementById('oracleBanner');
+    b.className = 'banner show';
+    b.textContent = 'die zukünft:innen zu „' + frage + '" — sechs perspektiven, eine synthese:';
+
+    var out = document.getElementById('oracleOut');
+    out.style.cssText = 'margin-top:var(--ft-space-md);display:grid;gap:var(--ft-space-sm);max-width:72ch;';
+    out.innerHTML = '';
+
+    var names = FT.stimmen();
+    d.stimmen.forEach(function (s, i) {
+      var nm = names[i] ? names[i].name : '';
+      var card = document.createElement('article');
+      card.className = 'oracle-voice';
+      card.innerHTML =
+        '<p style="margin:0 0 2px;font-weight:700;color:var(--ft-ink)">' + FT.esc(s.schule) + (nm ? ' · <span style="opacity:.8;font-weight:400">' + FT.esc(nm) + '</span>' : '') + '</p>' +
+        '<p class="eyebrow" style="margin:0 0 6px;opacity:.7">' + FT.esc(s.kernfrage) + '</p>' +
+        '<p style="margin:0;color:var(--ft-body)">' + FT.esc(s.beitrag) + '</p>';
+      out.appendChild(card);
+    });
+
+    if (d.synthese) {
+      var syn = document.createElement('article');
+      syn.className = 'oracle-synthese';
+      syn.innerHTML =
+        '<p style="margin:0 0 6px;font-weight:700;color:var(--ft-ink)">Integrale Synthese</p>' +
+        '<p style="margin:0 0 10px;color:var(--ft-ink)">' + FT.esc(d.synthese) + '</p>' +
+        '<p style="margin:0;font-size:var(--ft-text-caption);color:var(--ft-muted)">KI-generiert, keine echten Personen. Echte Menschen für eure Zukunft? → <a class="bridge-08" href="https://08sechzehn.de" target="_blank" rel="noopener">08sechzehn</a>.</p>';
+      out.appendChild(syn);
+    }
+
+    // Orakelspruch (Delphi + Jugendsprache, deterministisch aus der Frage)
+    spruchIdx = hashIdx(frage || "delphi");
+    var spruchWrap = document.createElement('div');
+    spruchWrap.innerHTML = spruchCardHTML();
+    out.appendChild(spruchWrap.firstChild);
+    wireReroll();
+
+    out.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  // Deeplink: ?ask=… füllt die Frage und löst das Orakel aus (teilbar)
+  var preAsk = FT.qs("ask");
+  if (preAsk) { document.getElementById("oracleAsk").value = preAsk; }
+
+  document.getElementById("oracleBtn").addEventListener("click", function () {
+    var btn = this;
+    var q = (document.getElementById("oracleAsk").value || '').trim();
+    var b = document.getElementById("oracleBanner");
+
+    if (!q) {
+      b.className = 'banner banner--info show';
+      b.textContent = 'ℹ gib eine zukunftsfrage ein — die zukünft:innen antworten dann mehrstimmig.';
+      return;
+    }
+    if (q.length > 500) {
+      b.className = 'banner banner--warn show';
+      b.textContent = '⚠ die frage ist zu lang (max. 500 zeichen) — bitte kürzen.';
+      return;
+    }
+
+    btn.disabled = true;
+    document.getElementById("oracleOut").innerHTML = '';
+    startOracleLoader(b);
+
+    fetch('/api/oracle', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ frage: q, cf_turnstile_token: oracleTsToken })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        var d = res.d || {};
+        if (!res.ok || d.fehler || !Array.isArray(d.stimmen)) {
+          b.className = 'banner banner--warn show';
+          b.textContent = '⚠ ' + (d.fehler || 'die zukünft:innen sind gerade im gespräch — versuch es gleich nochmal');
+          return;
+        }
+        renderOracleAnswer(q, d);
+      })
+      .catch(function () {
+        b.className = 'banner banner--warn show';
+        b.textContent = '⚠ die zukünft:innen sind gerade im gespräch — versuch es gleich nochmal';
+      })
+      .finally(function () {
+        stopOracleLoader();
+        btn.disabled = false;
+        if (window.turnstile && typeof window.turnstile.reset === 'function') {
+          try { window.turnstile.reset(); } catch (e) {}
+        }
+        oracleTsToken = '';
+      });
+  });
+
+  if (preAsk) document.getElementById("oracleBtn").click();
+ });
+});
+</script>
+
+</body>
+</html>

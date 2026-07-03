@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="futures·thinking">
+  <defs>
+    <radialGradient id="ftGlow" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#3DF2C4" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#B57BFF" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#0B0E1A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ftStar" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7CFCDD"/>
+      <stop offset="100%" stop-color="#3DF2C4"/>
+    </linearGradient>
+  </defs>
+  <!-- rounded-square void-indigo background -->
+  <rect x="0" y="0" width="32" height="32" rx="8" ry="8" fill="#0B0E1A"/>
+  <!-- soft inner glow -->
+  <circle cx="16" cy="16" r="13" fill="url(#ftGlow)"/>
+  <!-- faint violet accent dots -->
+  <circle cx="24.5" cy="8.5" r="1.15" fill="#B57BFF" opacity="0.8"/>
+  <circle cx="7.5" cy="24.5" r="0.9" fill="#B57BFF" opacity="0.5"/>
+  <!-- 4-point signal-mint star (the brand "·") -->
+  <path d="M16 4 L18 14 L28 16 L18 18 L16 28 L14 18 L4 16 L14 14 Z"
+        fill="url(#ftStar)"/>
+  <!-- bright core dot -->
+  <circle cx="16" cy="16" r="2.4" fill="#EAFFF8"/>
+  <circle cx="16" cy="16" r="1.2" fill="#3DF2C4"/>
+</svg>

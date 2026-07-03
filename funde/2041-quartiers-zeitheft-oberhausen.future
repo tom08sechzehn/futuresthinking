@@ -20,3 +20,10 @@ material:           "Leinen, Recyclingpapier, viele Handschriften"
 remix_von:          null
 verweist_auf:       "2043-leihschein-paar-haende"
 audio_fundnotiz:    null
+schule:             "partizipativ"
+bild:
+  src:    "bilder/2041-quartiers-zeitheft-oberhausen.webp"
+  alt:    "Ein grünes Heft „2041 · Quartiers-Zeitheft, Band III“ in einer Schublade, daneben Leistungsstunden-Stempel wie „Einkauf getragen“ und „Kind gehütet“ und ein Beipackzettel."
+  credit: "Orakel-Generator, futuresthinking.eu (KI-generiert)"
+  width:  1200
+  height: 900

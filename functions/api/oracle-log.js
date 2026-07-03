@@ -11,6 +11,13 @@
  *   ?token=SECRET&action=publish&key=KEY    → Frage freigeben (Blog)
  *   ?token=SECRET&action=unpublish&key=KEY  → Freigabe zurückziehen
  *
+ * LinkedIn-Halbautomatik:
+ *   Jeder veröffentlichte Eintrag bekommt einen „↗ auf LinkedIn teilen"-Link,
+ *   der den LinkedIn-Composer mit vorbefülltem Text öffnet (Prefill via
+ *   /feed/?shareActive=true&text=… — undokumentiert, aber etabliert; Versand
+ *   bleibt manuell). Der publish-Redirect hängt &pkey=KEY an, damit die
+ *   Erfolgsleiste den Share-Link für genau diesen Eintrag direkt anbietet.
+ *
  * BENOETIGTE BINDINGS / ENV (alle degrade-graceful):
  *   ORACLE_LOG_SECRET — Geheimes Token (als Cloudflare Secret hinterlegen)
  *   ORACLE_LOG        — KV-Namespace (wrangler.toml: binding = "ORACLE_LOG")
@@ -23,6 +30,36 @@ function esc(str) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+/** Kürzt einen Text an einer Wortgrenze auf max. `max` Zeichen und hängt „…" an. */
+function truncateAtWord(str, max) {
+  const s = String(str ?? "").trim();
+  if (s.length <= max) return s;
+  let cut = s.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+  if (lastSpace > max * 0.5) cut = cut.slice(0, lastSpace);
+  return cut.replace(/[\s,;:.\-–—]+$/, "") + " …";
+}
+
+/**
+ * Baut die LinkedIn-Composer-URL mit vorbefülltem Text für einen Eintrag.
+ * Halbautomatik: Tom prüft/editiert den Text im Composer und sendet manuell ab.
+ * Budget: Frage ≤180 + Teaser ≤~280 + Rahmentext ≈200 → Gesamttext < ~700 Zeichen
+ * (URL-Längen-Sicherheit). Der Rückgabewert ist eine rohe URL — im HTML-Attribut
+ * muss sie durch esc() laufen.
+ */
+function buildLinkedInShareUrl(item) {
+  const frage = truncateAtWord(item.frage || "", 180);
+  const teaser = item.synthese ? truncateAtWord(item.synthese, 280) : "";
+  const text =
+    "Das Orakel wurde gefragt:\n" +
+    "»" + frage + "«\n\n" +
+    (teaser ? teaser + "\n\n" : "") +
+    "Sechs Schulen der Zukunftsforschung, eine integrale Synthese — die ganze Antwort:\n" +
+    "https://futuresthinking.eu/zukuenftinnen#blog\n\n" +
+    "#FuturesThinking #Zukunftsforschung";
+  return "https://www.linkedin.com/feed/?shareActive=true&text=" + encodeURIComponent(text);
 }
 
 export async function onRequestGet({ request, env }) {
@@ -61,7 +98,7 @@ export async function onRequestGet({ request, env }) {
       await env.ORACLE_BLOG.put("posts", JSON.stringify(posts));
     }
     await env.ORACLE_LOG.put(key, JSON.stringify(item), { expirationTtl: 30 * 24 * 3600 });
-    return Response.redirect(baseUrl + "&msg=published", 303);
+    return Response.redirect(baseUrl + "&msg=published&pkey=" + encodeURIComponent(key), 303);
   }
 
   // --- Zurückziehen ---
@@ -103,15 +140,24 @@ export async function onRequestGet({ request, env }) {
   }
 
   const msg = url.searchParams.get("msg") || "";
-  return new Response(renderHtml(items, token, kv_error, msg), {
+  const pkey = url.searchParams.get("pkey") || "";
+  return new Response(renderHtml(items, token, kv_error, msg, pkey), {
     headers: { "content-type": "text/html; charset=utf-8" },
   });
 }
 
-function renderHtml(items, token, error, msg) {
+function renderHtml(items, token, error, msg, pkey) {
+  // Frisch veröffentlichter Eintrag (via &pkey=… im publish-Redirect):
+  // direkt in der Erfolgsleiste den LinkedIn-Share anbieten.
+  const publishedItem =
+    msg === "published" && pkey ? items.find((i) => i.key === pkey) : null;
+  const shareBarLink = publishedItem
+    ? ` <a class="act act--ln" href="${esc(buildLinkedInShareUrl(publishedItem))}" target="_blank" rel="noopener">↗ jetzt auf LinkedIn teilen</a>`
+    : "";
+
   const msgBar =
     msg === "published"
-      ? `<p class="bar bar--ok">✓ Frage im Blog veröffentlicht.</p>`
+      ? `<p class="bar bar--ok">✓ Frage im Blog veröffentlicht.${shareBarLink}</p>`
       : msg === "unpublished"
       ? `<p class="bar bar--warn">✓ Freigabe zurückgezogen.</p>`
       : "";
@@ -124,6 +170,9 @@ function renderHtml(items, token, error, msg) {
       const actionLink = isPublished
         ? `<a class="act act--warn" href="?token=${esc(token)}&action=unpublish&key=${esc(item.key)}">zurückziehen</a>`
         : `<a class="act act--ok" href="?token=${esc(token)}&action=publish&key=${esc(item.key)}">→ veröffentlichen</a>`;
+      const shareLink = isPublished
+        ? `<a class="act act--ln" href="${esc(buildLinkedInShareUrl(item))}" target="_blank" rel="noopener">↗ auf LinkedIn teilen</a>`
+        : "";
 
       const stimmenHtml = Array.isArray(item.stimmen)
         ? item.stimmen
@@ -151,6 +200,7 @@ function renderHtml(items, token, error, msg) {
           <div class="entry__meta">
             <span class="ts">${ts}</span>
             ${isPublished ? `<span class="badge badge--ok">im Blog</span>` : ""}
+            ${shareLink}
             ${actionLink}
           </div>
         </div>
@@ -196,6 +246,7 @@ h1{font-size:1.4rem;color:var(--ink);margin-bottom:4px;}
   padding:3px 10px;border-radius:6px;border:1px solid;}
 .act--ok{color:var(--signal);border-color:rgba(61,242,196,.45);}
 .act--warn{color:var(--flare);border-color:rgba(255,107,74,.4);}
+.act--ln{color:var(--ultra);border-color:rgba(181,123,255,.45);}
 .act:hover{opacity:.75;}
 .voice-detail{margin-top:5px;border-left:2px solid var(--line);padding-left:10px;}
 .voice-detail--syn{border-left-color:var(--ultra);}
