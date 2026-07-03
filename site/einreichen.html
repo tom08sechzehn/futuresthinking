@@ -101,9 +101,9 @@
         </div>
 
         <div class="form-row">
-          <label class="field-label" for="i-zettel">Beipackzettel *</label>
+          <label class="field-label" for="i-zettel">Beipackzettel * <span class="mono" id="zettelCount" style="color:var(--ft-muted);font-weight:400">280–600 Zeichen</span></label>
           <textarea class="field" id="i-zettel" name="beipackzettel" required placeholder="Beschreibe den Fund, als läge er vor dir. Was ist es, was tut es, was steht drauf? Erkläre nicht die Welt dahinter — lass das Ding sprechen."></textarea>
-          <p class="field-hint">Das Herz des Funds. Diegetisch — kein Meta-Kommentar.</p>
+          <p class="field-hint">Das Herz des Funds. Diegetisch — kein Meta-Kommentar. <b>Mindestens 280, höchstens 600 Zeichen.</b></p>
         </div>
 
         <!-- SCHRITT 2 · Schule (optional, der In-world-Hook) -->
@@ -257,6 +257,19 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("stepSchule").classList.toggle("is-active", !!data.schule);
   }
 
+  // Beipackzettel-Zeichenzähler — Server verlangt 280–600 Codepoints (submit.js).
+  var ZETTEL_MIN = 280, ZETTEL_MAX = 600;
+  function cpLen(s) { return [...String(s)].length; }
+  function updateZettelCount() {
+    var out = document.getElementById("zettelCount");
+    if (!out) return;
+    var n = cpLen(data.beipackzettel.trim());
+    if (n === 0)            { out.style.color = "var(--ft-muted)";  out.textContent = "280–600 Zeichen"; }
+    else if (n < ZETTEL_MIN){ out.style.color = "var(--ft-flare)";  out.textContent = n + " / 280 — noch " + (ZETTEL_MIN - n) + " bis zum Minimum"; }
+    else if (n > ZETTEL_MAX){ out.style.color = "var(--ft-flare)";  out.textContent = n + " Zeichen — " + (n - ZETTEL_MAX) + " zu viel (max. 600)"; }
+    else                    { out.style.color = "var(--ft-signal)"; out.textContent = "✓ " + n + " Zeichen (280–600)"; }
+  }
+
   // Text-/Range-Inputs + Lizenz-Select
   form.querySelectorAll("input,textarea,select").forEach(function (el) {
     if (el.type === "button") return;
@@ -264,6 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
     el.addEventListener(ev, function () {
       if (el.name === "fundjahr") { data.fundjahr = +el.value; document.getElementById("jahrOut").textContent = el.value; }
       else if (el.name) { data[el.name] = el.value; }
+      if (el.name === "beipackzettel") updateZettelCount();
       preview();
     });
   });
@@ -457,6 +471,21 @@ document.addEventListener("DOMContentLoaded", function () {
       note.textContent = 'Es fehlen Pflichtfelder: mindestens Objektname und Beipackzettel.';
       return;
     }
+    if (cpLen(data.objektname.trim()) < 2) {
+      note.className = 'banner banner--pending show';
+      note.textContent = 'Der Objektname braucht mindestens 2 Zeichen.';
+      document.getElementById('i-name').focus();
+      return;
+    }
+    var bzLen = cpLen(data.beipackzettel.trim());
+    if (bzLen < ZETTEL_MIN || bzLen > ZETTEL_MAX) {
+      note.className = 'banner banner--pending show';
+      note.textContent = 'Der Beipackzettel muss 280–600 Zeichen haben — aktuell ' + bzLen + ' Zeichen. ' +
+        (bzLen < ZETTEL_MIN ? 'Noch ' + (ZETTEL_MIN - bzLen) + ' Zeichen.' : (bzLen - ZETTEL_MAX) + ' Zeichen zu viel.');
+      document.getElementById('i-zettel').focus();
+      updateZettelCount();
+      return;
+    }
     if (data.bild && data.bildAlt.trim().length < 8) {
       note.className = 'banner banner--pending show';
       note.textContent = 'Bitte eine Bildbeschreibung (Alt-Text, min. 8 Zeichen) angeben — oder das Bild entfernen.';
@@ -519,6 +548,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.key === "Escape" && document.getElementById("successModal").style.display === "flex") closeModal();
   });
 
+  updateZettelCount();
   preview();
  });
 });
